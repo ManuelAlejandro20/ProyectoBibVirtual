@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Date;
 
 @RestController
 public class ControladorCompra {
