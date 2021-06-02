@@ -1,9 +1,6 @@
 package com.cmcorp.spring.BibliotecaDelDesierto;
 
-import java.time.LocalDateTime;
-
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -11,8 +8,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ControladorPantallaPrincipal {
 	
     @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("tstamp", LocalDateTime.now());
+    public String index() {
         return "index";
     }
- }
+ 
+    @GetMapping("/catalogo-panel")
+    public String catalogo() {
+        return "catalogo-panel";
+    }
+
+    @GetMapping("/contacto")
+    public String contacto() {
+        return "contacto";
+    }  
+    
+    @GetMapping("/signin")
+    public String signin() {
+        return "signin";
+    }      
+    
+}
