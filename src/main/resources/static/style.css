@@ -62,6 +62,7 @@ html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
 }
 body {
   margin: 0;
@@ -11137,7 +11138,7 @@ a:focus {
 }
 .social-network ul li {
   float: left;
-  width: 16.66%;
+  width: 33.33%;
 }
 @media (max-width: 767px) {
   .social-network ul li {
