@@ -1,24 +1,44 @@
-package com.cmcorp.spring.BibliotecaDelDesierto;
+package com.cmcorp.spring.BibliotecaDelDesierto.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "usuario")
 public class User {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true)
+    private Integer id;
+
+    @Column(name = "email",nullable = false, unique = true)
     private String email;
+    @Column(name = "nickname",nullable = false, unique = true)
     private String nickname;
+    @Column(name = "password",nullable = false)
     private String password;
+    @Column(name = "nombre",nullable = false)
     private String nombre;
-    private String apellidoP;
-    private String apellidoM;
+    @Column(name = "paterno",nullable = false)
+    private String paterno;
+    @Column(name = "materno",nullable = false)
+    private String materno;
+    @Column(name = "direccion",nullable = false)
     private String direccion;
+    @Column(name = "rol",nullable = false)
     private String rol;
 
-    public User(int id, String email, String nickname, String password, String nombre, String apellidoP, String apellidoM, String direccion, String rol) {
+    public User() {
+
+    }
+
+    public User(Integer id, String email, String nickname, String password, String nombre, String paterno, String materno, String direccion, String rol) {
         this.id = id;
         this.email = email;
         this.nickname = nickname;
         this.password = password;
         this.nombre = nombre;
-        this.apellidoP = apellidoP;
-        this.apellidoM = apellidoM;
+        this.paterno = paterno;
+        this.materno = materno;
         this.direccion = direccion;
         this.rol = rol;
     }
@@ -63,20 +83,20 @@ public class User {
         this.nombre = nombre;
     }
 
-    public String getApellidoP() {
-        return apellidoP;
+    public String getPaterno() {
+        return paterno;
     }
 
-    public void setApellidoP(String apellidoP) {
-        this.apellidoP = apellidoP;
+    public void setPaterno(String paterno) {
+        this.paterno = paterno;
     }
 
-    public String getApellidoM() {
-        return apellidoM;
+    public String getMaterno() {
+        return materno;
     }
 
-    public void setApellidoM(String apellidoM) {
-        this.apellidoM = apellidoM;
+    public void setMaterno(String materno) {
+        this.materno = materno;
     }
 
     public String getDireccion() {
