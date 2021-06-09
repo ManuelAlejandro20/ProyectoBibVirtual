@@ -14441,6 +14441,12 @@ a:focus {
   display: block;
   margin-bottom: 50px;
 }
+
+.company-info .company-detail .new-user-head{
+  display: block;
+  margin-bottom: 50px;
+}
+
 .company-info .company-detail .new-user-head p {
   color: #282828;
   margin: 50px 0 30px;
