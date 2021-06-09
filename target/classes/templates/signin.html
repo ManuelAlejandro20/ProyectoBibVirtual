@@ -12,14 +12,13 @@
     <section class="page-banner services-banner">
         <div class="container">
             <div class="banner-header">
-                <h2>Signin</h2>
+                <h2>Inicia sesión o regístrate</h2>
                 <span class="underline center"></span>
-                <p class="lead">Proin ac eros pellentesque dolor pharetra tempo.</p>
             </div>
             <div class="breadcrumb">
                 <ul>
-                    <li><a href="index-2.html">Home</a></li>
-                    <li>Signin</li>
+                    <li><a th:href="@{/}">Inicio</a></li>
+                    <li>Iniciar sesión / Registrarse</li>
                 </ul>
             </div>
         </div>
@@ -34,72 +33,108 @@
                         <div class="woocommerce">
                             <div class="woocommerce-login">
                                 <div class="company-info signin-register">
-                                    <div class="col-md-5 col-md-offset-1 border-dark-left">
+                                    <div class="col-md-5 col-md-offset-1">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="company-detail bg-dark margin-left">
                                                     <div class="signin-head">
-                                                        <h2>Sign in</h2>
+                                                        <h2>Iniciar sesión</h2>
                                                         <span class="underline left"></span>
                                                     </div>
                                                     <form class="login" method="post">
                                                         <p class="form-row form-row-first input-required">
                                                             <label>
-                                                                <span class="first-letter">Barcode or Username</span>  
+                                                                <span class="first-letter">Nombre de usuario</span>  
                                                                 <span class="second-letter">*</span>
                                                             </label>
-                                                            <input type="text"  id="username" name="username" class="input-text">
+                                                            <input type="text"  id="username" name="username" class="input-text" required>
                                                          </p>
                                                         <p class="form-row form-row-last input-required">
                                                             <label>
-                                                                <span class="first-letter">Pin</span>  
+                                                                <span class="first-letter">Contraseña</span>  
                                                                 <span class="second-letter">*</span>
                                                             </label>
-                                                            <input type="password" id="password" name="password" class="input-text">
+                                                            <input type="password" id="password" name="password" class="input-text" required>
                                                         </p>
                                                         <div class="clear"></div>
                                                         <div class="password-form-row">
                                                             <p class="form-row input-checkbox">
                                                                 <input type="checkbox" value="forever" id="rememberme" name="rememberme">
-                                                                <label class="inline" for="rememberme">Remember me</label>
+                                                                <label class="inline" for="rememberme">Recordarme</label>
                                                             </p>
                                                             <p class="lost_password">
-                                                                <a href="#">Lost your Pin?</a>
+                                                                <a href="#">¿Olvidaste tu constraseña?</a>
                                                             </p>
                                                         </div>
-                                                        <input type="submit" value="Login" name="login" class="button btn btn-default">
+                                                        <input type="submit" value="Ingresar" name="login" class="button btn btn-default">
                                                         <div class="clear"></div>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-5 border-dark new-user">
+                                    <div class="col-md-5 new-user">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="company-detail new-account bg-light margin-right">
                                                     <div class="new-user-head">
-                                                        <h2>Create New Account</h2>
+                                                        <h2>Registrarse</h2>
                                                         <span class="underline left"></span>
-                                                        <p>If no barcode has been assigned for your account, please contact the library.</p>
                                                     </div>
                                                     <form class="login" method="post">
                                                         <p class="form-row form-row-first input-required">
                                                             <label>
-                                                                <span class="first-letter">Barcode</span>  
+                                                                <span class="first-letter">Nombre de usuario</span>  
                                                                 <span class="second-letter">*</span>
                                                             </label>
-                                                            <input type="text" id="username1" name="username" class="input-text">
+                                                            <input type="text" id="username1" name="username" class="input-text" required>
+                                                        </p>
+                                                        <p class="form-row form-row-first input-required">
+                                                            <label>
+                                                                <span class="first-letter">Nombre completo</span>  
+                                                                <span class="second-letter">*</span>
+                                                            </label>
+                                                            <input type="text" id="fullname" name="fullname" class="input-text" required>
+                                                        </p>                                                                                                              
+                                                        <p class="form-row form-row-first input-required">
+                                                            <label>
+                                                                <span class="first-letter">Correo electrónico</span>  
+                                                                <span class="second-letter">*</span>
+                                                            </label>
+                                                            <input type="text" id="email" name="email" class="input-text" required>
+                                                        </p>
+                                                        <p class="form-row form-row-first input-required">
+                                                            <label>
+                                                                <span class="first-letter">Teléfono</span>  
+                                                                <span class="second-letter">*</span>
+                                                            </label>
+                                                            <input type="text" id="phone" name="phone" class="input-text" required>
+                                                        </p>
+                                                        <p class="form-row form-row-first input-required">
+                                                            <label>
+                                                                <span class="first-letter">Dirección</span>  
+                                                                <span class="second-letter">*</span>
+                                                            </label>
+                                                            <input type="text" id="address" name="address" class="input-text" required>
                                                         </p>
                                                         <p class="form-row input-required">
                                                             <label>
-                                                                <span class="first-letter">Password</span>  
+                                                                <span class="first-letter">Contraseña</span>  
                                                                 <span class="second-letter">*</span>
                                                             </label>
-                                                            <input type="password" id="password1" name="password" class="input-text">
-                                                        </p>                                                                                
+                                                            <input type="password" id="password1" name="password" class="input-text" required>
+                                                        </p>  
+                                                        <p class="form-row input-required">
+                                                            <label>
+                                                                <span class="first-letter">Confirmar contraseña</span>  
+                                                                <span class="second-letter">*</span>
+                                                            </label>
+                                                            <input type="password" id="password2" name="password2" class="input-text" required>
+                                                        </p>  
+
+                                                                                                                                                                                                                          
                                                         <div class="clear"></div>
-                                                        <input type="submit" value="Signup" name="signup" class="button btn btn-default">
+                                                        <input type="submit" value="Registrarse" name="signup" class="button btn btn-default">
                                                         <div class="clear"></div>
                                                     </form> 
                                                 </div>
@@ -115,63 +150,7 @@
         </div>
     </div>
     <!-- End: Cart Section -->
-    
-    <!-- Start: Social Network -->
-    <section class="social-network section-padding">
-        <div class="container">
-            <div class="center-content">
-                <h2 class="section-title">Follow Us</h2>
-                <span class="underline center"></span>
-                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-            <ul>
-                <li>
-                    <a class="facebook" href="#" target="_blank">
-                        <span>
-                            <i class="fa fa-facebook-f"></i>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a class="twitter" href="#" target="_blank">
-                        <span>
-                            <i class="fa fa-twitter"></i>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a class="google" href="#" target="_blank">
-                        <span>
-                            <i class="fa fa-google-plus"></i>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a class="rss" href="#" target="_blank">
-                        <span>
-                            <i class="fa fa-rss"></i>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a class="linkedin" href="#" target="_blank">
-                        <span>
-                            <i class="fa fa-linkedin"></i>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a class="youtube" href="#" target="_blank">
-                        <span>
-                            <i class="fa fa-youtube"></i>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </section>
-    <!-- End: Social Network -->
-    
+        
     <footer th:replace="fragments/footer-unregistered :: footer"> </footer>
 
 </body>
