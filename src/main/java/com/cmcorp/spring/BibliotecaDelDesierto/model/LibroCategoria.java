@@ -1,28 +1,22 @@
 package com.cmcorp.spring.BibliotecaDelDesierto.model;
 
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "libro_categoria")
 public class LibroCategoria {
-    private Libro libro;
-    private Integer idioma_id;
-    private Integer autor_id;
-    private List<Integer> lista_categorias;
+    @Id
+    private Integer id;
 
-    public LibroCategoria(){}
+    @Column(name = "libro_id")
+    private Integer libroId;
 
-    public Libro getLibro() {
-        return libro;
-    }
+    @Column(name = "categoria_id")
+    private Integer categoriaId;
 
-    public Integer getIdioma_id() {
-        return idioma_id;
-    }
-
-    public Integer getAutor_id() {
-        return autor_id;
-    }
-
-    public List<Integer> getLista_categorias() {
-        return lista_categorias;
+    public LibroCategoria() {
     }
 }

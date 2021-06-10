@@ -7,12 +7,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "compra")
 public class Compra {
-    private static final String date_formatter = "dd-MM-yyyy HH:mm:ss";
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -22,11 +22,14 @@ public class Compra {
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;
 
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<LibroCompra> librosCompras;
+
     @Column(name = "descuento", nullable = false)
     private int descuento;
 
     @Column(name = "monto_total", nullable = false)
-    private int monto_total;
+    private int montoTotal;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @CreationTimestamp()
@@ -39,11 +42,6 @@ public class Compra {
     }
 
     public Compra(){}
-
-    public Compra(int descuento, int monto_total) {
-        this.descuento = descuento;
-        this.monto_total = monto_total;
-    }
 
     public Integer getId() {
         return id;
@@ -59,12 +57,12 @@ public class Compra {
         this.descuento = descuento;
     }
 
-    public int getMonto_total() {
-        return monto_total;
+    public int getMontoTotal() {
+        return montoTotal;
     }
 
-    public void setMonto_total(int monto_total) {
-        this.monto_total = monto_total;
+    public void setMontototal(int montoTotal) {
+        this.montoTotal = montoTotal;
     }
 
     public LocalDateTime getFecha() {
@@ -77,5 +75,13 @@ public class Compra {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<LibroCompra> getLibrosCompras() {
+        return librosCompras;
+    }
+
+    public void setLibrosCompras(Set<LibroCompra> librosCompras) {
+        this.librosCompras = librosCompras;
     }
 }

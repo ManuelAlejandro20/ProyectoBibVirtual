@@ -15,8 +15,15 @@ public interface RepositorioLibro extends JpaRepository<Libro, Integer> {
 
     List<Libro> findByIdiomaId(Integer id);
 
-    List<Libro> findLByAutorId(Integer id);
+    @Query(value = "SELECT l.* FROM Libro AS l WHERE l.autor LIKE CONCAT('%', :autor, '%')", nativeQuery = true)
+    List<Libro> findLibrosByAutor(@Param("autor") String autor);
 
-    @Query(value = "SELECT l FROM Libro l JOIN l.categorias c WHERE c.id IN :lista_id_categorias")
-    List<Libro> findLibrosByCategoriasId(@Param("lista_id_categorias") List<Integer> lista_id_categorias);
+    @Query(value = "SELECT l.* FROM Libro AS l JOIN Libro_Categoria AS lc ON l.id = lc.libro_id " +
+            "WHERE lc.categoria_id IN :lista_id_categorias " +
+            "GROUP BY lc.libro_id " +
+            "HAVING COUNT(lc.libro_id) >= :cant_categorias", nativeQuery = true)
+    List<Libro> findLibrosByCategoriasId(@Param("lista_id_categorias") List<Integer> listaIdCategorias, @Param("cant_categorias") Integer cantCategorias);
+
+    @Query(value = "SELECT l.* FROM Libro AS l WHERE l.nombre LIKE CONCAT('%',:titulo,'%')", nativeQuery = true)
+    List<Libro> findLibrosByTitulo(@Param("titulo") String titulo);
 }

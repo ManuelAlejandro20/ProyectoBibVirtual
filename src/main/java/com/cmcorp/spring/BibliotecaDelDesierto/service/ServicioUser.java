@@ -22,12 +22,20 @@ public class ServicioUser {
         repositorioUser.save(usuario);
     }
 
+    public boolean emailUsed(String email){
+        return repositorioUser.existsByEmail(email);
+    }
+
+    public boolean nicknameUsed(String nickname){
+        return repositorioUser.existsByNickname(nickname);
+    }
+
     public User getUserXId(Integer id){
         return repositorioUser.findById(id).get();
     }
 
     public User getUserXEmail(String email){
-        return repositorioUser.findByEmail(email);
+        return repositorioUser.findUserByEmail(email);
     }
 
     public void deleteUser(Integer id){

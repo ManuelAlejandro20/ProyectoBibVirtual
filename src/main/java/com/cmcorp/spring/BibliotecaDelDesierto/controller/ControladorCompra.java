@@ -1,17 +1,14 @@
 package com.cmcorp.spring.BibliotecaDelDesierto.controller;
 
-import com.cmcorp.spring.BibliotecaDelDesierto.model.Compra;
-import com.cmcorp.spring.BibliotecaDelDesierto.model.User;
+import com.cmcorp.spring.BibliotecaDelDesierto.model.*;
+import com.cmcorp.spring.BibliotecaDelDesierto.model.dto.LibroCompraDTO;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioCompra;
+import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioLibro;
+import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioLibroCompra;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -20,10 +17,16 @@ public class ControladorCompra {
     private final ServicioCompra servicioCompra;
     @Autowired
     private final ServicioUser servicioUser;
+    @Autowired
+    private final ServicioLibro servicioLibro;
+    @Autowired
+    private final ServicioLibroCompra servicioLC;
 
-    public ControladorCompra(ServicioCompra servicioCompra, ServicioUser servicioUser){
+    public ControladorCompra(ServicioCompra servicioCompra, ServicioUser servicioUser, ServicioLibro servicioLibro, ServicioLibroCompra servicioLC){
         this.servicioCompra = servicioCompra;
         this.servicioUser = servicioUser;
+        this.servicioLibro = servicioLibro;
+        this.servicioLC = servicioLC;
     }
 
     @GetMapping(value = {"compras/{userId}","user/{userId}/compras"})
@@ -31,10 +34,24 @@ public class ControladorCompra {
         return servicioCompra.listaCompras(userId);
     }
 
-    @PostMapping("/add/{userId}")
-    public void addCompra(@RequestBody Compra compra, @PathVariable Integer userId){
+    @PostMapping("compras/add/{userId}")
+    public void addCompra(@RequestBody LibroCompraDTO libroCompraDTO, @PathVariable Integer userId){
         User user = servicioUser.getUserXId(userId);
-        compra.setUser(user);
-        servicioCompra.saveCompra(compra);
+
+        for (Integer[] lista : libroCompraDTO.getListaLibrosCant()){
+            LibroCompra libroCompra = new LibroCompra();
+
+            Compra compra = libroCompraDTO.getCompra();
+            compra.setUser(user);
+            servicioCompra.saveCompra(compra);
+
+            Libro libro = servicioLibro.getLibroXId(lista[0]);
+
+            libroCompra.setCompra(compra);
+            libroCompra.setLibro(libro);
+            libroCompra.setUnidades(lista[1]);
+
+            servicioLC.addLibroCompra(libroCompra);
+        }
     }
 }

@@ -51,7 +51,11 @@ public class ControladorUser {
 
     @PostMapping("user/add")
     public void addUser(@RequestBody User usuario){
-        servicioUser.saveUser(usuario);
+        if(! servicioUser.emailUsed(usuario.getEmail())){
+             if (! servicioUser.nicknameUsed(usuario.getNickname())){
+                 servicioUser.saveUser(usuario);
+             }
+        }
     }
 
     @PutMapping("user/update/{id}")
