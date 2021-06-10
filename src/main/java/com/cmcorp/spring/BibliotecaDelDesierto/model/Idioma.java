@@ -17,9 +17,6 @@ public class Idioma {
     @Column(name = "nombre", nullable = false, unique = true)
     private String nombre;
 
-//    @OneToMany(mappedBy = "idioma", fetch = FetchType.LAZY)
-//    private Set<Libro> libros = new HashSet<Libro>();
-
     public Idioma() {
     }
 
@@ -43,11 +40,4 @@ public class Idioma {
         this.nombre = nombre;
     }
 
-//    public Set<Libro> getLibro() {
-//        return libros;
-//    }
-//
-//    public void setLibro(Set<Libro> libros) {
-//        this.libros = libros;
-//    }
 }

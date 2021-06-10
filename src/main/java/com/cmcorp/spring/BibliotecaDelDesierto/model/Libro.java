@@ -7,8 +7,6 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @ToString(exclude = {"categorias", "idioma"})
 @EqualsAndHashCode(exclude = {"categorias", "idioma"})
@@ -25,16 +23,19 @@ public class Libro {
 	private Idioma idioma;
 
 	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.ALL,optional = false, fetch = FetchType.LAZY)
-	private Autor autor;
-
-	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "libro_categoria", joinColumns = {@JoinColumn(name = "libro_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "categoria_id", referencedColumnName = "id")})
 	private Set<Categoria> categorias = new HashSet<Categoria>();
 
+	@JsonIgnore
+	@OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<LibroCompra> librosCompras = new HashSet<LibroCompra>();
+
 	@Column(name = "nombre",nullable = false, unique = true)
 	private String nombre;
+
+	@Column(name = "autor", nullable = false)
+	private String autor;
 
 	@Column(name = "editorial",nullable = false)
 	private String editorial;
@@ -62,21 +63,21 @@ public class Libro {
 	private String nombreArchivo;
 
 	@Column(name = "cantidad_pag", nullable = false)
-	private int cantidad_pag;
+	private int cantidadPag;
 
 	public Libro(){
 
 	}
 
 	public Libro(String nombre, String isbn, String sku,
-				 String resenia, int cantidad_pag, String editorial,
+				 String resenia, int cantidadPag, String editorial,
 				 int precio, int stock, String nombreArchivo,
-				 String nombreImagen /*Categoria... */) {
+				 String nombreImagen) {
 		this.nombre = nombre;
 		this.isbn = isbn;
 		this.sku = sku;
 		this.resenia = resenia;
-		this.cantidad_pag = cantidad_pag;
+		this.cantidadPag = cantidadPag;
 		this.editorial = editorial;
 		this.precio = precio;
 		this.stock = stock;
@@ -156,14 +157,6 @@ public class Libro {
 		this.nombreImagen = nombreImagen;
 	}
 
-	public int getCantidadPag() {
-		return cantidad_pag;
-	}
-
-	public void setCantidadPag(int cantidad_pag) {
-		this.cantidad_pag = cantidad_pag;
-	}
-
 	public String getNombreArchivo() {
 		return nombreArchivo;
 	}
@@ -188,19 +181,27 @@ public class Libro {
 		this.categorias = categorias;
 	}
 
-	public int getCantidad_pag() {
-		return cantidad_pag;
+	public int getcantidadPag() {
+		return cantidadPag;
 	}
 
-	public void setCantidad_pag(int cantidad_pag) {
-		this.cantidad_pag = cantidad_pag;
+	public void setcantidadPag(int cantidadPag) {
+		this.cantidadPag = cantidadPag;
 	}
 
-	public Autor getAutor() {
+	public String getAutor() {
 		return autor;
 	}
 
-	public void setAutor(Autor autor) {
+	public void setAutor(String autor) {
 		this.autor = autor;
+	}
+
+	public Set<LibroCompra> getLibrosCompras() {
+		return librosCompras;
+	}
+
+	public void setLibrosCompras(Set<LibroCompra> librosCompras) {
+		this.librosCompras = librosCompras;
 	}
 }

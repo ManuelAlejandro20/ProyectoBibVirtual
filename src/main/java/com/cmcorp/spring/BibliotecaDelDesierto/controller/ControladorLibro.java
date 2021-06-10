@@ -1,7 +1,7 @@
 package com.cmcorp.spring.BibliotecaDelDesierto.controller;
 
 import com.cmcorp.spring.BibliotecaDelDesierto.model.*;
-import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioAutor;
+import com.cmcorp.spring.BibliotecaDelDesierto.model.dto.LibroCategoriaDTO;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioCategoria;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioIdioma;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioLibro;
@@ -23,15 +23,12 @@ public class ControladorLibro {
     private final ServicioCategoria servicioCategoria;
     @Autowired
     private final ServicioIdioma servicioIdioma;
-    @Autowired
-    private final ServicioAutor servicioAutor;
 
     public ControladorLibro(ServicioLibro servicioLibro, ServicioCategoria servicioCategoria,
-                            ServicioIdioma servicioIdioma, ServicioAutor servicioAutor){
+                            ServicioIdioma servicioIdioma){
         this.servicioLibro = servicioLibro;
         this.servicioCategoria = servicioCategoria;
         this.servicioIdioma = servicioIdioma;
-        this.servicioAutor = servicioAutor;
     }
 
     @GetMapping("/books")
@@ -39,9 +36,9 @@ public class ControladorLibro {
         return servicioLibro.listaLibros();
     }
 
-    @GetMapping("/books/byautor/{autorId}")
-    public List<Libro> getAllXAutor(@PathVariable(value = "autorId") Integer autorId){
-        return servicioLibro.getLibrosXAutor(autorId);
+    @GetMapping("/books/byautor/{autor}")
+    public List<Libro> getAllXAutor(@PathVariable(value = "autor") String autor){
+        return servicioLibro.getLibrosXAutor(autor);
     }
 
     @GetMapping("/books/byidioma/{idiomaId}")
@@ -49,9 +46,10 @@ public class ControladorLibro {
         return servicioLibro.getLibrosXIdioma(idiomaId);
     }
 
-    @GetMapping("/books/bycategorias/{categoriasId}")
-    public List<Libro> getAllXCategorias(@PathVariable List<Integer> categoriasId){
-        return servicioLibro.getLibrosXCategorias(categoriasId);
+    @GetMapping("/books/bycategorias")
+    public List<Libro> getAllXCategorias(@RequestBody LibroCategoriaDTO libroCategoriaDTO){
+        List<Integer> listaIdCategorias = libroCategoriaDTO.getLista_categorias();
+        return servicioLibro.getLibrosXCategorias(listaIdCategorias);
     }
 
     @GetMapping("/book/byid/{id}")
@@ -88,19 +86,17 @@ public class ControladorLibro {
     }
 
     @PutMapping("/book/update/{id}")
-    public ResponseEntity<?> update(@RequestBody LibroCategoria libroCategoria, @PathVariable Integer id){
+    public ResponseEntity<?> update(@RequestBody LibroCategoriaDTO libroCategoriaDTO, @PathVariable Integer id){
         try {
             Libro libroExistente = servicioLibro.getLibroXId(id);
 
-            Libro libro = libroCategoria.getLibro();
+            Libro libro = libroCategoriaDTO.getLibro();
 
-            Idioma idioma = servicioIdioma.getIdiomaXId(libroCategoria.getIdioma_id());
-            Autor autor = servicioAutor.getAutorXId(libroCategoria.getAutor_id());
+            Idioma idioma = servicioIdioma.getIdiomaXId(libroCategoriaDTO.getIdioma_id());
 
             libro.setIdioma(idioma);
-            libro.setAutor(autor);
 
-            List<Integer> id_categorias = libroCategoria.getLista_categorias();
+            List<Integer> id_categorias = libroCategoriaDTO.getLista_categorias();
 
             for (Integer id_categoria: id_categorias) {
                 Categoria categoria = servicioCategoria.getCategoriaXId(id_categoria);
@@ -122,16 +118,13 @@ public class ControladorLibro {
     }
 
     @PostMapping("/book/add")
-    public void addLibro(@RequestBody LibroCategoria libroCategoria){
-        Libro libro = libroCategoria.getLibro();
+    public void addLibro(@RequestBody LibroCategoriaDTO libroCategoriaDTO){
+        Libro libro = libroCategoriaDTO.getLibro();
 
-        Idioma idioma = servicioIdioma.getIdiomaXId(libroCategoria.getIdioma_id());
-        Autor autor = servicioAutor.getAutorXId(libroCategoria.getAutor_id());
-
+        Idioma idioma = servicioIdioma.getIdiomaXId(libroCategoriaDTO.getIdioma_id());
         libro.setIdioma(idioma);
-        libro.setAutor(autor);
 
-        List<Integer> id_categorias = libroCategoria.getLista_categorias();
+        List<Integer> id_categorias = libroCategoriaDTO.getLista_categorias();
 
         for (Integer id: id_categorias) {
             Categoria categoria = servicioCategoria.getCategoriaXId(id);

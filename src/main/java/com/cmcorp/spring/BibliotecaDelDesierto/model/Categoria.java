@@ -19,17 +19,8 @@ public class Categoria {
     @Column(name = "nombre", nullable = false, unique = true)
     private String nombre;
 
-//    @JsonIgnore
-//    @ManyToMany(mappedBy= "categorias", fetch = FetchType.LAZY)
-//    private Set<Libro> libros = new HashSet<Libro>();
-
     public  Categoria(){
 
-    }
-
-    public Categoria(String nombre) {
-        this.id = id;
-        this.nombre = nombre;
     }
 
     public Integer getId() {

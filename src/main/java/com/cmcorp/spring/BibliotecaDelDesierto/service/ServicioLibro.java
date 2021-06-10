@@ -20,12 +20,13 @@ public class ServicioLibro {
         return repositorioLibro.findAll();
     }
 
-    public List<Libro> getLibrosXCategorias(List<Integer> lista_id_categorias){
-        return repositorioLibro.findLibrosByCategoriasId(lista_id_categorias);
+    public List<Libro> getLibrosXCategorias(List<Integer> listaCategorias){
+        Integer tamanio = listaCategorias.size();
+        return repositorioLibro.findLibrosByCategoriasId(listaCategorias,tamanio);
     }
 
-    public List<Libro> getLibrosXAutor(Integer id){
-        return repositorioLibro.findLByAutorId(id);
+    public List<Libro> getLibrosXAutor(String autor){
+        return repositorioLibro.findLibrosByAutor(autor);
     }
 
     public List<Libro> getLibrosXIdioma(Integer id){
