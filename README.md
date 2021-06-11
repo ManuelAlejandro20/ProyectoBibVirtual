@@ -30,3 +30,7 @@ Created by CMCorp
 -Manuel Trigo  manuel.trigo@alumnos.ucn.cl
 
 -Mauricio Godoy 
+
+##License
+
+MIT
