@@ -4,6 +4,7 @@
   * [General Information](#general-information)
   * [Technologies Used](#technologies-used)
   * [Contact](#contact)
+  * [License](#license)
 
 ## General Information
 - Course : Platform-based Software Development Project 
