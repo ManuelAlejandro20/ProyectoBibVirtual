@@ -31,6 +31,6 @@ Created by CMCorp
 
 -Mauricio Godoy 
 
-##License
+## License
 
-MIT
+- MIT
