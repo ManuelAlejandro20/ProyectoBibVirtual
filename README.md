@@ -24,13 +24,13 @@
 ## Contact
 Created by CMCorp
 
--Carlos Cortés  carlos.cortes@alumnos.ucn.cl
+-[Carlos Cortés](carlos.cortes@alumnos.ucn.cl)
 
--Christian Fuentes Christian.fuentes@alumnos.ucn.cl
+-[Christian Fuentes](Christian.fuentes@alumnos.ucn.cl)
 
--Manuel Trigo  manuel.trigo@alumnos.ucn.cl
+-[Manuel Trigo](manuel.trigo@alumnos.ucn.cl)
 
--Mauricio Godoy 
+-[Mauricio Godoy](https://github.com/MauroGM037)
 
 ## License
 
