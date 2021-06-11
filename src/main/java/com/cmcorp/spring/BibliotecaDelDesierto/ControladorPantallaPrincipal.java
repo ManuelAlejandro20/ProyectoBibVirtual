@@ -18,9 +18,14 @@ public class ControladorPantallaPrincipal {
     }    
  
     @GetMapping("/catalogo-panel")
-    public String catalogo() {
+    public String catalogoPanel() {
         return "catalogo-panel";
     }
+    
+    @GetMapping("/catalogo-lista")
+    public String catalogoLista() {
+        return "catalogo-lista";
+    }    
 
     @GetMapping("/contacto")
     public String contacto() {
