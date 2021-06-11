@@ -93,62 +93,62 @@
 
 <body>
         
-        <!-- Start: Header Section -->
-        <header id="header-v1" class="navbar-wrapper" th:fragment="header">
-            <div class="container">
-                <div class="row">
-                    <nav class="navbar navbar-default">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="navbar-header">
-                                    <div class="navbar-brand">
-                                        <h1>
-                                            <a>
-                                                <img src="images/Atacama-Biblio.png" alt="LIBRARIA" />
-                                            </a>
-                                        </h1>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-9">
-                                <!-- Header Topbar -->
-                                <div class="header-topbar hidden-sm hidden-xs">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="topbar-info">
-                                                <a href="tel:+56976002971"><i class="fa fa-phone"></i>+56912345678</a>
-                                                <span>/</span>
-                                                <a href="#"><i class="fa fa-envelope"></i>soporte@atacamabiblio.com</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="topbar-links">
-                                                <a th:href="@{signin}"><i class="fa fa-lock"></i>Iniciar sesión / Registrarse</a>                                                                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="navbar-collapse hidden-sm hidden-xs">
-                                    <ul class="nav navbar-nav">
-                                        <li class="dropdown active">
-                                            <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{/}">Inicio</a>
-                                        </li>
-                                        <li class="dropdown">
-                                            <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{catalogo-panel}">Libros disponibles</a>
-                                        </li>
-                                        <li class="dropdown">
-                                            <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{/#SobreNosotros}">¿Quiénes somos?</a>
-                                        </li>
-                                        <li><a th:href="@{contacto}">Contacto</a></li>
-                                    </ul>
+    <!-- Start: Header Section -->
+    <header id="header-v1" class="navbar-wrapper" th:fragment="header">
+        <div class="container">
+            <div class="row">
+                <nav class="navbar navbar-default">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="navbar-header">
+                                <div class="navbar-brand">
+                                    <h1>
+                                        <a>
+                                            <img src="images/Atacama-Biblio.png" alt="LIBRARIA" />
+                                        </a>
+                                    </h1>
                                 </div>
                             </div>
                         </div>
-                    </nav>
-                </div>
+                        <div class="col-md-9">
+                            <!-- Header Topbar -->
+                            <div class="header-topbar hidden-sm hidden-xs">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="topbar-info">
+                                            <a href="tel:+56976002971"><i class="fa fa-phone"></i>+56912345678</a>
+                                            <span>/</span>
+                                            <a href="#"><i class="fa fa-envelope"></i>soporte@atacamabiblio.com</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="topbar-links">
+                                            <a th:href="@{signin}"><i class="fa fa-lock"></i>Iniciar sesión / Registrarse</a>                                                                                                
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="navbar-collapse hidden-sm hidden-xs">
+                                <ul class="nav navbar-nav">
+                                    <li class="dropdown active">
+                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{/}">Inicio</a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{catalogo-panel}">Libros disponibles</a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{/#SobreNosotros}">¿Quiénes somos?</a>
+                                    </li>
+                                    <li><a th:href="@{contacto}">Contacto</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
             </div>
-        </header>
-        <!-- End: Header Section -->        
+        </div>
+    </header>
+    <!-- End: Header Section -->        
 
 
 </body>

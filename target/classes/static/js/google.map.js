@@ -13,7 +13,7 @@ function init() {
         zoom: 15,
 
         // The latitude and longitude to center the map (always required)
-        center: new google.maps.LatLng(-37.815799, 144.956113),
+        center: new google.maps.LatLng(-23.681161135715797, -70.41066153448153),
         disableDefaultUI: false,
         
     };
@@ -27,7 +27,7 @@ function init() {
 
     // Let's also add a marker while we're at it
     var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(-37.815799, 144.956113),
+        position: new google.maps.LatLng(-23.681161135715797, -70.41066153448153),
         map: map,
         mapTypeControl: true
     });
