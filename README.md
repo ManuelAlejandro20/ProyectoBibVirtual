@@ -8,7 +8,7 @@
 
 ## General Information
 - Course : Platform-based Software Development Project 
-- 1st Semester 2020
+- 1st Semester 2021
 - Civil Engineering in Computing and Informatics - Universidad Catolica del Norte
 - Teacher : Diego Urrutia
 
@@ -24,13 +24,13 @@
 ## Contact
 Created by CMCorp
 
--[Carlos Cortés](carlos.cortes@alumnos.ucn.cl)
+-[Carlos Cortés](https://github.com/ccortes12) carlos.cortes@alumnos.ucn.cl
 
--[Christian Fuentes](Christian.fuentes@alumnos.ucn.cl)
+-[Christian Fuentes](https://github.com/Christian-FB) christian.fuentes@alumnos.ucn.cl
 
--[Manuel Trigo](manuel.trigo@alumnos.ucn.cl)
+-[Manuel Trigo](https://github.com/ManuelAlejandro20) manuel.trigo@alumnos.ucn.cl
 
--[Mauricio Godoy](https://github.com/MauroGM037)
+-[Mauricio Godoy](https://github.com/MauroGM037) mauricio.godoy@alumnos.ucn.cl
 
 ## License
 
