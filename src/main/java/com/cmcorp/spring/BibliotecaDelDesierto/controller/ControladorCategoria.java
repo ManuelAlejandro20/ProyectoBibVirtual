@@ -59,11 +59,20 @@ public class ControladorCategoria {
         this.servicioCategoria = servicioCategoria;
     }
 
+    /**
+     * Method that returns the lists of categories
+     * @return List of categories
+     */
     @GetMapping("categorias")
     public List<Categoria> lista(){
         return servicioCategoria.listaCategorias();
     }
 
+    /**
+     * Method that returns the lists of categories by id
+     * @param id  id of the category
+     * @return
+     */
     @GetMapping("categoria/byid/{id}")
     public ResponseEntity<Categoria> getXId(@PathVariable Integer id){
         try {
@@ -75,6 +84,11 @@ public class ControladorCategoria {
         }
     }
 
+    /**
+     * Method that returns the list of category by name
+     * @param nombre
+     * @return
+     */
     @GetMapping("categoria/byname/{nombre}")
     public ResponseEntity<Categoria> getXNombre(@PathVariable String nombre){
         try {
@@ -86,11 +100,21 @@ public class ControladorCategoria {
         }
     }
 
+    /**
+     * Method to add a category
+     * @param categoria
+     */
     @PostMapping("categoria/add")
     public void addCategoria(@RequestBody Categoria categoria){
         servicioCategoria.saveCategoria(categoria);
     }
 
+    /**
+     * Method to update a category
+     * @param categoria
+     * @param id
+     * @return
+     */
     @PutMapping("categoria/update/{id}")
     public ResponseEntity<?> update(@RequestBody Categoria categoria, @PathVariable Integer id){
         try {
@@ -104,6 +128,10 @@ public class ControladorCategoria {
         }
     }
 
+    /**
+     * Method to delete a category
+     * @param id
+     */
     @DeleteMapping("categoria/delete/{id}")
     public void delete(@PathVariable Integer id){
         servicioCategoria.deleteCategoria(id);
