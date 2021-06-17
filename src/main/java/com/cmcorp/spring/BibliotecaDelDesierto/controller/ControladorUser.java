@@ -1,3 +1,38 @@
+/*
+ * Copyright (c) 2021 CMCORP
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * An intermediate form of license used by the X Consortium for X11 used the following wording:[16]
+ *
+ * Copyright (C) 2021 X Consortium
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE X CONSORTIUM BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * Except as contained in this notice, the name of the X Consortium shall not be used in advertising or otherwise to promote the sale, use or other dealings in this Software without prior written authorization from the X Consortium.
+ *
+ * X Window System is a trademark of X Consortium, Inc.
+ */
+
 package com.cmcorp.spring.BibliotecaDelDesierto.controller;
 
 
@@ -11,6 +46,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * Controller ControladorUser
+ */
 @RestController
 //@RequestMapping("/users")
 public class ControladorUser {
@@ -22,11 +60,20 @@ public class ControladorUser {
         this.servicioUser = servicioUser;
     }
 
+    /**
+     * Method that returns all users
+     * @return List<User>
+     */
     @GetMapping("/users")
     public List<User> lista(){
         return servicioUser.listaUsuarios();
     }
 
+    /**
+     * Method that returns an user by user id
+     * @param id
+     * @return User
+     */
     @GetMapping("user/byid/{id}")
     public ResponseEntity<User> getXId(@PathVariable Integer id){
         try {
@@ -38,6 +85,11 @@ public class ControladorUser {
         }
     }
 
+    /**
+     * Method that returns an user by email
+     * @param email
+     * @return User
+     */
     @GetMapping("user/byemail/{email}")
     public ResponseEntity<User> getXEmail(@PathVariable String email){
         try {
@@ -49,6 +101,10 @@ public class ControladorUser {
         }
     }
 
+    /**
+     * Method that adds an user
+     * @param usuario
+     */
     @PostMapping("user/add")
     public void addUser(@RequestBody User usuario){
         if(! servicioUser.emailUsed(usuario.getEmail())){
@@ -58,6 +114,12 @@ public class ControladorUser {
         }
     }
 
+    /**
+     * Method that update an user by id an the new User
+     * @param usuario
+     * @param id
+     * @return
+     */
     @PutMapping("user/update/{id}")
     public ResponseEntity<?> update(@RequestBody User usuario, @PathVariable Integer id){
         try {
@@ -71,6 +133,10 @@ public class ControladorUser {
         }
     }
 
+    /**
+     * Method that delete an user by id
+     * @param id
+     */
     @DeleteMapping("user/delete/{id}")
     public void delete(@PathVariable Integer id){
         servicioUser.deleteUser(id);
