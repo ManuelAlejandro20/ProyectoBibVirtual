@@ -44,7 +44,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -225,5 +227,38 @@ public class ControladorLibro {
             libro.getCategorias().add(categoria);
         }
         servicioLibro.saveLibro(libro);
+    }
+
+    @GetMapping("/book/create")
+    public ModelAndView crear(){
+
+        Libro libro = new Libro();
+        List<Idioma> listIdiomas = servicioIdioma.listaIdiomas();
+        List<Categoria> listCategorias = servicioCategoria.listaCategorias();
+
+        ModelAndView mv = new ModelAndView("modulo-admistrador-crear-libro");
+
+        mv.addObject("libro", libro);
+        mv.addObject("idiomas", listIdiomas);
+        mv.addObject("categorias", listCategorias);
+
+        return mv;
+    }
+
+    @GetMapping("/book/edit/{id}")
+    public ModelAndView editar(@PathVariable Integer id){
+
+        Libro libro = servicioLibro.getLibroXId(id);
+        List<Categoria> categorias = new ArrayList<Categoria>();
+
+        for (Categoria categoria : libro.getCategorias())
+        {
+            categorias.add(categoria);
+        }
+
+        ModelAndView mv = new ModelAndView("modulo-admistrador-editar-libro");
+        mv.addObject("libro", libro);
+
+        return mv;
     }
 }
