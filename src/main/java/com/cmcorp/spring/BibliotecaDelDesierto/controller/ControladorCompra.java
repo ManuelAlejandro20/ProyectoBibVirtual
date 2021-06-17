@@ -60,6 +60,13 @@ public class ControladorCompra {
     @Autowired
     private final ServicioLibroCompra servicioLC;
 
+    /**
+     * Constructor of ControladorCompra
+     * @param servicioCompra
+     * @param servicioUser
+     * @param servicioLibro
+     * @param servicioLC
+     */
     public ControladorCompra(ServicioCompra servicioCompra, ServicioUser servicioUser, ServicioLibro servicioLibro, ServicioLibroCompra servicioLC){
         this.servicioCompra = servicioCompra;
         this.servicioUser = servicioUser;
@@ -67,11 +74,21 @@ public class ControladorCompra {
         this.servicioLC = servicioLC;
     }
 
+    /**
+     * Method that returns a list of Compras by user id
+     * @param userId
+     * @return
+     */
     @GetMapping(value = {"compras/{userId}","user/{userId}/compras"})
     public List<Compra> compras(@PathVariable Integer userId){
         return servicioCompra.listaCompras(userId);
     }
 
+    /**
+     * Method to add a Compra by user Id and the list of books
+     * @param libroCompraDTO
+     * @param userId
+     */
     @PostMapping("compras/add/{userId}")
     public void addCompra(@RequestBody LibroCompraDTO libroCompraDTO, @PathVariable Integer userId){
         User user = servicioUser.getUserXId(userId);
