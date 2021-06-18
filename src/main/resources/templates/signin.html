@@ -2,7 +2,7 @@
 <html lang="zxx">
     
 
-<head th:replace="fragments/header-unregistered :: head" />
+<head th:replace="fragments/header-unregistered :: head"></head>
 
 <body>
     
@@ -24,8 +24,10 @@
         </div>
     </section>
     <!-- End: Page Banner -->
+    
+      
     <!-- Start: Cart Section -->
-    <div id="content" class="site-content">
+    <div id="content" class="site-content">                 
         <div id="primary" class="content-area">
             <main id="main" class="site-main">
                 <div class="signin-main">
@@ -41,20 +43,20 @@
                                                         <h2>Iniciar sesi√≥n</h2>
 
                                                     </div>
-                                                    <form class="login" method="post">
+                                                    <form th:action="@{user/${nickname}}" class="login" method="post">
                                                         <p class="form-row form-row-first input-required">
                                                             <label>
                                                                 <span class="first-letter">Nombre de usuario</span>  
                                                                 <span class="second-letter">*</span>
                                                             </label>
-                                                            <input type="text"  id="username" name="username" class="input-text" required>
+                                                            <input type="text" id="nickname" name="nickname" th:value="${nickname}" class="input-text" pattern="(?=.*\d)(?=.*[a-zA-Z]).{5,8}" title="Escribe de 5 a 8 car·cteres y a lo menos una letra y un n˙mero" required>
                                                          </p>
                                                         <p class="form-row form-row-last input-required">
                                                             <label>
                                                                 <span class="first-letter">Contrase√±a</span>  
                                                                 <span class="second-letter">*</span>
                                                             </label>
-                                                            <input type="password" id="password" name="password" class="input-text" required>
+                                                            <input type="password" id="password" name="password" th:value="${password}" class="input-text" pattern=".{8,}" title="Ingresa m·s de 8 car·cteres porfavor" required>
                                                         </p>
                                                         <div class="clear"></div>
                                                         <div class="password-form-row">
@@ -73,63 +75,79 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-5 new-user">
+                                    <div class="col-md-5 new-user">                                  
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="company-detail new-account bg-light margin-right">
+                                            	    <div class="alert alert-success text-center" role="alert" th:text="${success}" th:if="${success}"></div>
+										            <div class="alert alert-danger text-center" role="alert" th:text="${error}" th:if="${error}"></div>    
                                                     <div class="new-user-head">
                                                         <h2>Registrarse</h2>
 
                                                     </div>
-                                                    <form class="login" method="post">
+                                                    <form th:action="@{user/add}" th:object="${user}" class="login" method="post">
                                                         <p class="form-row form-row-first input-required">
                                                             <label>
                                                                 <span class="first-letter">Nombre de usuario</span>  
                                                                 <span class="second-letter">*</span>
                                                             </label>
-                                                            <input type="text" id="username1" name="username" class="input-text" required>
+                                                            <input type="text" id="username" name="username" th:field="*{nickname}" class="input-text" pattern="(?=.*\d)(?=.*[a-zA-Z]).{5,8}" title="Escribe de 5 a 8 car·cteres y a lo menos una letra y un n˙mero" required>                                                        	
                                                         </p>
                                                         <p class="form-row form-row-first input-required">
                                                             <label>
-                                                                <span class="first-letter">Nombre completo</span>  
+                                                                <span class="first-letter">Nombres</span>  
                                                                 <span class="second-letter">*</span>
                                                             </label>
-                                                            <input type="text" id="fullname" name="fullname" class="input-text" required>
-                                                        </p>                                                                                                              
+                                                            <input type="text" id="nombre" name="nombre" th:field="*{nombre}" class="input-text" pattern="[a-zA-Z¿-ˇ\u00f1\u00d1\u00E0-\u00FC\U+00C0-\U+00DC]+(\s*[a-zA-Z¿-ˇ\u00f1\u00d1\u00E0-\u00FC\U+00C0-\U+00DC]*)*[a-zA-Z¿-ˇ\u00f1\u00d1\u00E0-\u00FC\U+00C0-\U+00DC]" title="Ingresa m·s de una letra y sÛlo texto porfavor" required>
+                                                        </p>          
+                                                        <p class="form-row form-row-first input-required">
+                                                            <label>
+                                                                <span class="first-letter">Apellido paterno</span>  
+                                                                <span class="second-letter">*</span>
+                                                            </label>
+                                                            <input type="text" id="paterno" name="paterno" th:field="*{paterno}" class="input-text" pattern="[a-zA-Z¿-ˇ\u00f1\u00d1\u00E0-\u00FC\U+00C0-\U+00DC]+(\s*[a-zA-Z¿-ˇ\u00f1\u00d1\u00E0-\u00FC\U+00C0-\U+00DC]*)*[a-zA-Z¿-ˇ\u00f1\u00d1\u00E0-\u00FC\U+00C0-\U+00DC]" title="Ingresa m·s de una letra y sÛlo texto porfavor" required>
+                                                        </p> 
+                                                        <p class="form-row form-row-first input-required">
+                                                            <label>
+                                                                <span class="first-letter">Apellido materno</span>  
+                                                                <span class="second-letter">*</span>
+                                                            </label>
+                                                            <input type="text" id="materno" name="materno" th:field="*{materno}" class="input-text" pattern="[a-zA-Z¿-ˇ\u00f1\u00d1\u00E0-\u00FC\U+00C0-\U+00DC]+(\s*[a-zA-Z¿-ˇ\u00f1\u00d1\u00E0-\u00FC\U+00C0-\U+00DC]*)*[a-zA-Z¿-ˇ\u00f1\u00d1\u00E0-\u00FC\U+00C0-\U+00DC]" title="Ingresa m·s de una letra y sÛlo texto porfavor" required>
+                                                        </p>                                                                                                                                                                                                                     
                                                         <p class="form-row form-row-first input-required">
                                                             <label>
                                                                 <span class="first-letter">Correo electr√≥nico</span>  
                                                                 <span class="second-letter">*</span>
                                                             </label>
-                                                            <input type="text" id="email" name="email" class="input-text" required>
+                                                            <input type="email" id="email" name="email" th:field="*{email}" class="input-text" required>
                                                         </p>
                                                         <p class="form-row form-row-first input-required">
                                                             <label>
                                                                 <span class="first-letter">Tel√©fono</span>  
                                                                 <span class="second-letter">*</span>
                                                             </label>
-                                                            <input type="text" id="phone" name="phone" class="input-text" required>
+                                                            <input type="text" id="telefono" name="telefono" th:field="*{telefono}" class="input-text" pattern="[+][0-9]+" title="Ingresa el simbolo '+' seguido de tu n˙mero telÈfonico porfavor" required>
                                                         </p>
                                                         <p class="form-row form-row-first input-required">
                                                             <label>
                                                                 <span class="first-letter">Direcci√≥n</span>  
                                                                 <span class="second-letter">*</span>
                                                             </label>
-                                                            <input type="text" id="address" name="address" class="input-text" required>
+                                                            <input type="text" id="direccion" name="direccion" th:field="*{direccion}" class="input-text" required>
                                                         </p>
                                                         <p class="form-row input-required">
                                                             <label>
                                                                 <span class="first-letter">Contrase√±a</span>  
                                                                 <span class="second-letter">*</span>
                                                             </label>
-                                                            <input type="password" id="password1" name="password" class="input-text" required>
+                                                            <input type="password" id="password" name="password" th:field="*{password}" pattern=".{8,}" title="Ingresa m·s de 8 car·cteres porfavor" class="input-text" required>
                                                         </p>  
                                                         <p class="form-row input-required">
                                                             <label>
                                                                 <span class="first-letter">Confirmar contrase√±a</span>  
                                                                 <span class="second-letter">*</span>
                                                             </label>
-                                                            <input type="password" id="password2" name="password2" class="input-text" required>
+                                                            <input type="password" id="password2" name="password2" th:value="${password2}" pattern=".{8,}" title="Ingresa m·s de 8 car·cteres porfavor" class="input-text" required>
                                                         </p>  
 
                                                                                                                                                                                                                           

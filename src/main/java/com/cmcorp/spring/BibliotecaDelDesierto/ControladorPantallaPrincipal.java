@@ -36,7 +36,10 @@
 package com.cmcorp.spring.BibliotecaDelDesierto;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.cmcorp.spring.BibliotecaDelDesierto.model.User;
 
 /**
  * Main controller
@@ -65,8 +68,15 @@ public class ControladorPantallaPrincipal {
     }  
     
     @GetMapping("/signin")
-    public String signin() {
-        return "signin";
+    public String signin(Model model) {
+    	//If you want to login
+    	model.addAttribute("nickname", new String());
+    	model.addAttribute("password", new String());
+    	
+    	//If you want to register a user
+    	model.addAttribute("user", new User());
+        model.addAttribute("password2", new String());
+    	return "signin";
     }      
     
     @GetMapping("/iniciar_sesion")

@@ -41,7 +41,10 @@ import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -49,12 +52,12 @@ import java.util.NoSuchElementException;
 /**
  * Controller ControladorUser
  */
-@RestController
+@Controller
 //@RequestMapping("/users")
 public class ControladorUser {
 
     private final ServicioUser servicioUser;
-
+   
     @Autowired
     public ControladorUser(ServicioUser servicioUser){
         this.servicioUser = servicioUser;
@@ -100,18 +103,53 @@ public class ControladorUser {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
     }
+    
+    /**
+     * Method that sign in the user
+     * @param nickname
+     * @return registered user view path
+     */
+    
+    //TODO: User authentication
+    
+    @PostMapping("user/{nickname}")
+    public String login(String nickname, String password){
+    	System.out.println("Nickname: " + nickname);
+    	System.out.println("Password: " + password);
+    	return "redirect:/signin"; 
+    }    
 
     /**
      * Method that adds an user
      * @param usuario
+     * @return signin view path
      */
     @PostMapping("user/add")
-    public void addUser(@RequestBody User usuario){
-        if(! servicioUser.emailUsed(usuario.getEmail())){
-             if (! servicioUser.nicknameUsed(usuario.getNickname())){
-                 servicioUser.saveUser(usuario);
-             }
-        }
+    public String addUser(User user,String password2, RedirectAttributes redirAttrs){    	
+        
+    	
+    	if(!user.getPassword().equals(password2)) {
+    		redirAttrs.addFlashAttribute("error", "Las contraseñas no coinciden, intenta nuevamente");
+    		return "redirect:/signin";        		
+    	}    	    	
+    	if (servicioUser.nicknameUsed(user.getNickname())){
+     		redirAttrs.addFlashAttribute("error", "Ese nombre de usuario ya está en uso, intenta nuevamente");          	        	
+        }    	
+        
+    	else if(servicioUser.emailUsed(user.getEmail())){
+    		redirAttrs.addFlashAttribute("error", "Ese correo ya está en uso, intenta nuevamente");     		              
+        }else {
+        	        	
+            user.setRol("Usuario");
+            user.setPassword(new BCryptPasswordEncoder().encode(password2));
+            
+            servicioUser.saveUser(user);
+            
+            redirAttrs.addFlashAttribute("success", user.getNickname() + " se ha registrado correctamente");        	        	        
+        }   
+  
+        return "redirect:/signin";    	
+    	
     }
 
     /**
@@ -123,7 +161,6 @@ public class ControladorUser {
     @PutMapping("user/update/{id}")
     public ResponseEntity<?> update(@RequestBody User usuario, @PathVariable Integer id){
         try {
-            User usuarioExistente = servicioUser.getUserXId(id);
             usuario.setId(id);
             servicioUser.saveUser(usuario);
             return new ResponseEntity<>(HttpStatus.OK);

@@ -62,6 +62,8 @@ public class User {
     private String materno;
     @Column(name = "direccion",nullable = false)
     private String direccion;
+    @Column(name = "telefono",nullable = false)
+    private String telefono;    
     @Column(name = "rol",nullable = false)
     private String rol;
 
@@ -72,11 +74,11 @@ public class User {
 
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -132,9 +134,17 @@ public class User {
         return direccion;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setDireccion(String telefono) {
+        this.direccion = telefono;
     }
+    
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }    
 
     public String getRol() {
         return rol;
