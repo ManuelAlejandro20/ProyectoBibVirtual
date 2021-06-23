@@ -19,8 +19,8 @@
 ## Technologies Used
 - Spring - 2.4.5
 - Java   - 1.8
-- Lombok
-- MariaDB
+- Lombok 
+- MariaDB - 2.7.3
 
 ## Installation
 
@@ -30,6 +30,8 @@
 ##### Get Lombok 
 - https://projectlombok.org/setup/eclipse  (For Eclipse Users)
 - https://projectlombok.org/setup/intellij (For IntellIJ Users)
+
+##### Add MariaDB dependecy to your project
 
 ##### 
 ## Contact
