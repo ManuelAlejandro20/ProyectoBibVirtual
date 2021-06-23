@@ -34,27 +34,67 @@ import javax.persistence.*;
 @Entity
 @Table(name = "usuario")
 public class User {
+
+    /**
+     * Integer unsigned, no nullable, unique
+     * id for the user
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Integer id;
 
+    /**
+     * String no nullable, unique, max length 64
+     */
     @Column(name = "email",nullable = false, unique = true)
     private String email;
+
+    /**
+     * String no nullable, unique, max length 64
+     */
     @Column(name = "username",nullable = false, unique = true)
     private String username;
+
+    /**
+     * String no nullable, min length 8 max length 64
+     */
     @Column(name = "password",nullable = false)
     private String password;
+
+    /**
+     * String no nullable, max length 64
+     */
     @Column(name = "nombre",nullable = false)
     private String nombre;
+
+    /**
+     * String no nullable, max length 64
+     */
     @Column(name = "paterno",nullable = false)
     private String paterno;
+
+    /**
+     * String no nullable, max length 64
+     */
     @Column(name = "materno",nullable = false)
     private String materno;
+
+    /**
+     * String no nullable, max length 64
+     */
     @Column(name = "direccion",nullable = false)
     private String direccion;
+
+    /**
+     * String no nullable, max length 64
+     */
     @Column(name = "telefono",nullable = false)
-    private String telefono;    
+    private String telefono;
+
+    /**
+     * String no nullable, max length 64
+     */
     @Column(name = "rol",nullable = false)
     private String rol;
 
@@ -73,6 +113,35 @@ public class User {
      */
     public User() {
 
+    }
+
+    /**
+     * Constructor with params
+     * @param id
+     * @param email
+     * @param username
+     * @param password
+     * @param nombre
+     * @param paterno
+     * @param materno
+     * @param direccion
+     * @param telefono
+     * @param rol
+     * @param roles
+     */
+    public User(Integer id, String email, String username, String password, String nombre, String paterno,
+                String materno, String direccion, String telefono, String rol, Collection<Rol> roles) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.nombre = nombre;
+        this.paterno = paterno;
+        this.materno = materno;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.rol = rol;
+        this.roles = roles;
     }
 
     public Integer getId() {
