@@ -38,11 +38,18 @@ import java.util.Set;
 @Entity
 @Table(name = "categoria")
 public class Categoria {
+
+    /**
+     * Integer positive for the id of a category
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Integer id;
 
+    /**
+     * String max size 55
+     */
     @Column(name = "nombre", nullable = false, unique = true)
     private String nombre;
 
@@ -51,6 +58,16 @@ public class Categoria {
      */
     public  Categoria(){
 
+    }
+
+    /**
+     * Constructor with params
+     * @param id
+     * @param nombre
+     */
+    public Categoria(Integer id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
     }
 
     public Integer getId() {
@@ -69,11 +86,4 @@ public class Categoria {
         this.nombre = nombre;
     }
 
-//    public Set<Libro> getLibros() {
-//        return libros;
-//    }
-//
-//    public void setLibros(Set<Libro> libros) {
-//        this.libros = libros;
-//    }
 }
