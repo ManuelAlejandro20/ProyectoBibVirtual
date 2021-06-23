@@ -40,7 +40,7 @@ import java.util.List;
 public class LibroCompra implements Serializable {
 
     /**
-     *
+     * Libro class
      */
     @JsonIgnoreProperties(value = {"id","categorias","librosCompras","editorial",
             "isbn","sku","stock","resenia","nombreImagen","nombreArchivo","cantidad_pag"})
@@ -49,12 +49,20 @@ public class LibroCompra implements Serializable {
     @JoinColumn(name = "libro_id", referencedColumnName = "id")
     private Libro libro;
 
+    /**
+     *  Integer unsigned
+     *  id of the compra
+     */
     @JsonIgnore
     @Id
     @ManyToOne
     @JoinColumn(name = "compra_id", referencedColumnName = "id")
     private Compra compra;
 
+    /**
+     * Integer unsigned
+     * quantity of books, it can not be zero
+     */
     @JoinColumn(name = "unidades")
     private Integer unidades;
 
