@@ -93,7 +93,6 @@ public class ControladorUser {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
     }
-    
 
     /**
      * Method that adds an user
@@ -102,8 +101,7 @@ public class ControladorUser {
      */
     @PostMapping("user/add")
     public String addUser(UserDTO user,String password2, RedirectAttributes redirAttrs){    	
-        
-    	
+
     	if(!user.getPassword().equals(password2)) {
     		redirAttrs.addFlashAttribute("error", "Las contraseñas no coinciden, intenta nuevamente");
     		return "redirect:/login";        		

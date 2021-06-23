@@ -35,12 +35,24 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "libro_categoria")
 public class LibroCategoria {
+
+    /**
+     * Integer unsigned
+     */
     @Id
     private Integer id;
 
+    /**
+     * Integer unsigned
+     * id of the book
+     */
     @Column(name = "libro_id")
     private Integer libroId;
 
+    /**
+     * Integer unsigned
+     * id of the category
+     */
     @Column(name = "categoria_id")
     private Integer categoriaId;
 
@@ -48,6 +60,18 @@ public class LibroCategoria {
      * Constructor
      */
     public LibroCategoria() {
+    }
+
+    /**
+     * Constructor with params
+     * @param id
+     * @param libroId
+     * @param categoriaId
+     */
+    public LibroCategoria(Integer id, Integer libroId, Integer categoriaId) {
+        this.id = id;
+        this.libroId = libroId;
+        this.categoriaId = categoriaId;
     }
 
     public Integer getId() {

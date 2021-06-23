@@ -39,7 +39,11 @@ import java.util.List;
 @IdClass(LibroCompraId.class)
 public class LibroCompra implements Serializable {
 
-    @JsonIgnoreProperties(value = {"id","categorias","librosCompras","editorial","isbn","sku","stock","resenia","nombreImagen","nombreArchivo","cantidad_pag"})
+    /**
+     *
+     */
+    @JsonIgnoreProperties(value = {"id","categorias","librosCompras","editorial",
+            "isbn","sku","stock","resenia","nombreImagen","nombreArchivo","cantidad_pag"})
     @Id
     @ManyToOne
     @JoinColumn(name = "libro_id", referencedColumnName = "id")
@@ -58,6 +62,18 @@ public class LibroCompra implements Serializable {
      * Constructor
      */
     public LibroCompra() {
+    }
+
+    /**
+     * Constructor with params
+     * @param libro
+     * @param compra
+     * @param unidades
+     */
+    public LibroCompra(Libro libro, Compra compra, Integer unidades) {
+        this.libro = libro;
+        this.compra = compra;
+        this.unidades = unidades;
     }
 
     public Libro getLibro() {
