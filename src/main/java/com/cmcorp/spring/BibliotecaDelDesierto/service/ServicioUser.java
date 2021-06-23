@@ -128,6 +128,12 @@ public class ServicioUser implements UserService{
         repositorioUser.deleteById(id);
     }
 
+    
+    /**
+     * Get the authenticated user by his username and load the components 
+     * @param username
+     * @return UserDetails components
+     */    
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
 
@@ -142,6 +148,12 @@ public class ServicioUser implements UserService{
 		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));	
 	}
 	
+	/**
+	 * Use the UserDTO object and create a user object
+	 * @param UserDTO object 
+	 * @return new User created
+	 * 
+	 */
 	@Override
 	public User save(UserDTO registrationDto) {
 		User user = new User();
@@ -159,6 +171,13 @@ public class ServicioUser implements UserService{
 		return repositorioUser.save(user);
 	}
 	
+	/**
+	 * 
+	 * Create a collection of granted authorities
+	 * 
+	 * @param roles
+	 * @return Collection of authorities
+	 */
 	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Rol> roles){
 		return roles.stream().map(rol -> new SimpleGrantedAuthority(rol.getName())).collect(Collectors.toList());
 	}	

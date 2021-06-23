@@ -137,7 +137,7 @@ public class ControladorUser {
 	}
 
     /**
-     * Method that returns the page after a user logs into the
+     * Method that returns the page after a user logs into 
      * @param model
      * @return
      */
