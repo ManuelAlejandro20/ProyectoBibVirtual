@@ -40,29 +40,51 @@ import java.util.Set;
 @Entity
 @Table(name = "compra")
 public class Compra {
+
+    /**
+     * Integer unsigned for id Compra
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
+    /**
+     * User of the Compra
+     */
     @JsonIgnore
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;
 
+    /**
+     * List of books of the Compra
+     */
     @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<LibroCompra> librosCompras;
 
+    /**
+     * Integer beetween 0 to 100
+     */
     @Column(name = "descuento", nullable = false)
     private int descuento;
 
+    /**
+     * Integer unsigned
+     */
     @Column(name = "monto_total", nullable = false)
     private int montoTotal;
 
+    /**
+     * Format LocalDateTime dd-MM-yyyy HH:mm:ss
+     */
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @CreationTimestamp()
     @Column(name = "fecha", nullable = false, updatable = false)
     private LocalDateTime fecha;
 
+    /**
+     * Set the Local time zone
+     */
     @PrePersist
     public void setFecha() {
         this.fecha = LocalDateTime.now(ZoneId.of("Chile/Continental"));
@@ -73,30 +95,30 @@ public class Compra {
      */
     public Compra(){}
 
+    /**
+     * Constructor with params
+     * @param id
+     * @param user
+     * @param librosCompras
+     * @param descuento
+     * @param montoTotal
+     * @param fecha
+     */
+    public Compra(Integer id, User user, Set<LibroCompra> librosCompras, int descuento, int montoTotal, LocalDateTime fecha) {
+        this.id = id;
+        this.user = user;
+        this.librosCompras = librosCompras;
+        this.descuento = descuento;
+        this.montoTotal = montoTotal;
+        this.fecha = fecha;
+    }
+
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id){this.id = id;}
-
-    public int getDescuento() {
-        return descuento;
-    }
-
-    public void setDescuento(int descuento) {
-        this.descuento = descuento;
-    }
-
-    public int getMontoTotal() {
-        return montoTotal;
-    }
-
-    public void setMontototal(int montoTotal) {
-        this.montoTotal = montoTotal;
-    }
-
-    public LocalDateTime getFecha() {
-        return fecha;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public User getUser() {
@@ -113,5 +135,29 @@ public class Compra {
 
     public void setLibrosCompras(Set<LibroCompra> librosCompras) {
         this.librosCompras = librosCompras;
+    }
+
+    public int getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(int descuento) {
+        this.descuento = descuento;
+    }
+
+    public int getMontoTotal() {
+        return montoTotal;
+    }
+
+    public void setMontoTotal(int montoTotal) {
+        this.montoTotal = montoTotal;
+    }
+
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
     }
 }
