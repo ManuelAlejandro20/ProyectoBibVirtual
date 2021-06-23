@@ -35,6 +35,8 @@
 
 package com.cmcorp.spring.BibliotecaDelDesierto.model;
 
+import java.util.Collection;
+
 import javax.persistence.*;
 
 /**
@@ -50,8 +52,8 @@ public class User {
 
     @Column(name = "email",nullable = false, unique = true)
     private String email;
-    @Column(name = "nickname",nullable = false, unique = true)
-    private String nickname;
+    @Column(name = "username",nullable = false, unique = true)
+    private String username;
     @Column(name = "password",nullable = false)
     private String password;
     @Column(name = "nombre",nullable = false)
@@ -67,6 +69,16 @@ public class User {
     @Column(name = "rol",nullable = false)
     private String rol;
 
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(
+			name = "roles_usuarios",
+			joinColumns = @JoinColumn(
+		            name = "user_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(
+				            name = "rol_id", referencedColumnName = "id"))
+	
+	private Collection<Rol> roles;    
+    
     /**
      * Constructor
      */
@@ -90,12 +102,12 @@ public class User {
         this.email = email;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -153,4 +165,14 @@ public class User {
     public void setRol(String rol) {
         this.rol = rol;
     }
+
+	public Collection<Rol> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Collection<Rol> roles) {
+		this.roles = roles;
+	}
+    
+    
 }

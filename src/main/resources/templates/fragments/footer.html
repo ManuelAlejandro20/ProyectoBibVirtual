@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zxx" xlms:th="http://www.thymeleaf.org"
+				 xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+	
+    <!-- Start: Footer -->
+    <footer class="site-footer" th:fragment="footer">
+        <div class="sub-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="footer-text col-md-3">
+                        <p><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></p>
+                    </div>
+                    <div class="col-md-9 pull-right" sec:authorize="isAnonymous()">
+                        <ul>
+                            <li><a th:href="@{/}">Inicio</a></li>
+                            <li><a th:href="@{bookgrid}">Libros disponibles</a></li>
+                            <li><a th:href="@{/#aboutus}">¿Quiénes somos?</a></li>
+                            <li><a th:href="@{contact}">Contacto</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-9 pull-right" sec:authorize="hasRole('ROLE_USER')">
+                        <ul>
+                            <li><a th:href="@{/myaccount}">Mi cuenta</a></li>
+                            <li><a th:href="@{/myaccount}">Vincular libros</a></li>
+                            <li><a th:href="@{/myaccount}">Mi biblioteca</a></li>
+                            <li><a th:href="@{bookgrid}">Libros disponibles</a></li>
+                        </ul>
+                    </div>   
+                    <div class="col-md-9 pull-right" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <ul>
+                            <li><a th:href="@{/myaccount}">Mi cuenta</a></li>
+                            <li><a th:href="@{/myaccount}">Registrar nuevo libro</a></li>
+                            <li><a th:href="@{/myaccount}">Lista de usuarios</a></li>
+                        </ul>
+                    </div>                                     
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End: Footer -->
+
+</body>

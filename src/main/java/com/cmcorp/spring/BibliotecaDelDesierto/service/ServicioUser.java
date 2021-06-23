@@ -35,23 +35,34 @@
 
 package com.cmcorp.spring.BibliotecaDelDesierto.service;
 
+import com.cmcorp.spring.BibliotecaDelDesierto.model.Rol;
 import com.cmcorp.spring.BibliotecaDelDesierto.model.User;
+import com.cmcorp.spring.BibliotecaDelDesierto.model.dto.UserDTO;
 import com.cmcorp.spring.BibliotecaDelDesierto.repository.RepositorioUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 /**
  * Service of the User
  */
 @Service
 @Transactional
-public class ServicioUser {
+public class ServicioUser implements UserService{
     @Autowired
     private RepositorioUser repositorioUser;
-
+    
     /**
      * GET all the users
      *
@@ -81,13 +92,13 @@ public class ServicioUser {
     }
 
     /**
-     * Check if exists a nickname
+     * Check if exists a username
      *
-     * @param nickname
+     * @param username
      * @return response
      */
-    public boolean nicknameUsed(String nickname) {
-        return repositorioUser.existsByNickname(nickname);
+    public boolean usernameUsed(String username) {
+        return repositorioUser.existsByUsername(username);
     }
 
     /**
@@ -109,6 +120,16 @@ public class ServicioUser {
     public User getUserXEmail(String email) {
         return repositorioUser.findUserByEmail(email);
     }
+    
+    /**
+     * GET user by his username
+     *
+     * @param username
+     * @return User
+     */
+    public User getUserXUsername(String username) {
+        return repositorioUser.findUserByUsername(username);
+    }    
 
     /**
      * DELETE user by his id
@@ -117,4 +138,41 @@ public class ServicioUser {
     public void deleteUser(Integer id){
         repositorioUser.deleteById(id);
     }
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
+
+		User user = repositorioUser.findUserByUsername(username);
+		
+		if(user == null) {
+		
+			throw new UsernameNotFoundException("Invalid username or password");
+			
+		}
+	
+		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));	
+	}
+	
+	@Override
+	public User save(UserDTO registrationDto) {
+		User user = new User();
+		user.setId(registrationDto.getId());
+		user.setEmail(registrationDto.getEmail());
+		user.setUsername(registrationDto.getUsername());
+		user.setPassword(new BCryptPasswordEncoder().encode(registrationDto.getPassword()));
+		user.setNombre(registrationDto.getNombre());
+		user.setPaterno(registrationDto.getPaterno());
+		user.setMaterno(registrationDto.getMaterno());
+		user.setDireccion(registrationDto.getDireccion());
+		user.setTelefono(registrationDto.getTelefono());
+		user.setRol(registrationDto.getRol());
+		user.setRoles(Arrays.asList(new Rol("ROLE_USER")));
+		return repositorioUser.save(user);
+	}
+	
+	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Rol> roles){
+		return roles.stream().map(rol -> new SimpleGrantedAuthority(rol.getName())).collect(Collectors.toList());
+	}	
+	
+	
 }

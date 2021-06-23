@@ -37,12 +37,15 @@ package com.cmcorp.spring.BibliotecaDelDesierto.controller;
 
 
 import com.cmcorp.spring.BibliotecaDelDesierto.model.User;
+import com.cmcorp.spring.BibliotecaDelDesierto.model.dto.UserDTO;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -104,20 +107,6 @@ public class ControladorUser {
         }
     }
     
-    /**
-     * Method that sign in the user
-     * @param nickname
-     * @return registered user view path
-     */
-    
-    //TODO: User authentication
-    
-    @PostMapping("user/{nickname}")
-    public String login(String nickname, String password){
-    	System.out.println("Nickname: " + nickname);
-    	System.out.println("Password: " + password);
-    	return "redirect:/signin"; 
-    }    
 
     /**
      * Method that adds an user
@@ -125,14 +114,14 @@ public class ControladorUser {
      * @return signin view path
      */
     @PostMapping("user/add")
-    public String addUser(User user,String password2, RedirectAttributes redirAttrs){    	
+    public String addUser(UserDTO user,String password2, RedirectAttributes redirAttrs){    	
         
     	
     	if(!user.getPassword().equals(password2)) {
     		redirAttrs.addFlashAttribute("error", "Las contraseñas no coinciden, intenta nuevamente");
-    		return "redirect:/signin";        		
+    		return "redirect:/login";        		
     	}    	    	
-    	if (servicioUser.nicknameUsed(user.getNickname())){
+    	if (servicioUser.usernameUsed(user.getUsername())){
      		redirAttrs.addFlashAttribute("error", "Ese nombre de usuario ya está en uso, intenta nuevamente");          	        	
         }    	
         
@@ -141,17 +130,46 @@ public class ControladorUser {
         }else {
         	        	
             user.setRol("Usuario");
-            user.setPassword(new BCryptPasswordEncoder().encode(password2));
             
-            servicioUser.saveUser(user);
+            servicioUser.save(user);
             
-            redirAttrs.addFlashAttribute("success", user.getNickname() + " se ha registrado correctamente");        	        	        
+            redirAttrs.addFlashAttribute("success", user.getUsername() + " se ha registrado correctamente");        	        	        
         }   
   
-        return "redirect:/signin";    	
+        return "redirect:/login";    	
     	
     }
-
+        
+    @PostMapping("/login_error")
+	public String loginErrorHandler(RedirectAttributes redirAttrs) {
+    	redirAttrs.addFlashAttribute("errorLogin", "Error en el inicio de sesión, intenta nuevamente");
+    	return "redirect:/login?error";
+	}
+    
+    @GetMapping("/myaccount")
+	public String successUserLogin(Model model) {
+    	
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	
+    	String username = auth.getName();
+    	User user = servicioUser.getUserXUsername(username);
+    	String email = user.getEmail();
+    	String telefono = user.getTelefono();
+    	String nombre = user.getNombre();
+    	String paterno = user.getPaterno();
+    	String materno = user.getMaterno();
+    	    	
+    	model.addAttribute("username", username);
+    	model.addAttribute("email", email);
+    	model.addAttribute("phone", telefono);
+    	model.addAttribute("nombre", nombre);
+    	model.addAttribute("paterno", paterno);
+    	model.addAttribute("materno", materno);
+    	
+    	return "/myaccount";
+	}    
+    
+    
     /**
      * Method that update an user by id an the new User
      * @param usuario

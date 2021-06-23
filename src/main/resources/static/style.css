@@ -13742,7 +13742,7 @@ a:focus {
 .cart-head .library-info ul li {
   color: #282828;
   font-size: 14px;
-  width: 49%;
+  width: 33%;
   vertical-align: top;
 }
 @media (max-width: 767px) {

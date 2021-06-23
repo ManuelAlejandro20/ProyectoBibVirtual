@@ -35,11 +35,12 @@
 
 package com.cmcorp.spring.BibliotecaDelDesierto;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import com.cmcorp.spring.BibliotecaDelDesierto.model.User;
+import com.cmcorp.spring.BibliotecaDelDesierto.model.dto.UserDTO;
 
 /**
  * Main controller
@@ -52,38 +53,42 @@ public class ControladorPantallaPrincipal {
         return "index";
     }    
  
-    @GetMapping("/catalogo-panel")
-    public String catalogoPanel() {
-        return "catalogo-panel";
+    @GetMapping("/bookgrid")
+    public String catalogoPanel(Model model) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	if(auth != null) {
+    		String username = auth.getName();
+    		model.addAttribute("username", username);
+    		
+    	}        
+    	return "bookgrid";
     }
     
-    @GetMapping("/catalogo-lista")
-    public String catalogoLista() {
-        return "catalogo-lista";
+    @GetMapping("/booklist")
+    public String catalogoLista(Model model) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	if(auth != null) {
+    		String username = auth.getName();
+    		model.addAttribute("username", username);
+    		
+    	}
+        return "booklist";
     }    
 
-    @GetMapping("/contacto")
+    @GetMapping("/contact")
     public String contacto() {
-        return "contacto";
+        return "contact";
     }  
     
-    @GetMapping("/signin")
-    public String signin(Model model) {
-    	//If you want to login
-    	model.addAttribute("nickname", new String());
-    	model.addAttribute("password", new String());
-    	
-    	//If you want to register a user
-    	model.addAttribute("user", new User());
+    @GetMapping("/login")
+    public String signin(Model model) {    	
+//    	//If you want to register a user
+    	model.addAttribute("user", new UserDTO());
         model.addAttribute("password2", new String());
-    	return "signin";
+        
+    	return "login";
     }      
-    
-    @GetMapping("/iniciar_sesion")
-    public String iniciar_sesion() {
-        return "login";
-    }
-    
+        
     @GetMapping("/galeria")
     public String galeria() {
         return "galeria";

@@ -2,12 +2,12 @@
 <html lang="zxx">
     
 
-<head th:replace="fragments/header-unregistered :: head" />        
+<!-- <head th:replace="fragments/header-unregistered :: head" />         -->
+<head th:replace="fragments/header :: head" />        
     
 <body>
     
-    <header th:replace="fragments/header-unregistered :: header"></header>
-    <!-- <header th:replace="fragments/header-registered :: header"></header> -->
+    <header th:replace="fragments/header :: header"></header>
 
     <!-- Start: Slider Section -->
     <div data-ride="carousel" class="carousel slide" id="home-v1-header-carousel">
@@ -103,7 +103,7 @@
     
     <!-- Start: Welcome Section -->
     <section class="welcome-section">
-        <div id="SobreNosotros" class="container">
+        <div id="aboutus" class="container">
             <div class="row">
                 <div class="col-md-6">
                     <div class="welcome-wrap">
@@ -566,7 +566,7 @@
     </section>
     <!-- End: Social Network -->
     
-    <footer th:replace="fragments/footer-unregistered :: footer"> </footer>
+    <footer th:replace="fragments/footer :: footer"> </footer>
     
 </body>
 

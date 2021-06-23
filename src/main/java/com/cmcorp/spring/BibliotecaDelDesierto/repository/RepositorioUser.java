@@ -17,18 +17,18 @@ public interface RepositorioUser extends JpaRepository<User, Integer> {
     User findUserByEmail(@Param("email") String email);
 
     /**
-     * Returns an user by his nickname
-     * @param nickanme
+     * Returns an user by his username
+     * @param username
      * @return User
      */
-    User findUserByNickname(@Param("nickname") String nickname);    
+    User findUserByUsername(@Param("username") String username);    
     
     /**
-     * Returns a boolean value if the nickname exists or not
-     * @param nickname
+     * Returns a boolean value if the username exists or not
+     * @param username
      * @return boolean
      */
-    boolean existsByNickname(@Param("nickname") String nickname);
+    boolean existsByUsername(@Param("username") String username);
 
     /**
      * Returns a boolean value if the email exists or not

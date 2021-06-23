@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zxx">
+    
+
+<!-- <head th:replace="fragments/header-registered :: head"><meta charset="UTF-8"/></head>         -->
+<head th:replace="fragments/header :: head"><meta charset="UTF-8"/></head>        
+    
+<body>
+
+
+	<header th:replace="fragments/header :: header"></header>
+
+    <!-- Start: Page Banner -->
+    <section class="page-banner services-banner">
+        <div class="container">
+            <div class="banner-header">
+                <h2 th:text="|Bienvenido(a) | + ${username}"></h2>
+            </div>
+            <div class="breadcrumb">
+                <ul>
+                    <li><a>Mi cuenta</a></li>
+                    <li th:text="${username}"></li>
+                </ul>
+            </div>            
+        </div>
+    </section>
+    <!-- End: Page Banner -->
+
+	 <div id="content" class="site-content">
+	     <div id="primary" class="content-area">
+	         <main id="main" class="site-main">
+	             <div class="checkout-main">
+	                 <div class="container">
+	                     <div class="row">
+	                         <div class="cart-head">
+	                             <div class="col-xs-12 col-sm-4 account-option">
+	                                 <strong th:text="${username}"></strong>
+	                                 <ul>
+	                                     <li><a href="#">Edit Account</a></li>
+	                                     <li class="divider">|</li>
+	                                     <li><a href="#">Edit Pin </a></li>
+	                                 </ul>
+	                             </div>
+	                             <div class="col-xs-12 col-sm-8 library-info">
+	                                 <ul>
+                                         <li>
+	                                         <strong>Nombre completo</strong>
+	                                         <a th:text="${nombre} + | | + ${paterno} + | | + ${materno}"></a>
+	                                     </li>
+	                                     <li>
+	                                         <strong>Teléfono</strong>
+	                                         <a th:text="${phone}"></a>
+	                                     </li>
+	                                     <li>
+	                                         <strong>Correo electrónico</strong>
+	                                         <a th:text="${email}"></a>
+	                                     </li>
+	                                     
+	                                 </ul>
+	                             </div>
+	                             <div class="clearfix"></div>
+	                         </div>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+	</div>
+                        
+
+	<footer th:replace="fragments/footer :: footer"> </footer>
+
+
+</body>
+
