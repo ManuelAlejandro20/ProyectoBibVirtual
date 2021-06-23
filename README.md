@@ -3,6 +3,7 @@
 ## Table of contents
   * [General Information](#general-information)
   * [Technologies Used](#technologies-used)
+  * [Installation](#installation)
   * [Contact](#contact)
   * [License](#license)
 
@@ -21,16 +22,30 @@
 - Lombok
 - Mysql
 
+## Installation
+
+##### Get Spring 2.4.5
+- https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html
+
+##### Get Lombok 
+- https://projectlombok.org/setup/eclipse  (For Eclipse Users)
+- https://projectlombok.org/setup/intellij (For IntellIJ Users)
+
+##### 
 ## Contact
 Created by CMCorp
 
-- [Carlos Cortés](https://github.com/ccortes12) carlos.cortes@alumnos.ucn.cl
+##### [Carlos Cortés](https://github.com/ccortes12) 
+- carlos.cortes@alumnos.ucn.cl
 
-- [Christian Fuentes](https://github.com/Christian-FB) christian.fuentes@alumnos.ucn.cl
+##### [Christian Fuentes](https://github.com/Christian-FB) 
+- christian.fuentes@alumnos.ucn.cl
+ 
+##### [Manuel Trigo](https://github.com/ManuelAlejandro20) 
+- manuel.trigo@alumnos.ucn.cl
 
-- [Manuel Trigo](https://github.com/ManuelAlejandro20) manuel.trigo@alumnos.ucn.cl
-
-- [Mauricio Godoy](https://github.com/MauroGM037) mauricio.godoy@alumnos.ucn.cl
+##### [Mauricio Godoy](https://github.com/MauroGM037) 
+- mauricio.godoy@alumnos.ucn.cl
 
 ## License
 
