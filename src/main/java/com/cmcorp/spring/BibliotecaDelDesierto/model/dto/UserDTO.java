@@ -24,85 +24,172 @@
 
 package com.cmcorp.spring.BibliotecaDelDesierto.model.dto;
 
+/**
+ * UserDTO Class
+ */
 public class UserDTO {
 
+	/**
+	 * Integer unsigned id UserDTO
+	 */
     private Integer id;
-    private String email;
+
+	/**
+	 * String email no nullable max length 64 characters
+	 */
+	private String email;
+
+	/**
+	 * String username max length max length 64 characters
+	 */
     private String username;
-    private String password;
+
+	/**
+	 * String password min no nullable min length 8 characters max length 64 characters
+	 */
+	private String password;
+
+	/**
+	 * String name max length max length 64 characters
+	 */
     private String nombre;
-    private String paterno;
+
+	/**
+	 * String last name max length max length 64 characters
+	 */
+	private String paterno;
+
+	/**
+	 * String last name max length max length 64 characters
+	 */
     private String materno;
-    private String direccion;
-    private String telefono;    
-    private String rol;
-    
-    public UserDTO() {
+
+	/**
+	 * String direccion max length max length 64 characters
+	 */
+	private String direccion;
+
+	/**
+	 * String telefono max length max length 32 characters
+	 */
+    private String telefono;
+
+	/**
+	 * String rol max length max length 64 characters
+	 */
+	private String rol;
+
+	/**
+	 * Constructor
+	 */
+	public UserDTO() {
     	
     }
-    
+
+	/**
+	 * Constructor with params
+	 * @param id
+	 * @param email
+	 * @param username
+	 * @param password
+	 * @param nombre
+	 * @param paterno
+	 * @param materno
+	 * @param direccion
+	 * @param telefono
+	 * @param rol
+	 */
+	public UserDTO(Integer id, String email, String username, String password,
+				   String nombre, String paterno, String materno, String direccion,
+				   String telefono, String rol) {
+		this.id = id;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.nombre = nombre;
+		this.paterno = paterno;
+		this.materno = materno;
+		this.direccion = direccion;
+		this.telefono = telefono;
+		this.rol = rol;
+	}
+
 	public Integer getId() {
 		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
 	}
 	public String getEmail() {
 		return email;
 	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
+
 	public String getUsername() {
 		return username;
 	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
+
 	public String getPassword() {
 		return password;
 	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
+
 	public String getNombre() {
 		return nombre;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+
 	public String getPaterno() {
 		return paterno;
 	}
-	public void setPaterno(String paterno) {
-		this.paterno = paterno;
-	}
+
 	public String getMaterno() {
 		return materno;
 	}
-	public void setMaterno(String materno) {
-		this.materno = materno;
-	}
+
 	public String getDireccion() {
 		return direccion;
 	}
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
+
 	public String getTelefono() {
 		return telefono;
 	}
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
+
 	public String getRol() {
 		return rol;
 	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setPaterno(String paterno) {
+		this.paterno = paterno;
+	}
+
+	public void setMaterno(String materno) {
+		this.materno = materno;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
 	public void setRol(String rol) {
 		this.rol = rol;
 	}
-    
-    
-    
-    
+
 }

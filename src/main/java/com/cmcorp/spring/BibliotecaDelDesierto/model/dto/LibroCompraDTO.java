@@ -24,7 +24,6 @@
 
 package com.cmcorp.spring.BibliotecaDelDesierto.model.dto;
 
-
 import com.cmcorp.spring.BibliotecaDelDesierto.model.Compra;
 
 /**
@@ -32,13 +31,32 @@ import com.cmcorp.spring.BibliotecaDelDesierto.model.Compra;
  */
 public class LibroCompraDTO {
 
+    /**
+     * Bidimensional array for the listaLibrosCant
+     * Rows index for the
+     */
     private Integer[][] listaLibrosCant;
+
+    /**
+     * Entity Compra
+     */
     private Compra compra;
 
     /**
      * Constructor
      */
     public LibroCompraDTO() {
+
+    }
+
+    /**
+     * Constructo with params
+     * @param listaLibrosCant
+     * @param compra
+     */
+    public LibroCompraDTO(Integer[][] listaLibrosCant, Compra compra) {
+        this.listaLibrosCant = listaLibrosCant;
+        this.compra = compra;
     }
 
     public Integer[][] getListaLibrosCant() {

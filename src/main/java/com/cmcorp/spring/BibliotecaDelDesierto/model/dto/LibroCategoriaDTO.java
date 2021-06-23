@@ -33,9 +33,19 @@ import java.util.List;
  */
 public class LibroCategoriaDTO {
 
+    /**
+     * Entity Libro
+     */
     private Libro libro;
+
+    /**
+     * Integer id Idioma
+     */
     private Integer idioma_id;
 
+    /**
+     * List of categories
+     */
     private List<Integer> lista_categorias;
 
     /**
@@ -43,6 +53,18 @@ public class LibroCategoriaDTO {
      */
     public LibroCategoriaDTO(){
 
+    }
+
+    /**
+     * Constructor with params
+     * @param libro
+     * @param idioma_id
+     * @param lista_categorias
+     */
+    public LibroCategoriaDTO(Libro libro, Integer idioma_id, List<Integer> lista_categorias) {
+        this.libro = libro;
+        this.idioma_id = idioma_id;
+        this.lista_categorias = lista_categorias;
     }
 
     public Libro getLibro() {
@@ -55,5 +77,17 @@ public class LibroCategoriaDTO {
 
     public List<Integer> getLista_categorias() {
         return lista_categorias;
+    }
+
+    public void setLibro(Libro libro) {
+        this.libro = libro;
+    }
+
+    public void setIdioma_id(Integer idioma_id) {
+        this.idioma_id = idioma_id;
+    }
+
+    public void setLista_categorias(List<Integer> lista_categorias) {
+        this.lista_categorias = lista_categorias;
     }
 }
