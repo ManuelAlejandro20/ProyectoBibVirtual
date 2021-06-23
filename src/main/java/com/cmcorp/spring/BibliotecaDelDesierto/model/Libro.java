@@ -41,55 +41,104 @@ import java.util.Set;
 @Table(name = "libro")
 public class Libro {
 
+	/**
+	 * Integer unsigned unique no nullable
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, unique = true)
 	private Integer id;
 
+	/**
+	 * Idioma class
+	 */
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL,optional = false, fetch = FetchType.LAZY)
 	private Idioma idioma;
 
+	/**
+	 * Collection of Categories
+	 */
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "libro_categoria", joinColumns = {@JoinColumn(name = "libro_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "categoria_id", referencedColumnName = "id")})
 	private Set<Categoria> categorias = new HashSet<Categoria>();
 
+	/**
+	 * Collection of Books on the sell
+	 */
 	@JsonIgnore
 	@OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<LibroCompra> librosCompras = new HashSet<LibroCompra>();
 
+	/**
+	 * String no nullable, unique, max length 64 characters
+	 */
 	@Column(name = "nombre",nullable = false, unique = true)
 	private String nombre;
 
+	/**
+	 * String no nullable, max length 64 characters
+	 */
 	@Column(name = "autor", nullable = false)
 	private String autor;
 
+	/**
+	 * String no nullable, max length 64 characters
+	 */
 	@Column(name = "editorial",nullable = false)
 	private String editorial;
 
+	/**
+	 * String no nullable, unique, length 13 characters
+	 * global id for a book
+	 */
 	@Column(name = "isbn",nullable = false, unique = true)
 	private String isbn;
 
+	/**
+	 * String no nullable, unique, min length 8 max length 12 characters
+	 */
 	@Column(name = "sku", nullable = false, unique = true)
 	private String sku;
 
+	/**
+	 * Integer unsigned, no nullable
+	 * It can not be zero
+	 */
 	@Column(name = "precio",nullable = false)
 	private int precio;
 
+	/**
+	 * Integer unsigned, no nullable
+	 */
 	@Column(name = "stock",nullable = false)
 	private int stock;
 
+	/**
+	 * String no nullable, max lenght 255 characters
+	 */
 	@Lob
 	@Column(name = "resenia",nullable = false)
 	private String resenia;
 
+	/**
+	 * String no nullable, unique
+	 * name of the image of the book
+	 */
 	@Column(name = "nombre_imagen",nullable = false, unique = true)
 	private String nombreImagen;
 
+	/**
+	 * String no nullable, unique
+	 * name of the pdf file
+	 */
 	@Column(name = "nombre_archivo",nullable = false, unique = true)
 	private String nombreArchivo;
 
+	/**
+	 * Integer unsigned, no nullable
+	 */
 	@Column(name = "cantidad_pag", nullable = false)
 	private int cantidadPag;
 
