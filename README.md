@@ -20,7 +20,7 @@
 - Spring - 2.4.5
 - Java   - 1.8
 - Lombok
-- Mysql
+- MariaDB
 
 ## Installation
 
