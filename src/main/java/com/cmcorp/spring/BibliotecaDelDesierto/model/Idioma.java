@@ -48,9 +48,16 @@ public class Idioma {
      * Constructor
      */
     public Idioma() {
+
     }
 
-    public Idioma(String nombre) {
+    /**
+     * Constructor with params
+     * @param id
+     * @param nombre
+     */
+    public Idioma(Integer id, String nombre) {
+        this.id = id;
         this.nombre = nombre;
     }
 
@@ -69,5 +76,4 @@ public class Idioma {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
 }
