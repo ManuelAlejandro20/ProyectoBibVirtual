@@ -30,18 +30,42 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Class Rol
+ */
 @Entity
 @Table(name = "rol")
 public class Rol {
+
+	/**
+	 * Integer unsigned
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	/**
+	 * String max length 64 characters
+	 */
 	private String name;
-	
+
+	/**
+	 * Constructor
+	 */
 	public Rol() {
 		
 	}
-	
+
+	/**
+	 * Constructor with params
+	 * @param id
+	 * @param name
+	 */
+	public Rol(Long id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
 	public Rol(String name) {
 		super();
 		this.name = name;
