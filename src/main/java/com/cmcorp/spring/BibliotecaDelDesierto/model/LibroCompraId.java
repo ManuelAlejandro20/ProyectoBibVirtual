@@ -30,8 +30,32 @@ import java.io.Serializable;
  * Class LibroCompraID
  */
 public class LibroCompraId implements Serializable {
+
+    /**
+     * Integer id Libro
+     */
     private Integer libro;
+
+    /**
+     * Integer id compra
+     */
     private Integer compra;
+
+    /**
+     * Constructor
+     */
+    public LibroCompraId() {
+    }
+
+    /**
+     * Constructor with params
+     * @param libro
+     * @param compra
+     */
+    public LibroCompraId(Integer libro, Integer compra) {
+        this.libro = libro;
+        this.compra = compra;
+    }
 
     public Integer getLibro() {
         return libro;
