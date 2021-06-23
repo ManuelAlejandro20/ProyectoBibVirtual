@@ -24,7 +24,6 @@
 
 package com.cmcorp.spring.BibliotecaDelDesierto.controller;
 
-
 import com.cmcorp.spring.BibliotecaDelDesierto.model.User;
 import com.cmcorp.spring.BibliotecaDelDesierto.model.dto.UserDTO;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioUser;
@@ -45,7 +44,6 @@ import java.util.NoSuchElementException;
  * Controller ControladorUser
  */
 @Controller
-//@RequestMapping("/users")
 public class ControladorUser {
 
     private final ServicioUser servicioUser;
@@ -128,13 +126,23 @@ public class ControladorUser {
         return "redirect:/login";    	
     	
     }
-        
+
+    /**
+     * Method that redirects if occurs an login error
+     * @param redirAttrs
+     * @return
+     */
     @PostMapping("/login_error")
 	public String loginErrorHandler(RedirectAttributes redirAttrs) {
     	redirAttrs.addFlashAttribute("errorLogin", "Error en el inicio de sesión, intenta nuevamente");
     	return "redirect:/login?error";
 	}
-    
+
+    /**
+     * Method that returns the page after a user logs into the
+     * @param model
+     * @return
+     */
     @GetMapping("/myaccount")
 	public String successUserLogin(Model model) {
     	
