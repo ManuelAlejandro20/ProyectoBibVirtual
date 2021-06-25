@@ -31,7 +31,7 @@
 - https://projectlombok.org/setup/eclipse  (For Eclipse Users)
 - https://projectlombok.org/setup/intellij (For IntellIJ Users)
 
-##### Add MariaDB dependecy to your project
+##### Add MariaDB dependency to your project
 
 ##### 
 ## Contact
