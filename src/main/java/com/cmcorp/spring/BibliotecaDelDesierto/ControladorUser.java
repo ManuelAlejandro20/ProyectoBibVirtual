@@ -22,7 +22,7 @@
  *
  */
 
-package com.cmcorp.spring.BibliotecaDelDesierto.controller;
+package com.cmcorp.spring.BibliotecaDelDesierto;
 
 import com.cmcorp.spring.BibliotecaDelDesierto.model.User;
 import com.cmcorp.spring.BibliotecaDelDesierto.model.dto.UserDTO;
@@ -114,8 +114,6 @@ public class ControladorUser {
     		redirAttrs.addFlashAttribute("error", "Ese correo ya está en uso, intenta nuevamente");     		              
         }else {
         	        	
-            user.setRol("Usuario");
-            
             servicioUser.save(user);
             
             redirAttrs.addFlashAttribute("success", user.getUsername() + " se ha registrado correctamente");        	        	        
@@ -164,6 +162,27 @@ public class ControladorUser {
     	return "/myaccount";
 	}    
     
+    @GetMapping("/checkout")
+    public String checkout(Model model) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	if(auth != null) {
+    		String username = auth.getName();
+    		model.addAttribute("username", username);
+    		
+    	}    	
+    	return("/checkout");
+    }
+    
+    @GetMapping("/cart")
+    public String cart(Model model) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	if(auth != null) {
+    		String username = auth.getName();
+    		model.addAttribute("username", username);
+    		
+    	}    	
+    	return("/cart");
+    }    
     
     /**
      * Method that update an user by id an the new User

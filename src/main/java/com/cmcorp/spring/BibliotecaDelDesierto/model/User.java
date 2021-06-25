@@ -92,12 +92,6 @@ public class User {
     @Column(name = "telefono",nullable = false)
     private String telefono;
 
-    /**
-     * String no nullable, max length 64
-     */
-    @Column(name = "rol",nullable = false)
-    private String rol;
-
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(
 			name = "roles_usuarios",
@@ -126,11 +120,10 @@ public class User {
      * @param materno
      * @param direccion
      * @param telefono
-     * @param rol
      * @param roles
      */
     public User(Integer id, String email, String username, String password, String nombre, String paterno,
-                String materno, String direccion, String telefono, String rol, Collection<Rol> roles) {
+                String materno, String direccion, String telefono, Collection<Rol> roles) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -140,7 +133,6 @@ public class User {
         this.materno = materno;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.rol = rol;
         this.roles = roles;
     }
 
@@ -215,14 +207,6 @@ public class User {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }    
-
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
 
 	public Collection<Rol> getRoles() {
 		return roles;

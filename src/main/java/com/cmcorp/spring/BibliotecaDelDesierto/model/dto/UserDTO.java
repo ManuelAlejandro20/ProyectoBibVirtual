@@ -75,11 +75,6 @@ public class UserDTO {
     private String telefono;
 
 	/**
-	 * String rol max length max length 64 characters
-	 */
-	private String rol;
-
-	/**
 	 * Constructor
 	 */
 	public UserDTO() {
@@ -101,7 +96,7 @@ public class UserDTO {
 	 */
 	public UserDTO(Integer id, String email, String username, String password,
 				   String nombre, String paterno, String materno, String direccion,
-				   String telefono, String rol) {
+				   String telefono) {
 		this.id = id;
 		this.email = email;
 		this.username = username;
@@ -111,7 +106,6 @@ public class UserDTO {
 		this.materno = materno;
 		this.direccion = direccion;
 		this.telefono = telefono;
-		this.rol = rol;
 	}
 
 	public Integer getId() {
@@ -149,9 +143,7 @@ public class UserDTO {
 		return telefono;
 	}
 
-	public String getRol() {
-		return rol;
-	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -186,10 +178,6 @@ public class UserDTO {
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
-	}
-
-	public void setRol(String rol) {
-		this.rol = rol;
 	}
 
 }

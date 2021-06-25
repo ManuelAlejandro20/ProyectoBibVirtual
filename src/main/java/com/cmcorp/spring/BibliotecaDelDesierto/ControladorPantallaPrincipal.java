@@ -24,6 +24,7 @@
 
 package com.cmcorp.spring.BibliotecaDelDesierto;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -39,7 +40,11 @@ public class ControladorPantallaPrincipal {
     
     @GetMapping("/")
     public String index() {
-        return "index";
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	if(auth == null || auth instanceof AnonymousAuthenticationToken) {
+    		return "index";
+    	}        	
+        return "redirect:/myaccount";
     }    
  
     @GetMapping("/bookgrid")
@@ -65,22 +70,29 @@ public class ControladorPantallaPrincipal {
     }    
 
     @GetMapping("/contact")
-    public String contacto() {
+    public String contacto(Model model) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	if(auth != null) {
+    		String username = auth.getName();
+    		model.addAttribute("username", username);
+    		
+    	}    	
         return "contact";
     }  
     
     @GetMapping("/login")
     public String signin(Model model) {    	
-//    	//If you want to register a user
-    	model.addAttribute("user", new UserDTO());
-        model.addAttribute("password2", new String());
-        
-    	return "login";
-    }      
-        
-    @GetMapping("/galeria")
-    public String galeria() {
-        return "galeria";
-    }    
-    
+    	
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	if(auth == null || auth instanceof AnonymousAuthenticationToken) {
+    		
+        	//If you want to register a user
+        	model.addAttribute("user", new UserDTO());
+            model.addAttribute("password2", new String());    		
+    		
+    		return "login";
+    	}          	
+    	        
+        return "redirect:/myaccount";
+    }          
 }

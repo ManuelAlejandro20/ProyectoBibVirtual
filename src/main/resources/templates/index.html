@@ -2,8 +2,7 @@
 <html lang="zxx">
     
 
-<!-- <head th:replace="fragments/header-unregistered :: head" />         -->
-<head th:replace="fragments/header :: head" />        
+<head th:replace="fragments/header :: head"><meta charset="UTF-8"/></head>        
     
 <body>
     
@@ -16,7 +15,7 @@
         <div class="carousel-inner">
             <div class="item active">
                 <figure>
-                    <img alt="Home Slide" src="images/DuFeY9pXcAEL5xn.jpg" />
+                    <img alt="Home Slide" src="images/header-slider/home-v2/header-slide.jpg" />
                 </figure>
                 <div class="container">
                     <div class="carousel-caption">
@@ -24,14 +23,14 @@
                         <h2>AtacamaBiblio</h2>
                         <p>¡Lleva tus libros favoritos donde sea! Te invitamos a visitar nuestra tienda en línea que dispone de una gran variedad de libros para todos los fanáticos de la lectura. Compra ya y únete al mundo de la lectura virtual.</p>
                         <div class="slide-buttons hidden-sm hidden-xs">    
-                            <a href="#" class="btn btn-primary">Mira nuestro cat?ogo</a>
+                            <a th:href=@{bookgrid} class="btn btn-primary">Mira nuestro catálogo</a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="item">
                 <figure>
-                    <img alt="Home Slide" src="images/DuFeY9pXcAEL5xn.jpg" />
+                    <img alt="Home Slide" src="images/header-slider/home-v1/header-slide.jpg" />
                 </figure>
                 <div class="container">
                     <div class="carousel-caption">
@@ -39,7 +38,7 @@
                         <h2>AtacamaBiblio</h2>
                         <p>¡Usa la biblioteca virtual para leer todos tus libros favoritos una y otra vez! Comparte con quien quieras tus libros en línea y deja florecer la magía de la lectura.</p>
                         <div class="slide-buttons hidden-sm hidden-xs">    
-                            <a href="#" class="btn btn-default">Registrate ahora</a>
+                            <a th:href=@{login} class="btn btn-default">Regístrate ahora</a>
                         </div>
                     </div>
                 </div>
@@ -195,11 +194,11 @@
                                 <span class="author"><strong>Author:</strong> F. Scott Fitzgerald</span>
                                 <span class="author"><strong>ISBN:</strong> 9781581573268</span>
                                 <div class="rating">
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
                                 </div>
                                 <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
                                 <a href="#">Read More <i class="fa fa-long-arrow-right"></i></a>
@@ -243,11 +242,11 @@
                                 <span class="author"><strong>Author:</strong> F. Scott Fitzgerald</span>
                                 <span class="author"><strong>ISBN:</strong> 9781581573268</span>
                                 <div class="rating">
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
                                 </div>
                                 <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
                                 <a href="#">Read More <i class="fa fa-long-arrow-right"></i></a>
@@ -291,11 +290,11 @@
                                 <span class="author"><strong>Author:</strong> F. Scott Fitzgerald</span>
                                 <span class="author"><strong>ISBN:</strong> 9781581573268</span>
                                 <div class="rating">
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
                                 </div>
                                 <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
                                 <a href="#">Read More <i class="fa fa-long-arrow-right"></i></a>
@@ -339,11 +338,11 @@
                                 <span class="author"><strong>Author:</strong> F. Scott Fitzgerald</span>
                                 <span class="author"><strong>ISBN:</strong> 9781581573268</span>
                                 <div class="rating">
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
                                 </div>
                                 <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
                                 <a href="#">Read More <i class="fa fa-long-arrow-right"></i></a>
@@ -387,11 +386,11 @@
                                 <span class="author"><strong>Author:</strong> F. Scott Fitzgerald</span>
                                 <span class="author"><strong>ISBN:</strong> 9781581573268</span>
                                 <div class="rating">
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
                                 </div>
                                 <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
                                 <a href="#">Read More <i class="fa fa-long-arrow-right"></i></a>
@@ -435,11 +434,11 @@
                                 <span class="author"><strong>Author:</strong> F. Scott Fitzgerald</span>
                                 <span class="author"><strong>ISBN:</strong> 9781581573268</span>
                                 <div class="rating">
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
                                 </div>
                                 <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
                                 <a href="#">Read More <i class="fa fa-long-arrow-right"></i></a>
@@ -483,11 +482,11 @@
                                 <span class="author"><strong>Author:</strong> F. Scott Fitzgerald</span>
                                 <span class="author"><strong>ISBN:</strong> 9781581573268</span>
                                 <div class="rating">
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
+                                    <span>â˜†</span>
                                 </div>
                                 <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
                                 <a href="#">Read More <i class="fa fa-long-arrow-right"></i></a>

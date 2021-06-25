@@ -26,12 +26,14 @@
                             <li><a th:href="@{/myaccount}">Vincular libros</a></li>
                             <li><a th:href="@{/myaccount}">Mi biblioteca</a></li>
                             <li><a th:href="@{bookgrid}">Libros disponibles</a></li>
+                        	<li><a th:href="@{contact}">Contacto</a></li>
                         </ul>
                     </div>   
                     <div class="col-md-9 pull-right" sec:authorize="hasRole('ROLE_ADMIN')">
                         <ul>
                             <li><a th:href="@{/myaccount}">Mi cuenta</a></li>
                             <li><a th:href="@{/myaccount}">Registrar nuevo libro</a></li>
+                            <li><a th:href="@{bookgrid}">Libros disponibles</a></li>
                             <li><a th:href="@{/myaccount}">Lista de usuarios</a></li>
                         </ul>
                     </div>                                     

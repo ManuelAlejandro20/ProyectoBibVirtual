@@ -166,7 +166,6 @@ public class ServicioUser implements UserService{
 		user.setMaterno(registrationDto.getMaterno());
 		user.setDireccion(registrationDto.getDireccion());
 		user.setTelefono(registrationDto.getTelefono());
-		user.setRol(registrationDto.getRol());
 		user.setRoles(Arrays.asList(new Rol("ROLE_USER")));
 		return repositorioUser.save(user);
 	}

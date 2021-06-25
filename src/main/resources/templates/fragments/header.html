@@ -127,10 +127,10 @@
                                         </div>
                                         <div class="topbar-links">
                                             <a sec:authorize="hasRole('ROLE_USER')"><i class="fa fa-user"></i><a th:text="${username}"/></a>
-                                            <a sec:authorize="hasRole('ROLE_ADMIN')"><i class="fa fa-user"></i><a th:text="${username} + | ADMINISTRADOR|"/></a>
+                                            <a sec:authorize="hasRole('ROLE_ADMIN')"><i class="fa fa-user"></i><a th:text="${username} + | (ADMINISTRADOR)|"/></a>
                                             <span sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')">|</span>
                                             <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')" th:href="@{/logout}"><i class="fa fa-arrow-right"></i>Cerrar Sesión</a>
-                                            <span sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')">|</span>
+                                            <span sec:authorize="hasRole('ROLE_USER')">|</span>
                                             <div class="header-cart dropdown" sec:authorize="hasRole('ROLE_USER')">
                                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                                     <i class="fa fa-shopping-cart"></i>
@@ -177,8 +177,8 @@
                                                         <div class="price">$30.00</div>
                                                     </div>
                                                     <div class="cart-buttons">
-                                                        <a href="cart.html" class="btn btn-dark-gray">View Cart</a>
-                                                        <a href="checkout.html" class="btn btn-primary">Checkout</a>
+                                                        <a th:href=@{cart} class="btn btn-dark-gray">Ver carrito</a>
+                                                        <a th:href=@{checkout} class="btn btn-primary">Pagar todo</a>
                                                     </div>
                                                 </div>
                                             </div>                                            
@@ -214,6 +214,7 @@
                                     <li class="dropdown">
                                         <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{bookgrid}">Libros disponibles</a>
                                     </li>
+                                    <li><a th:href="@{contact}">Contacto</a></li>
                                 </ul>
                             </div>   
                             <div class="navbar-collapse hidden-sm hidden-xs" sec:authorize="hasRole('ROLE_ADMIN')">
@@ -225,8 +226,11 @@
                                         <a data-toggle="dropdown" class="dropdown-toggle disabled" href="#">Registrar nuevo libro</a>
                                     </li>                                    
                                     <li class="dropdown">
+                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{bookgrid}">Libros disponibles</a>
+                                    </li>                                    
+                                    <li class="dropdown">
                                         <a data-toggle="dropdown" class="dropdown-toggle disabled" href="#">Lista de usuarios</a>
-                                    </li>
+                                    </li>                                    
                                 </ul>
                             </div>                                                     
                         </div>
