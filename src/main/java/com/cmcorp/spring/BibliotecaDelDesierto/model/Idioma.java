@@ -25,6 +25,9 @@
 package com.cmcorp.spring.BibliotecaDelDesierto.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Class Idioma
@@ -33,17 +36,11 @@ import javax.persistence.*;
 @Table(name = "idioma")
 public class Idioma {
 
-    /**
-     * Integer unsigned no nullable, unique
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Integer id;
 
-    /**
-     * String no nullable, unique max length 32 characters
-     */
     @Column(name = "nombre", nullable = false, unique = true)
     private String nombre;
 
@@ -56,7 +53,6 @@ public class Idioma {
 
     /**
      * Constructor with params
-     *
      * @param id
      * @param nombre
      */
