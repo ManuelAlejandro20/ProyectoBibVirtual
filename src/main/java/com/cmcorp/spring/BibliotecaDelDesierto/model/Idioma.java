@@ -36,11 +36,18 @@ import java.util.Set;
 @Table(name = "idioma")
 public class Idioma {
 
+    /**
+     * Integer unsigned, no nullable, unique
+     * id Language
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Integer id;
 
+    /**
+     * String no nullable, unique, max length 32 characters
+     */
     @Column(name = "nombre", nullable = false, unique = true)
     private String nombre;
 
