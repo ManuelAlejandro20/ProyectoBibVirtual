@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,6 +16,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.UserService;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
 	@Bean
@@ -41,9 +43,10 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
         .and()
         .authorizeRequests()          	
             .antMatchers("/myaccount").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+            .antMatchers("/newbook").hasAuthority("ROLE_ADMIN")
             .antMatchers("/checkout").hasAuthority("ROLE_USER")
             .antMatchers("/cart").hasAuthority("ROLE_USER")
-            .antMatchers("/resources/**").permitAll().anyRequest().permitAll()
+            .antMatchers("/js/**", "/css/**","/resources/**").permitAll().anyRequest().permitAll()
         .and()  
         .formLogin()
         	.loginPage("/login")
@@ -51,6 +54,9 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
         	.defaultSuccessUrl("/myaccount")
         	.failureForwardUrl("/login_error")
 	      	.permitAll()
+        .and()
+        .exceptionHandling()
+        	.accessDeniedPage("/access_denied")
         .and()
         .logout()       
 			.invalidateHttpSession(true)

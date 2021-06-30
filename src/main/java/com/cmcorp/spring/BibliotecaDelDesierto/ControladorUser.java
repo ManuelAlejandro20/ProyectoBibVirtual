@@ -135,6 +135,17 @@ public class ControladorUser {
 	}
 
     /**
+     * Method that redirects if occurs an access denied error
+     * @param redirAttrs
+     * @return
+     */
+    @GetMapping("/access_denied")
+	public String accessDeniedHandler(Model model) {      	
+    	return "accessdenied";
+	}
+    
+    
+    /**
      * Method that returns the page after a user logs into 
      * @param model
      * @return
@@ -162,25 +173,18 @@ public class ControladorUser {
     	return "/myaccount";
 	}    
     
+    @GetMapping("/newbook")
+    public String newbook() {
+    	return("/newbook");
+    }    
+    
     @GetMapping("/checkout")
     public String checkout(Model model) {
-    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    	if(auth != null) {
-    		String username = auth.getName();
-    		model.addAttribute("username", username);
-    		
-    	}    	
     	return("/checkout");
     }
     
     @GetMapping("/cart")
-    public String cart(Model model) {
-    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    	if(auth != null) {
-    		String username = auth.getName();
-    		model.addAttribute("username", username);
-    		
-    	}    	
+    public String cart(Model model) {   	
     	return("/cart");
     }    
     

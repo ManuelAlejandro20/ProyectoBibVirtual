@@ -24,7 +24,10 @@
 
         <!-- Stylesheet -->
         <link href="style.css" rel="stylesheet" type="text/css" />
-
+	
+		<!-- Intl Phone Input -->	
+		<link href="css/intlTelInput.min.css" rel="stylesheet"/>	
+	
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -88,7 +91,10 @@
 
         <!-- Google Map (Custom Style) -->
         <script type="text/javascript" src="js/google.map.js"></script>
-
+		
+		<!-- Intl Phone Input -->	
+		<script src="js/intlTelInput.min.js"></script>
+	
 </head>
 
 <body>
@@ -125,10 +131,10 @@
                                         <div class="topbar-links" sec:authorize="isAnonymous()">
                                             <a th:href="@{login}"><i class="fa fa-lock"></i>Iniciar sesión / Registrarse</a>                                                                                                
                                         </div>
-                                        <div class="topbar-links">
-                                            <a sec:authorize="hasRole('ROLE_USER')"><i class="fa fa-user"></i><a th:text="${username}"/></a>
-                                            <a sec:authorize="hasRole('ROLE_ADMIN')"><i class="fa fa-user"></i><a th:text="${username} + | (ADMINISTRADOR)|"/></a>
-                                            <span sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')">|</span>
+                                        <div class="topbar-links" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
+                                            <a sec:authorize="hasRole('ROLE_USER')"><i class="fa fa-user"></i><a sec:authentication="name"/></a>
+                                            <a sec:authorize="hasRole('ROLE_ADMIN')"><i class="fa fa-user"></i><a th:text="${#authentication.name} + | | + [ + | | + ADMINISTRADOR + | | + ]"/></a>
+                                            <span sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')">|</span><
                                             <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')" th:href="@{/logout}"><i class="fa fa-arrow-right"></i>Cerrar Sesión</a>
                                             <span sec:authorize="hasRole('ROLE_USER')">|</span>
                                             <div class="header-cart dropdown" sec:authorize="hasRole('ROLE_USER')">
@@ -223,7 +229,7 @@
                                         <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{myaccount}">Mi cuenta</a>
                                     </li>
                                     <li class="dropdown">
-                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" href="#">Registrar nuevo libro</a>
+                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{newbook}">Registrar nuevo libro</a>
                                     </li>                                    
                                     <li class="dropdown">
                                         <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{bookgrid}">Libros disponibles</a>

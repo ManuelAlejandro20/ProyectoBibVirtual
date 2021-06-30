@@ -49,34 +49,16 @@ public class ControladorPantallaPrincipal {
  
     @GetMapping("/bookgrid")
     public String catalogoPanel(Model model) {
-    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    	if(auth != null) {
-    		String username = auth.getName();
-    		model.addAttribute("username", username);
-    		
-    	}        
     	return "bookgrid";
     }
     
     @GetMapping("/booklist")
     public String catalogoLista(Model model) {
-    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    	if(auth != null) {
-    		String username = auth.getName();
-    		model.addAttribute("username", username);
-    		
-    	}
         return "booklist";
     }    
 
     @GetMapping("/contact")
-    public String contacto(Model model) {
-    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    	if(auth != null) {
-    		String username = auth.getName();
-    		model.addAttribute("username", username);
-    		
-    	}    	
+    public String contacto(Model model) {	
         return "contact";
     }  
     
