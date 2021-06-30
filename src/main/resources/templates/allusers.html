@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head th:replace="fragments/header :: head">
+<meta charset="UTF-8" />
+</head>
+
+<body>
+
+
+	<header th:replace="fragments/header :: header"></header>
+
+	<!-- Start: Page Banner -->
+	<section class="page-banner services-banner">
+		<div class="container">
+			<div class="banner-header">
+				<h2>Lista de usuarios</h2>
+			</div>
+			<div class="breadcrumb">
+				<ul>
+					<li><a th:href="@{/}">Mi cuenta</a></li>
+					<li>Lista de usuarios</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<!-- End: Page Banner -->
+
+	<div id="content" class="site-content">
+		<div id="primary" class="content-area">
+			<main id="main" class="site-main">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="page type-page status-publish hentry">
+								<div class="entry-content">
+									<div class="woocommerce table-tabs" id="responsiveTabs">
+										<div class="tab-content">
+											<div id="sectionA" class="tab-pane fade in active">
+												<table class="table table-bordered shop_table cart">
+													<thead>
+														<tr>
+															<th>ID</th>
+															<th>Nickname</th>
+															<th>Nombre</th>
+															<th>Correo electrónico</th>
+															<th>Teléfono</th>
+															<th>Dirección</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr class="cart_item" th:each="user : ${users}">
+															<td><span th:text="${user.id}"></span></td>
+															<td><span th:text="${user.username}"></span></td>
+															<td><span th:text="${user.nombre} + | | + ${user.paterno} + | | + ${user.materno}"></span></td>
+															<td><span th:text="${user.email}"></span></td>
+															<td><span th:text="${user.telefono}"></span></td>
+															<td><span th:text="${user.direccion}"></span></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- .entry-content -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+	</div>
+
+
+	<footer th:replace="fragments/footer :: footer"> </footer>
+
+
+</body>

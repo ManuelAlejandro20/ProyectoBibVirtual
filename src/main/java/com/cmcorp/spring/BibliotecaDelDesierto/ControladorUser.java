@@ -58,8 +58,10 @@ public class ControladorUser {
      * @return List<User>
      */
     @GetMapping("/users")
-    public List<User> lista(){
-        return servicioUser.listaUsuarios();
+    public String lista(Model model){
+    	List<User> users = servicioUser.listaUsuarios();
+        model.addAttribute("users", users);
+    	return "allusers";
     }
 
     /**
@@ -124,6 +126,16 @@ public class ControladorUser {
     }
 
     /**
+     * Method that adds an user
+     * @param user, password, redirAttrs
+     * @return signin view path
+     */
+    @PostMapping("newbook/add")
+    public String addBook(){    	  
+        return "redirect:/bookgrid";    		
+    }    
+    
+    /**
      * Method that redirects if occurs an login error
      * @param redirAttrs
      * @return
@@ -187,7 +199,7 @@ public class ControladorUser {
     public String cart(Model model) {   	
     	return("/cart");
     }    
-    
+          
     /**
      * Method that update an user by id an the new User
      * @param usuario
