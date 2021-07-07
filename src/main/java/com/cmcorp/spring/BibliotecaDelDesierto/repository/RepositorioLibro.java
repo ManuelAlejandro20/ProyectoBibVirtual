@@ -87,4 +87,17 @@ public interface RepositorioLibro extends JpaRepository<Libro, Integer> {
      */
     @Query(value = "SELECT l.* FROM Libro AS l WHERE l.nombre LIKE CONCAT('%',:titulo,'%')", nativeQuery = true)
     List<Libro> findLibrosByTitulo(@Param("titulo") String titulo);
+
+    /**
+     * Returns true if the ISBN is asociated to another book
+     * @param isbn
+     * @return
+     */
+    boolean existsByIsbn(@Param("isbn") String isbn);
+
+    boolean existsBySku(@Param("sku") String sku);
+
+    boolean existsByNombre(@Param("nombre") String nombre);
+
+    boolean existsByNombreImagenOrNombreArchivo(@Param("nombreImagen") String nombreImagen, @Param("nombreArchivo") String nombreArchivo);
 }

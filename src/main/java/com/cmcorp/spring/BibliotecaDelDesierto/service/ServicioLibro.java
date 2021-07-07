@@ -130,4 +130,20 @@ public class ServicioLibro {
             repositorioLibro.deleteById(id);
         }
     }
+
+    public boolean isbnUsed(String isbn) {
+        return repositorioLibro.existsByIsbn(isbn);
+    }
+
+    public boolean skuUsed(String sku) {
+        return repositorioLibro.existsBySku(sku);
+    }
+
+    public boolean titleUsed(String titulo) {
+        return repositorioLibro.existsByNombre(titulo);
+    }
+
+    public boolean fileUsed(String file) {
+        return repositorioLibro.existsByNombreImagenOrNombreArchivo(file, file);
+    }
 }

@@ -129,12 +129,20 @@ public class Libro {
 	@Column(name = "nombre_imagen",nullable = false, unique = true)
 	private String nombreImagen;
 
+	@Lob
+	@Column(name = "datos_imagen", nullable = false)
+	private byte[] bytesImagen;
+
 	/**
 	 * String no nullable, unique
 	 * name of the pdf file
 	 */
 	@Column(name = "nombre_archivo",nullable = false, unique = true)
 	private String nombreArchivo;
+
+	@Lob
+	@Column(name = "datos_archivo", nullable = false)
+	private byte[] bytesArchivo;
 
 	/**
 	 * Integer unsigned, no nullable
@@ -274,11 +282,11 @@ public class Libro {
 		this.categorias = categorias;
 	}
 
-	public int getcantidadPag() {
+	public int getCantidadPag() {
 		return cantidadPag;
 	}
 
-	public void setcantidadPag(int cantidadPag) {
+	public void setCantidadPag(int cantidadPag) {
 		this.cantidadPag = cantidadPag;
 	}
 
@@ -296,5 +304,21 @@ public class Libro {
 
 	public void setLibrosCompras(Set<LibroCompra> librosCompras) {
 		this.librosCompras = librosCompras;
+	}
+
+	public byte[] getBytesImagen() {
+		return bytesImagen;
+	}
+
+	public void setBytesImagen(byte[] bytesImagen) {
+		this.bytesImagen = bytesImagen;
+	}
+
+	public byte[] getBytesArchivo() {
+		return bytesArchivo;
+	}
+
+	public void setBytesArchivo(byte[] bytesArchivo) {
+		this.bytesArchivo = bytesArchivo;
 	}
 }

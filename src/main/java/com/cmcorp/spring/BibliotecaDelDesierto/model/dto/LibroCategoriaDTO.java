@@ -25,6 +25,7 @@
 package com.cmcorp.spring.BibliotecaDelDesierto.model.dto;
 
 import com.cmcorp.spring.BibliotecaDelDesierto.model.Libro;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -46,7 +47,10 @@ public class LibroCategoriaDTO {
     /**
      * List of categories
      */
-    private List<Integer> lista_categorias;
+    private List<Integer> listaCategorias;
+
+    private MultipartFile imagen;
+    private MultipartFile archivoPdf;
 
     /**
      * Constructor
@@ -59,12 +63,12 @@ public class LibroCategoriaDTO {
      * Constructor with params
      * @param libro
      * @param idioma_id
-     * @param lista_categorias
+     * @param listaCategorias
      */
-    public LibroCategoriaDTO(Libro libro, Integer idioma_id, List<Integer> lista_categorias) {
+    public LibroCategoriaDTO(Libro libro, Integer idioma_id, List<Integer> listaCategorias) {
         this.libro = libro;
         this.idioma_id = idioma_id;
-        this.lista_categorias = lista_categorias;
+        this.listaCategorias = listaCategorias;
     }
 
     public Libro getLibro() {
@@ -75,8 +79,8 @@ public class LibroCategoriaDTO {
         return idioma_id;
     }
 
-    public List<Integer> getLista_categorias() {
-        return lista_categorias;
+    public List<Integer> getListaCategorias() {
+        return listaCategorias;
     }
 
     public void setLibro(Libro libro) {
@@ -87,7 +91,24 @@ public class LibroCategoriaDTO {
         this.idioma_id = idioma_id;
     }
 
-    public void setLista_categorias(List<Integer> lista_categorias) {
-        this.lista_categorias = lista_categorias;
+    public void setListaCategorias(List<Integer> listaCategorias) {
+        this.listaCategorias = listaCategorias;
     }
+
+    public MultipartFile getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(MultipartFile imagen) {
+        this.imagen = imagen;
+    }
+
+    public MultipartFile getArchivoPdf() {
+        return archivoPdf;
+    }
+
+    public void setArchivoPdf(MultipartFile archivoPdf) {
+        this.archivoPdf = archivoPdf;
+    }
+
 }

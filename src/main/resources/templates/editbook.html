@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="zxx">
 
-<head>
+<head th:insert="fragments/header :: head">
 <meta charset="UTF-8" />
 <link th:href="@{/css/tabla.css}" rel="stylesheet" type="text/css">
 </head>
 
 <body onload="init();">
 
-	<header th:replace="fragments/header :: header"></header>
+	<header th:insert="fragments/header :: header"></header>
 
 	<!-- Start: Page Banner -->
 	<section class="page-banner services-banner">
 		<div class="container">
 			<div class="banner-header">
-				<h2>Registrar nuevo libro</h2>
+				<h2>Editar libro</h2>
 				<span class="underline center"></span>
-				<p class="lead">Ingresa un nuevo libro al sistema</p>
+				<p class="lead">Editar un libro en el sistema</p>
 			</div>
 			<div class="breadcrumb">
 				<ul>
 					<li><a href="@{/}">Mi cuenta</a></li>
-					<li>Registrar nuevo libro</li>
+					<li>Editar libro</li>
 				</ul>
 			</div>
 		</div>
@@ -39,32 +39,36 @@
 									<div class="entry-content">
 										<div class="woocommerce">
 											<form
-												th:action="@{../book/add}" th:object="${libroDTO}"
+												th:action="@{'/book/'+${libro.id}+'/update'}" th:object="${libroDTO}"
 												class="checkout woocommerce-checkout" method="post"
 												enctype="multipart/form-data"
-												name="register_newbook">
+												name="edit_book">
 												<div class="row">
 													<div id="customer_details">
 														<div class="col-xs-12 col-sm-12">
 															<div class="woocommerce-billing-fields">
-																<h2>Registra un nuevo libro</h2>
+																<h2>Edita un libro</h2>
 																<span class="underline left"></span>
 																<div class="row">
 																	<div class="billing-address-box">
 																		<div class="col-xs-12 col-sm-6">
 																			<p id="booktitle"
 																				class="form-row form-row form-row-first">
-																			<div class="alert alert-success text-center" role="alert" th:text="${success}" th:if="${success}"></div>
-																			<div class="alert alert-danger text-center" role="alert" th:text="${error}" th:if="${error}"></div>
-																			<label for="tbxTitle" class="field-label">Título</label>
-																				<input th:field="*{libro.nombre}" type="text" value="" autocomplete="title" placeholder="Título del libro" id="tbxTitle" name="title" class="input-text" title="Escriba a lo menos una letra" required>
+																				<label for="tbxTitle" class="field-label">Título</label>
+																				<input th:value="${libro.nombre}" type="text"
+																					autocomplete="title" placeholder="Título del libro"
+																					id="tbxTitle" name="title"
+																					class="input-text" readonly>
 																			</p>
 																		</div>
 																		<div class="col-xs-12 col-sm-6">
 																			<p id="bookeditorial"
 																				class="form-row form-row form-row-last validate-required">
 																				<label for="tbxEditorial" class="field-label">Editorial</label>
-																				<input th:field="*{libro.editorial}" type="text" value="" autocomplete="editorial" placeholder="Editorial" id="tbxEditorial" name="editorial" class="input-text" title="Escriba a lo menos una letra" required>
+																				<input th:value="${libro.editorial}" type="text"
+																					autocomplete="editorial" placeholder="Editorial"
+																					id="tbxEditorial" name="editorial"
+																					class="input-text" readonly>
 																			</p>
 																		</div>
 																		<div class="clear"></div>
@@ -72,42 +76,51 @@
 																			<p id="autorname"
 																				class="form-row form-row form-row-wide">
 																				<label for="tbxAutor" class="field-label">Autor</label>
-																				<input th:field="*{libro.autor}" type="text" value="" autocomplete="autor" placeholder="Autor" name="autor" id="tbxAutor" class="input-text" title="Escriba a lo menos una letra" required>
+																				<input th:value="${libro.autor}" type="text" value=""
+																					autocomplete="autor"
+																					placeholder="Autor" name="autor"
+																					id="tbxAutor" class="input-text " readonly>
 																			</p>
 																		</div>
 																		<div class="col-xs-12 col-sm-6">
 																			<p id="skunumber"
 																				class="form-row form-row form-row-last validate-required">
 																				<label for="tbxSku" class="field-label">SKU</label>
-																				<input th:field="*{libro.sku}" type="text" value="" placeholder="SKU" name="sku" id="tbxSku" class="input-text" pattern="[0-9]{12}" maxlength="12" title="Escriba 12 caracteres, con solo números" required>
+																				<input th:value="${libro.sku}" type="text" value=""
+																					placeholder="SKU" name="sku"
+																					id="tbxSku" class="input-text" readonly>
 																			</p>
 																		</div>
 																		<div class="col-xs-12 col-sm-6">
 																			<p id="isbnnumber"
 																				class="form-row form-row form-row-last validate-required">
 																				<label for="tbxIsbn" class="field-label">ISBN</label>
-																				<input th:field="*{libro.isbn}" type="text" name="isbn" placeholder="ISBN" value="" id="tbxIsbn" class="input-text " pattern="[0-9]{13}" title="Escriba 13 caracteres, con solo números" maxlength="13" required>
+																				<input th:value="${libro.isbn}" type="text" name="isbn"
+																					placeholder="ISBN" value=""
+																					id="tbxIsbn" class="input-text " readonly>
 																			</p>
 																		</div>
 																		<div class="col-xs-12 col-sm-2">
 																			<p id="numberbooks"
 																				class="form-row form-row form-row-last validate-required">
 																				<label for="tbxStock" class="field-label">Stock</label>
-																				<input th:field="*{libro.stock}" type="number" value="" placeholder="Cantidad de libros" id="tbxStock" name="books" class="input-text" title="Escriba un número mayor a 0" required>
+																				<input  th:value="${libro.stock}" type="number" value="" placeholder="Cantidad de libros" th:id="libro.stock" th:name="libro.stock" class="input-text" id="tbxStock">
 																			</p>
 																		</div>																		
 																		<div class="col-xs-12 col-sm-2">
 																			<p id="numberpages"
 																				class="form-row form-row form-row-last validate-required">
 																				<label for="tbxCantPags" class="field-label">Cantidad páginas</label>
-																				<input th:field="*{libro.cantidadPag}" type="number" value="" placeholder="Cantidad de páginas" id="tbxCantPags"	name="pages" class="input-text" title="Escriba un número mayor a 0" required>
+																				<input th:value="${libro.cantidadPag}" type="number" value=""
+																					placeholder="Cantidad de páginas" id="tbxCantPags"
+																					name="pages" class="input-text " readonly>
 																			</p>
 																		</div>
 																		<div class="col-xs-12 col-sm-2">
 																			<p id="bookprice"
 																				class="form-row form-row form-row-last validate-required">
 																				<label for="tbxPrecio" class="field-label">Precio</label>
-																				<input th:field="*{libro.precio}" type="tel" value="" autocomplete="price" placeholder="Precio (CLP)" id="tbxPrecio" name="price" class="input-text" title="Escriba un número mayor a 0" required>
+																				<input  th:value="${libro.precio}" type="tel" value="" autocomplete="price" placeholder="Precio (CLP)" id="tbxPrecio" th:name="libro.precio" th:id="libro.precio" class="input-text ">
 																			</p>																																																					
 																		</div>
 																		<div class="col-xs-12 col-sm-3">
@@ -122,8 +135,10 @@
 																				<tbody>
 																				<th:block th:each="categoria : ${categorias}">
 																					<tr>
-																						<td class="seleccion"><input type="checkbox" th:id="${categoria.id}" th:value="${{categoria.id}}" th:field="*{listaCategorias}"></td>
-																						<td class="categoria"><label th:for="${categoria.id}" th:text="${categoria.nombre}"></label></td>
+																						<td th:with="condition=${#lists.contains(categoriasLibro, categoria.id)}">
+																							<input type="checkbox" th:name="listaCategorias" th:value="${{categoria.id}}" th:checked="${condition}">
+																						</td>
+																						<td class="categoria"><label th:text="${categoria.nombre}"></label></td>
 																					</tr>
 																				</th:block>
 																				</tbody>
@@ -133,18 +148,18 @@
 																		<div class="col-xs-12 col-sm-3">
 																			<p id="booklanguage"
 																				class="form-row form-row form-row-last validate-required">
+																				<label for="selectIdioma" class="field-label">Idioma</label>
 																				<select th:field="*{idioma_id}" id="selectIdioma" name="selectIdioma" data-name="selectIdioma" class="w-select">
-																					<option value="-1" selected="selected">Seleccione Idioma</option>
-																					<option th:each="idioma : ${idiomas}" th:value="${idioma.id}" th:text="${idioma.nombre}"></option>
+																					<option th:value="${idioma.id}" th:text="${idioma.nombre}" selected></option>
 																				</select>
 
 																			</p>
 																		</div>	
-																		<div class="col-xs-12 col-sm-6">
+																		<!--<div class="col-xs-12 col-sm-6">
 																			<p id="bookcover"
 																				class="form-row form-row form-row-last validate-required">
-																				<label for="cover">Elige la carátula para el libro</label>
-																				<input th:field="*{imagen}" type="file" value="" placeholder="Carátula" id="cover" name="cover" accept="image/png, image/jpeg" required>
+																				<label for="cover">Carátula libro</label>
+																				<input th:field="*{imagen}" type="file" value="" placeholder="Carátula" id="cover" name="cover">
 																				<small>.jpeg, .jpg, .png</small>
 																			</p>
 																		</div>
@@ -152,13 +167,13 @@
 																			<p id="bookfile"
 																				class="form-row form-row form-row-last validate-required">
 																				<label for="file">Sube el libro en formato digital</label>
-																				<input th:field="*{archivoPdf}" type="file" value="" placeholder="Archivo" id="file" name="file" accept="application/pdf" required>
+																				<input th:field="*{archivoPdf}" type="file" value="" placeholder="Archivo" id="file" name="file">
 																				<small>.pdf</small>
-																			</p>																																																					
-																		</div>																				
+																			</p>
+																		</div>-->
 	                                                                    <div class="col-sm-12">
 	                                                                        <div class="form-group">
-																				<textarea class="form-control" placeholder="Escribe aqui la reseña" id="review" name="review" aria-required="true" style="resize:vertical" th:field="*{libro.resenia}"></textarea>
+	                                                                            <textarea class="form-control" placeholder="Escribe aqui la reseña" th:id="libro.resenia" th:name="libro.resenia" aria-required="true" style="resize:vertical" th:text="${libro.resenia}" th:value="${libro.resenia}"></textarea>
 	                                                                            <div class="clearfix"></div>
 	                                                                        </div>
 	                                                                    </div>																																		
@@ -192,54 +207,4 @@
 	<span></span>
 	
 	<footer th:replace="fragments/footer :: footer"> </footer>
-
-	<script>
-		var observe;
-		if (window.attachEvent) {
-			observe = function (element, event, handler) {
-				element.attachEvent('on'+event, handler);
-			};
-		}
-		else {
-			observe = function (element, event, handler) {
-				element.addEventListener(event, handler, false);
-			};
-		}
-		function init () {
-			var text = document.getElementById('review');
-			function resize () {
-				text.style.height = 'auto';
-				text.style.height = text.scrollHeight+'px';
-			}
-			/* 0-timeout to get the already changed text */
-			function delayedResize () {
-				window.setTimeout(resize, 0);
-			}
-			observe(text, 'change',  resize);
-			observe(text, 'cut',     delayedResize);
-			observe(text, 'paste',   delayedResize);
-			observe(text, 'drop',    delayedResize);
-			observe(text, 'keydown', delayedResize);
-
-			resize();
-		}
-	</script>
-	<script>
-		var $table = $('table.scroll'),
-				$bodyCells = $table.find('tbody tr:first').children(),
-				colWidth;
-
-		// Adjust the width of thead cells when window resizes
-		$(window).resize(function() {
-			// Get the tbody columns width array
-			colWidth = $bodyCells.map(function() {
-				return $(this).width();
-			}).get();
-
-			// Set the width of thead columns
-			$table.find('thead tr').children().each(function(i, v) {
-				$(v).width(colWidth[i]);
-			});
-		}).resize(); // Trigger resize handler
-	</script>
 </body>
