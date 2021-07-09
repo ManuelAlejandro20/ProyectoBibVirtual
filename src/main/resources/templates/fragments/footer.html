@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx" xlms:th="http://www.thymeleaf.org"
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org"
 				 xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <body>
@@ -31,7 +31,7 @@
                     <div class="col-md-9 pull-right" sec:authorize="hasRole('ROLE_ADMIN')">
                         <ul>
                             <li><a th:href="@{/myaccount}">Mi cuenta</a></li>
-                            <li><a th:href="@{/myaccount}">Registrar nuevo libro</a></li>
+                            <li><a th:href="@{/book/create}">Registrar nuevo libro</a></li>
                             <li><a th:href="@{bookgrid}">Libros disponibles</a></li>
                             <li><a th:href="@{users}">Lista de usuarios</a></li>
                         </ul>
