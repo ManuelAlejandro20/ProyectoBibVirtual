@@ -37,7 +37,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
@@ -261,9 +260,18 @@ public class ControladorLibro {
     }
 
     @GetMapping("/book/{id}/edit")
-    public String editar(@PathVariable Integer id, Model model){
+    public String editar(@PathVariable Integer id, Model model, RedirectAttributes redirAttrs){
 
-        Libro libro = servicioLibro.getLibroXId(id);
+        Libro libro = null;
+
+        try {
+            libro = servicioLibro.getLibroXId(id);
+        }
+        catch (Exception e) {
+            redirAttrs.addFlashAttribute("error", "No existe ningun libro asociado a ese id");
+            return "redirect:/book/create";
+        }
+
         LibroCategoriaDTO libroDTO = new LibroCategoriaDTO();
         List<Integer> categoriasLibro = new ArrayList<Integer>();
 
