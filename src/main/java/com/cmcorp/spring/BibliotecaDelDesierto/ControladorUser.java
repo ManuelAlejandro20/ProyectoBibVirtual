@@ -184,12 +184,7 @@ public class ControladorUser {
     	
     	return "/myaccount";
 	}    
-    
-    @GetMapping("/newbook")
-    public String newbook() {
-    	return("/newbook");
-    }    
-    
+        
     @GetMapping("/checkout")
     public String checkout(Model model) {
     	return("/checkout");

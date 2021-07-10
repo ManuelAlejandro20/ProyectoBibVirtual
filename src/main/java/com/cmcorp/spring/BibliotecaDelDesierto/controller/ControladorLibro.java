@@ -48,255 +48,224 @@ import java.util.Base64;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-
 @Controller
 public class ControladorLibro {
 
+	private final ServicioLibro servicioLibro;
+	private final ServicioCategoria servicioCategoria;
+	private final ServicioIdioma servicioIdioma;
 
-    private final ServicioLibro servicioLibro;
-    private final ServicioCategoria servicioCategoria;
-    private final ServicioIdioma servicioIdioma;
+	@Autowired
+	public ControladorLibro(ServicioLibro servicioLibro, ServicioCategoria servicioCategoria,
+			ServicioIdioma servicioIdioma) {
+		this.servicioLibro = servicioLibro;
+		this.servicioCategoria = servicioCategoria;
+		this.servicioIdioma = servicioIdioma;
+	}
 
-    @Autowired
-    public ControladorLibro(ServicioLibro servicioLibro, ServicioCategoria servicioCategoria,
-                            ServicioIdioma servicioIdioma){
-        this.servicioLibro = servicioLibro;
-        this.servicioCategoria = servicioCategoria;
-        this.servicioIdioma = servicioIdioma;
-    }
+	@GetMapping("/books")
+	public List<Libro> getAll() {
+		return servicioLibro.listaLibros();
+	}
 
-    @GetMapping("/books")
-    public List<Libro> getAll() {
-        return servicioLibro.listaLibros();
-    }
+	@GetMapping("/books/byautor/{autor}")
+	public List<Libro> getAllXAutor(@PathVariable(value = "autor") String autor) {
+		return servicioLibro.getLibrosXAutor(autor);
+	}
 
-    @GetMapping("/books/byautor/{autor}")
-    public List<Libro> getAllXAutor(@PathVariable(value = "autor") String autor){
-        return servicioLibro.getLibrosXAutor(autor);
-    }
+	@GetMapping("/books/byidioma/{idiomaId}")
+	public List<Libro> getAllXIdioma(@PathVariable(value = "idiomaId") Integer idiomaId) {
+		return servicioLibro.getLibrosXIdioma(idiomaId);
+	}
 
-    @GetMapping("/books/byidioma/{idiomaId}")
-    public List<Libro> getAllXIdioma(@PathVariable(value = "idiomaId") Integer idiomaId){
-        return servicioLibro.getLibrosXIdioma(idiomaId);
-    }
+	@GetMapping("/books/bycategorias")
+	public List<Libro> getAllXCategorias(@RequestBody LibroCategoriaDTO libroCategoriaDTO) {
+		List<Integer> listaIdCategorias = libroCategoriaDTO.getListaCategorias();
+		return servicioLibro.getLibrosXCategorias(listaIdCategorias);
+	}
 
-    @GetMapping("/books/bycategorias")
-    public List<Libro> getAllXCategorias(@RequestBody LibroCategoriaDTO libroCategoriaDTO){
-        List<Integer> listaIdCategorias = libroCategoriaDTO.getListaCategorias();
-        return servicioLibro.getLibrosXCategorias(listaIdCategorias);
-    }
+	@GetMapping("/book/byid/{id}")
+	public ResponseEntity<Libro> getXId(@PathVariable Integer id) {
+		try {
+			Libro usuario = servicioLibro.getLibroXId(id);
+			return new ResponseEntity<Libro>(usuario, HttpStatus.OK);
+		} catch (NoSuchElementException e) {
+			return new ResponseEntity<Libro>(HttpStatus.NOT_FOUND);
+		}
+	}
 
-    @GetMapping("/book/byid/{id}")
-    public ResponseEntity<Libro> getXId(@PathVariable Integer id){
-        try {
-            Libro usuario = servicioLibro.getLibroXId(id);
-            return new ResponseEntity<Libro>(usuario, HttpStatus.OK);
-        }
-        catch (NoSuchElementException e){
-            return new ResponseEntity<Libro>(HttpStatus.NOT_FOUND);
-        }
-    }
+	@GetMapping("/book/bysku/{sku}")
+	public ResponseEntity<Libro> getXSku(@PathVariable String sku) {
+		try {
+			Libro usuario = servicioLibro.getLibroXSku(sku);
+			return new ResponseEntity<Libro>(usuario, HttpStatus.OK);
+		} catch (NoSuchElementException e) {
+			return new ResponseEntity<Libro>(HttpStatus.NOT_FOUND);
+		}
+	}
 
-    @GetMapping("/book/bysku/{sku}")
-    public ResponseEntity<Libro> getXSku(@PathVariable String sku){
-        try {
-            Libro usuario = servicioLibro.getLibroXSku(sku);
-            return new ResponseEntity<Libro>(usuario, HttpStatus.OK);
-        }
-        catch (NoSuchElementException e){
-            return new ResponseEntity<Libro>(HttpStatus.NOT_FOUND);
-        }
-    }
+	@GetMapping("/book/byisbn/{isbn}")
+	public ResponseEntity<Libro> getXIsbn(@PathVariable String isbn) {
+		try {
+			Libro libro = servicioLibro.getLibroXIsbn(isbn);
+			return new ResponseEntity<Libro>(libro, HttpStatus.OK);
+		} catch (NoSuchElementException e) {
+			return new ResponseEntity<Libro>(HttpStatus.NOT_FOUND);
+		}
+	}
 
-    @GetMapping("/book/byisbn/{isbn}")
-    public ResponseEntity<Libro> getXIsbn(@PathVariable String isbn){
-        try {
-            Libro libro = servicioLibro.getLibroXIsbn(isbn);
-            return new ResponseEntity<Libro>(libro, HttpStatus.OK);
-        }
-        catch (NoSuchElementException e){
-            return new ResponseEntity<Libro>(HttpStatus.NOT_FOUND);
-        }
-    }
+	@PostMapping("/book/{id}/update")
+	public String update(LibroCategoriaDTO libroDTO, @PathVariable Integer id, RedirectAttributes redirAttrs) {
+		try {
+			Libro libroExistente = servicioLibro.getLibroXId(id);
 
-    @PostMapping("/book/{id}/update")
-    public String update(LibroCategoriaDTO libroDTO, @PathVariable Integer id, RedirectAttributes redirAttrs) {
-        try {
-            Libro libroExistente = servicioLibro.getLibroXId(id);
+			Libro libro = libroDTO.getLibro();
+			if (libroDTO.getListaCategorias().isEmpty()) {
+				redirAttrs.addFlashAttribute("error", "Debe seleccionar al menos una categoría");
+			} else if (libro.getPrecio() <= 0) {
+				redirAttrs.addFlashAttribute("error", "El precio debe ser mayor a cero");
+			} else {
 
-            Libro libro = libroDTO.getLibro();
-            if (libroDTO.getListaCategorias().isEmpty()) {
-                redirAttrs.addFlashAttribute("error", "Debe seleccionar al menos una categoría");
-            } else if (libro.getPrecio() <= 0) {
-                redirAttrs.addFlashAttribute("error", "El precio debe ser mayor a cero");
-            } else {
+				if (libro.getResenia().isEmpty()) {
+					redirAttrs.addFlashAttribute("error", "Debe escribir al menos una letra en la reseña del libro");
+				}
+				libroExistente.setResenia(libro.getResenia());
+				libroExistente.setStock(libro.getStock());
+				libroExistente.setPrecio(libro.getPrecio());
 
-                if (libro.getResenia().isEmpty()) {
-                    redirAttrs.addFlashAttribute("error", "Debe escribir al menos una letra en la reseña del libro");
-                }
-                libroExistente.setResenia(libro.getResenia());
-                libroExistente.setStock(libro.getStock());
-                libroExistente.setPrecio(libro.getPrecio());
+				List<Integer> id_categorias = libroDTO.getListaCategorias();
 
-                List<Integer> id_categorias = libroDTO.getListaCategorias();
+				libroExistente.getCategorias().clear();
 
-                libroExistente.getCategorias().clear();
+				for (Integer id_categoria : id_categorias) {
+					Categoria categoria = servicioCategoria.getCategoriaXId(id_categoria);
+					libroExistente.getCategorias().add(categoria);
+				}
 
-                for (Integer id_categoria : id_categorias) {
-                    Categoria categoria = servicioCategoria.getCategoriaXId(id_categoria);
-                    libroExistente.getCategorias().add(categoria);
-                }
+				servicioLibro.saveLibro(libroExistente);
+				redirAttrs.addFlashAttribute("success",
+						"El libro " + libroExistente.getNombre() + " se ha registrado correctamente");
+			}
+			return "redirect:/book/" + id + "/edit";
+		} catch (NoSuchElementException e) {
+			redirAttrs.addFlashAttribute("error", "Error al intentar editar los datos del libro");
+			return "redirect:/book/" + id + "/edit";
+		}
+	}
 
-                servicioLibro.saveLibro(libroExistente);
-                redirAttrs.addFlashAttribute("success", "El libro " + libroExistente.getNombre() + " se ha registrado correctamente");
-            }
-            return "redirect:/book/"+id+"/edit";
-        }
-        catch(NoSuchElementException e) {
-            redirAttrs.addFlashAttribute("error", "Error al intentar editar los datos del libro");
-            return "redirect:/book/"+id+"/edit";
-        }
-    }
+	@DeleteMapping("/book/delete/{id}")
+	public void delete(@PathVariable Integer id) {
+		servicioLibro.deleteLibro(id);
+	}
 
-    @DeleteMapping("/book/delete/{id}")
-    public void delete(@PathVariable Integer id){
-        servicioLibro.deleteLibro(id);
-    }
+	@PostMapping(value = "/book/add", consumes = "multipart/form-data")
+	public String addLibro(LibroCategoriaDTO libroDTO, RedirectAttributes redirAttrs) {
 
-    @PostMapping(value = "/book/add", consumes = "multipart/form-data")
-    public String addLibro(LibroCategoriaDTO libroDTO, RedirectAttributes redirAttrs) {
+		Libro libro = libroDTO.getLibro();
 
-        Libro libro = libroDTO.getLibro();
+		if (servicioLibro.titleUsed(libro.getNombre())) {
+			redirAttrs.addFlashAttribute("error", "El título ingresado ya se encuentra en uso, intente nuevamente");
+		} else if (servicioLibro.fileUsed(libroDTO.getImagen().getOriginalFilename())) {
+			redirAttrs.addFlashAttribute("error", "La imagen de portada ya se encuentra asociada a un libro");
+		} else if (servicioLibro.fileUsed(libroDTO.getArchivoPdf().getOriginalFilename())) {
+			redirAttrs.addFlashAttribute("error", "El archivo pdf ya se encuentra asociado a otro libro");
+		} else if (servicioLibro.isbnUsed(libro.getIsbn())) {
+			redirAttrs.addFlashAttribute("error", "El código ISBN ya se encuentra en uso, intente nuevamente");
+		} else if (servicioLibro.skuUsed(libro.getSku())) {
+			redirAttrs.addFlashAttribute("error", "El SKU ingresado ya se encuentra en uso, intente nuevamente");
+		}
 
-        if (servicioLibro.isbnUsed(libro.getIsbn())) {
-            redirAttrs.addFlashAttribute("error", "El código ISBN ya se encuentra en uso, intente nuevamente");
-        } else if (servicioLibro.titleUsed(libro.getNombre())) {
-            redirAttrs.addFlashAttribute("error", "El título ingresado ya se encuentra en uso, intente nuevamente");
-        } else {
-            if (servicioLibro.skuUsed(libro.getSku())) {
-                redirAttrs.addFlashAttribute("error", "El SKU ingresado ya se encuentra en uso, intente nuevamente");
-            } else if (libro.getResenia().isEmpty()) {
-                redirAttrs.addFlashAttribute("error", "Debe escribir al menos una letra en la reseña del libro");
-            }
-            else {
-                if (libroDTO.getImagen().isEmpty()) {
-                    redirAttrs.addFlashAttribute("error", "Debe agegar un archivo para la portada del libro, intente nuevamente");
-                } else if (libroDTO.getArchivoPdf().isEmpty()) {
-                    redirAttrs.addFlashAttribute("error", "Debe agegar un archivo pdf del libro, intente nuevamente");
-                } else {
-                    if (servicioLibro.fileUsed(libroDTO.getImagen().getOriginalFilename())) {
-                        redirAttrs.addFlashAttribute("error", "La imagen de portada ya se encuentra asociada a un libro");
-                    } else if (servicioLibro.fileUsed(libroDTO.getArchivoPdf().getOriginalFilename())) {
-                        redirAttrs.addFlashAttribute("error", "El archivo pdf ya se encuentra asociado a otro libro");
-                    } else {
-                        if (libroDTO.getIdioma_id() == -1) {
-                            redirAttrs.addFlashAttribute("error", "Debe seleccionar un idioma");
-                        } else if (libroDTO.getListaCategorias().isEmpty()) {
-                            redirAttrs.addFlashAttribute("error", "Debe seleccionar al menos una categoría");
-                        } else {
-                            if (libro.getPrecio() <= 0) {
-                                redirAttrs.addFlashAttribute("error", "El precio debe ser mayor a cero");
-                            } else if (libro.getCantidadPag() <= 0) {
-                                redirAttrs.addFlashAttribute("error", "Las cantidad de pagínas debe ser mayor a cero");
-                            } else {
-                                if (libro.getStock() <= 0) {
-                                    redirAttrs.addFlashAttribute("error", "El stock debe ser mayor a cero");
-                                } else {
-                                    try {
-                                        MultipartFile imagen = libroDTO.getImagen();
-                                        byte[] bytes = imagen.getBytes();
-                                        libro.setNombreImagen(imagen.getOriginalFilename());
-                                        libro.setBytesImagen(bytes);
-                                    } catch (Exception e) {
-                                        redirAttrs.addFlashAttribute("error", "Ocurrio un error al guardar la imagen " + libroDTO.getImagen().getOriginalFilename());
-                                        return "redirect:/book/create";
-                                    }
+		else {
+			try {
+				MultipartFile imagen = libroDTO.getImagen();
+				byte[] bytes = imagen.getBytes();
+				libro.setNombreImagen(imagen.getOriginalFilename());
+				libro.setBytesImagen(bytes);
+			} catch (Exception e) {
+				redirAttrs.addFlashAttribute("error",
+						"Ocurrio un error al guardar la imagen " + libroDTO.getImagen().getOriginalFilename());
+				return "redirect:/book/create";
+			}
 
-                                    try {
-                                        MultipartFile archivoPdf = libroDTO.getArchivoPdf();
-                                        byte[] bytes = archivoPdf.getBytes();
-                                        libro.setNombreArchivo(archivoPdf.getOriginalFilename());
-                                        libro.setBytesArchivo(bytes);
-                                    } catch (Exception e) {
-                                        redirAttrs.addFlashAttribute("error", "Ocurrio un error al guardar el archivo pdf " + libroDTO.getArchivoPdf().getOriginalFilename());
-                                        return "redirect:/book/create";
-                                    }
-                                    Idioma idioma = servicioIdioma.getIdiomaXId(libroDTO.getIdioma_id());
-                                    libro.setIdioma(idioma);
+			try {
+				MultipartFile archivoPdf = libroDTO.getArchivoPdf();
+				byte[] bytes = archivoPdf.getBytes();
+				libro.setNombreArchivo(archivoPdf.getOriginalFilename());
+				libro.setBytesArchivo(bytes);
+			} catch (Exception e) {
+				redirAttrs.addFlashAttribute("error",
+						"Ocurrio un error al guardar el archivo pdf " + libroDTO.getArchivoPdf().getOriginalFilename());
+				return "redirect:/book/create";
+			}
+			Idioma idioma = servicioIdioma.getIdiomaXId(libroDTO.getIdioma_id());
+			libro.setIdioma(idioma);
 
-                                    List<Integer> idCategorias = libroDTO.getListaCategorias();
+			List<Integer> idCategorias = libroDTO.getListaCategorias();
 
-                                    for (Integer id : idCategorias) {
-                                        Categoria categoria = servicioCategoria.getCategoriaXId(id);
-                                        libro.getCategorias().add(categoria);
-                                    }
+			for (Integer id : idCategorias) {
+				Categoria categoria = servicioCategoria.getCategoriaXId(id);
+				libro.getCategorias().add(categoria);
+			}
 
-                                    servicioLibro.saveLibro(libro);
+			servicioLibro.saveLibro(libro);
 
-                                    redirAttrs.addFlashAttribute("success", "El libro " + libro.getNombre() + " se ha registrado correctamente");
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return "redirect:/book/create";
-    }
+			redirAttrs.addFlashAttribute("success",
+					"El libro " + libro.getNombre() + " se ha registrado correctamente");
+		}
+		return "redirect:/book/create";
+	}
 
-    @GetMapping("/book/create")
-    public String crear(Model model){
+	@GetMapping("/book/create")
+	public String crear(Model model) {
 
-        LibroCategoriaDTO libroDTO = new LibroCategoriaDTO();
-        libroDTO.setLibro(new Libro());
-        List<Idioma> listIdiomas = servicioIdioma.listaIdiomas();
-        List<Categoria> listCategorias = servicioCategoria.listaCategorias();
+		LibroCategoriaDTO libroDTO = new LibroCategoriaDTO();
+		libroDTO.setLibro(new Libro());
+		List<Idioma> listIdiomas = servicioIdioma.listaIdiomas();
+		List<Categoria> listCategorias = servicioCategoria.listaCategorias();
 
-        model.addAttribute("libroDTO", libroDTO);
-        model.addAttribute("idiomas", listIdiomas);
-        model.addAttribute("categorias", listCategorias);
+		model.addAttribute("libroDTO", libroDTO);
+		model.addAttribute("idiomas", listIdiomas);
+		model.addAttribute("categorias", listCategorias);
 
-        return "/newbook";
-    }
+		return "/newbook";
+	}
 
-    @GetMapping("/book/{id}/edit")
-    public String editar(@PathVariable Integer id, Model model, RedirectAttributes redirAttrs){
+	@GetMapping("/book/{id}/edit")
+	public String editar(@PathVariable Integer id, Model model, RedirectAttributes redirAttrs) {
 
-        Libro libro = null;
+		Libro libro = null;
 
-        try {
-            libro = servicioLibro.getLibroXId(id);
-        }
-        catch (Exception e) {
-            redirAttrs.addFlashAttribute("error", "No existe ningun libro asociado a ese id");
-            return "redirect:/book/create";
-        }
+		try {
+			libro = servicioLibro.getLibroXId(id);
+		} catch (Exception e) {
+			redirAttrs.addFlashAttribute("error", "No existe ningun libro asociado a ese id");
+			return "redirect:/book/create";
+		}
 
-        LibroCategoriaDTO libroDTO = new LibroCategoriaDTO();
-        List<Integer> categoriasLibro = new ArrayList<Integer>();
+		LibroCategoriaDTO libroDTO = new LibroCategoriaDTO();
+		List<Integer> categoriasLibro = new ArrayList<Integer>();
 
-        for (Categoria categoria : libro.getCategorias())
-        {
-            categoriasLibro.add(categoria.getId());
-        }
+		for (Categoria categoria : libro.getCategorias()) {
+			categoriasLibro.add(categoria.getId());
+		}
 
-        model.addAttribute("libroDTO", libroDTO);
-        model.addAttribute("libro", libro);
-        model.addAttribute("categoriasLibro", categoriasLibro);
-        model.addAttribute("categorias", servicioCategoria.listaCategorias());
-        model.addAttribute("idioma", libro.getIdioma());
-        model.addAttribute("base64Image", Base64.getEncoder().encodeToString(libro.getBytesImagen()));
+		model.addAttribute("libroDTO", libroDTO);
+		model.addAttribute("libro", libro);
+		model.addAttribute("categoriasLibro", categoriasLibro);
+		model.addAttribute("categorias", servicioCategoria.listaCategorias());
+		model.addAttribute("idioma", libro.getIdioma());
+		model.addAttribute("base64Image", Base64.getEncoder().encodeToString(libro.getBytesImagen()));
 
-        return "/editbook";
-    }
+		return "/editbook";
+	}
 
-    @GetMapping("/book/image/{id}")
-    public void showBookImage(@PathVariable Integer id, HttpServletResponse response) throws IOException {
-        response.setContentType("image/png");
+	@GetMapping("/book/image/{id}")
+	public void showBookImage(@PathVariable Integer id, HttpServletResponse response) throws IOException {
+		response.setContentType("image/png");
 
-        Libro libro = servicioLibro.getLibroXId(id);
+		Libro libro = servicioLibro.getLibroXId(id);
 
-        InputStream is = new ByteArrayInputStream(libro.getBytesImagen());
-        IOUtils.copy(is, response.getOutputStream());
-    }
+		InputStream is = new ByteArrayInputStream(libro.getBytesImagen());
+		IOUtils.copy(is, response.getOutputStream());
+	}
 }

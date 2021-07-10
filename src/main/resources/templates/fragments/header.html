@@ -224,16 +224,16 @@
                             <div class="navbar-collapse hidden-sm hidden-xs" sec:authorize="hasRole('ROLE_ADMIN')">
                                 <ul class="nav navbar-nav">
                                     <li class="dropdown active">
-                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{myaccount}">Mi cuenta</a>
+                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{/myaccount}">Mi cuenta</a>
                                     </li>
                                     <li class="dropdown">
-                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{newbook}">Registrar nuevo libro</a>
+                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{book/create}">Registrar nuevo libro</a>
                                     </li>                                    
                                     <li class="dropdown">
-                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{bookgrid}">Libros disponibles</a>
+                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{/bookgrid}">Libros disponibles</a>
                                     </li>                                    
                                     <li class="dropdown">
-                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{users}">Lista de usuarios</a>
+                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{/users}">Lista de usuarios</a>
                                     </li>                                    
                                 </ul>
                             </div>                                                     

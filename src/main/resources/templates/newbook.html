@@ -73,7 +73,7 @@
 																			<p id="skunumber"
 																				class="form-row form-row form-row-last validate-required">
 																				<label for="tbxSku" class="field-label">SKU</label>
-																				<input th:field="*{libro.sku}" type="text" value="" placeholder="SKU" name="sku" id="tbxSku" class="input-text" pattern="[0-9]{12}" maxlength="12" title="Escriba 12 caracteres, con solo números" required>
+																				<input th:field="*{libro.sku}" type="text" value="" placeholder="SKU" name="sku" id="tbxSku" class="input-text" pattern="[0-9]{8,12}" maxlength="12" title="Escriba entre 8 y 12 caracteres, con solo números" required>
 																			</p>
 
 																			<p id="isbnnumber"
@@ -85,13 +85,13 @@
 																			<p id="numberbooks"
 																				class="form-row form-row form-row-last validate-required">
 																				<label for="tbxStock" class="field-label">Stock</label>
-																				<input th:field="*{libro.stock}" type="number" value="" placeholder="Cantidad de libros" id="tbxStock" name="books" class="input-text" title="Escriba un número mayor a 0" required>
+																				<input th:field="*{libro.stock}" type="number" value="" placeholder="Cantidad de libros" id="tbxStock" min="1" name="books" class="input-text" title="Escriba un número mayor a 0" required>
 																			</p>
 
 																			<p id="numberpages"
 																				class="form-row form-row form-row-last validate-required">
 																				<label for="tbxCantPags" class="field-label">Cantidad páginas</label>
-																				<input th:field="*{libro.cantidadPag}" type="number" value="" placeholder="Cantidad de páginas" id="tbxCantPags"	name="pages" class="input-text" title="Escriba un número mayor a 0" required>
+																				<input th:field="*{libro.cantidadPag}" type="number" value="" placeholder="Cantidad de páginas" id="tbxCantPags" min="1" name="pages" class="input-text" title="Escriba un número mayor a 0" required>
 																			</p>
 
 																			<p id="bookprice"
@@ -102,27 +102,28 @@
 
 																			<p id="bookcategory"
 																				class="form-row form-row form-row-last validate-required">
-																			<table id="selectCategoria" class="table scroll table-striped table-bordered table-sm" cellspacing="0"
-																				   width="100%">
+																			<table id="selectCategoria" class="table scroll table-striped table-sm" cellspacing="0"
+																				   style="border:0px;width:100%">
 																				<thead>
-																				<th class="seleccion">Selección</th>
-																				<th class="categoria">Categoría</th>
+																				<th class="seleccion" style="border-bottom: 0px;border-right:0px"></th>
+																				<th class="categoria" style="border-bottom: 0px">Categoría(s)</th>
+																				
 																				</thead>
 																				<tbody>
 																				<th:block th:each="categoria : ${categorias}">
 																					<tr>
-																						<td class="seleccion"><input type="checkbox" th:id="${categoria.id}" th:value="${{categoria.id}}" th:field="*{listaCategorias}"></td>
-																						<td class="categoria"><label th:for="${categoria.id}" th:text="${categoria.nombre}"></label></td>
+																						<td class="seleccion" style="border-right:0px;border-top:0px;width:2%"><input type="checkbox" th:id="${categoria.id}" th:value="${{categoria.id}}" th:field="*{listaCategorias}"></td>
+																						<td class="categoria" style="border-top:0px;width:98%"><label th:for="${categoria.id}" th:text="${categoria.nombre}"></label></td>
 																					</tr>
 																				</th:block>
 																				</tbody>
 																			</table>
 																		</p>
-																		<p id="booklanguage"
+																		
+																			<p id="booklanguage"
 																				class="form-row form-row form-row-last validate-required">
 																			<label for="selectIdioma" class="field-label">Idioma</label>
-																			<select th:field="*{idioma_id}" id="selectIdioma" name="selectIdioma" data-name="selectIdioma" class="w-select">
-																					<option value="-1" selected="selected">Seleccione Idioma</option>
+																			<select th:field="*{idioma_id}" id="selectIdioma" name="selectIdioma" data-name="selectIdioma" class="w-select">																					
 																					<option th:each="idioma : ${idiomas}" th:value="${idioma.id}" th:text="${idioma.nombre}"></option>
 																				</select>
 
@@ -148,7 +149,7 @@
 	                                                                    </div>																																		</p>
 																		<div class="col-xs-12 col-sm-6">
 																			
-																			<input type="submit" class="btn btn-default" name="newbook" value="Registrar libro">
+																			<input id="registerBtn" type="submit" class="btn btn-default" name="newbook" value="Registrar libro" required>
 																		</div>																																		
 																	</div>
 																</div>
@@ -206,6 +207,32 @@
 
 			resize();
 		}
+		
+	 	$("#tbxStock").val("1");
+	 	$("#tbxCantPags").val("1");
+	
+		$(document).ready(function () {
+		    $('#registerBtn').click(function() {
+		      var checked = $("input[type=checkbox]:checked").length;
+		      var value=$.trim($("#review").val());
+		      var valuePrice=$.trim($("#tbxPrecio").val());
+		      if(valuePrice==0){
+		    	  alert("El precio no puede ser de 0.");
+		    	  return false		    	  		    	  
+		      }
+		      
+		      if(value.length==0)
+		      {
+		    	  alert("Una rese�a es requerida.");
+		    	  return false
+		      }
+		      if(!checked) {
+		        alert("Debes seleccionar por lo menos una categor�a.");
+		        return false;
+		      }	    
+		    });
+		});		
+		
 	</script>
 	<script>
 		var $table = $('table.scroll'),
