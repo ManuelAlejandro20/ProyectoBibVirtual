@@ -17,13 +17,21 @@
 - Virtual library designed to allow people buy books and read online without download this.
 
 ## Technologies Used
-- Android Studio 4.2.2
+- Spring - 2.4.5
+- Java   - 1.8
+- Lombok 
+- MariaDB - 2.7.3
 
 ## Installation
 
-##### Get Android Studio 
+##### Get Spring 2.4.5
+- https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html
 
-- https://developer.android.com/studio?hl=es-419&gclid=CjwKCAjw55-HBhAHEiwARMCszla1xAnIaaPZXNvZszr5sSUxoKWcMiba9Z1S9iKErVBzKhIy_qlnzxoCcSgQAvD_BwE&gclsrc=aw.ds 
+##### Get Lombok 
+- https://projectlombok.org/setup/eclipse  (For Eclipse Users)
+- https://projectlombok.org/setup/intellij (For IntellIJ Users)
+
+##### Add MariaDB dependency to your project
 
 ##### 
 ## Contact
