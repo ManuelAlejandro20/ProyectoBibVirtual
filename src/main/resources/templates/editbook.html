@@ -53,6 +53,8 @@
 
 																			<p id="booktitle"
 																				class="form-row form-row form-row-first">
+																		<div class="alert alert-success text-center" role="alert" th:text="${success}" th:if="${success}"></div>
+																		<div class="alert alert-danger text-center" role="alert" th:text="${error}" th:if="${error}"></div>
 																				<label for="tbxTitle" class="field-label">Título</label>
 																				<input th:value="${libro.nombre}" type="text"
 																					autocomplete="title" placeholder="Título del libro"
@@ -119,19 +121,18 @@
 
 																			<p id="bookcategory"
 																				class="form-row form-row form-row-last validate-required">
-																			<table id="selectCategoria" class="table scroll table-striped table-bordered table-sm" cellspacing="0"
-																				   width="100%">
+																		<table id="selectCategoria" class="table scroll table-striped table-sm" cellspacing="0" style="border:0px;width:100%">
 																				<thead>
-																				<th class="seleccion">Selección</th>
-																				<th class="categoria">Categoría</th>
+																				<th class="seleccion" style="border-bottom: 0px;border-right:0px"></th>
+																				<th class="categoria"  style="border-bottom: 0px;border-right:0px">Categoría(s)</th>
 																				</thead>
 																				<tbody>
 																				<th:block th:each="categoria : ${categorias}">
 																					<tr>
-																						<td th:with="condition=${#lists.contains(categoriasLibro, categoria.id)}">
+																						<td th:with="condition=${#lists.contains(categoriasLibro, categoria.id)}" style="border-right:0px;border-top:0px;width:2%">
 																							<input type="checkbox" th:name="listaCategorias" th:value="${{categoria.id}}" th:checked="${condition}">
 																						</td>
-																						<td class="categoria"><label th:text="${categoria.nombre}"></label></td>
+																						<td class="categoria" style="border-top:0px;width:98%"><label th:text="${categoria.nombre}"></label></td>
 																					</tr>
 																				</th:block>
 																				</tbody>
@@ -147,30 +148,36 @@
 
 																			</p>
 
-
-																		<!--	<p id="bookcover"
+																			<p id="bookcover"
 																				class="form-row form-row form-row-last validate-required">
-																				<label for="cover">Carátula libro</label>
-																				<input th:field="*{imagen}" type="file" value="" placeholder="Carátula" id="cover" name="cover">
-																				<small>.jpeg, .jpg, .png</small>
+																				<label for="imagenActual">Carátula libro</label>
+																		<div style="display: inline-block; vertical-align: center">
+																		<img th:src="@{'/book/'+${libro.id}} +'/image'" class="img-thumbnail" id="imagenActual"/><b><smal>remplazar imagen</smal></b>
+																		</div>
+
+																		<div style="display: inline-block">
+																		<input th:field="*{imagen}" type="file" value="" placeholder="Carátula" id="cover" name="cover" accept="image/png, image/jpg, image/jpeg">
+																		</div>
+																		</p>
+
+																		<p id="bookfile" class="form-row form-row form-row-last validate-required">
+																				<label for="file">Libro en formato digital</label>
+																			<iframe id="filePdf" th:src="@{'/book/'+${libro.id}+'/pdf'}"	frameborder="0" scrolling="auto" style="width:100%; height:400px;"></iframe>
+																			<b><smal>Remplazar pdf</smal></b>
+																				<input th:field="*{archivoPdf}" type="file" value="" placeholder="Archivo" id="file" name="file">
 																			</p>
 
-																			<p id="bookfile"
-																				class="form-row form-row form-row-last validate-required">
-																				<label for="file">Sube el libro en formato digital</label>
-																				<input th:field="*{archivoPdf}" type="file" value="" placeholder="Archivo" id="file" name="file">
-																				<small>.pdf</small>
-																			</p>-->
 																		<p>
-	                                                                    <div class="col-sm-12">
+																			<label for="resenia">Reseña</label>
+																		<div class="col-sm-12">
 	                                                                        <div class="form-group">
-	                                                                            <textarea class="form-control" placeholder="Escribe aqui la reseña" th:id="libro.resenia" th:name="libro.resenia" aria-required="true" style="resize:vertical" th:text="${libro.resenia}" th:value="${libro.resenia}"></textarea>
+	                                                                            <textarea class="form-control" placeholder="Escribe aqui la reseña" id="resenia" th:id="libro.resenia" th:name="libro.resenia" aria-required="true" style="resize:vertical" th:text="${libro.resenia}" th:value="${libro.resenia}"></textarea>
 	                                                                            <div class="clearfix"></div>
 	                                                                        </div>
 	                                                                    </div>																																		</p>
 																		<div class="col-xs-12 col-sm-6">
 																			
-																			<input type="submit" class="btn btn-default" name="newbook" value="Registrar libro">
+																			<input type="submit" class="btn btn-default" name="newbook" value="Editar libro">
 																		</div>
 																	</div>
 																</div>

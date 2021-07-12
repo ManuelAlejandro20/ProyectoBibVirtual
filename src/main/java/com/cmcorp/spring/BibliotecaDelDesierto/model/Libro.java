@@ -129,6 +129,7 @@ public class Libro {
 	@Column(name = "nombre_imagen",nullable = false, unique = true)
 	private String nombreImagen;
 
+	@JsonIgnore
 	@Lob
 	@Column(name = "datos_imagen", nullable = false)
 	private byte[] bytesImagen;
@@ -140,6 +141,7 @@ public class Libro {
 	@Column(name = "nombre_archivo",nullable = false, unique = true)
 	private String nombreArchivo;
 
+	@JsonIgnore
 	@Lob
 	@Column(name = "datos_archivo", nullable = false)
 	private byte[] bytesArchivo;

@@ -27,6 +27,8 @@ package com.cmcorp.spring.BibliotecaDelDesierto.service;
 import com.cmcorp.spring.BibliotecaDelDesierto.model.Libro;
 import com.cmcorp.spring.BibliotecaDelDesierto.repository.RepositorioLibro;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +51,10 @@ public class ServicioLibro {
      */
     public List<Libro> listaLibros(){
         return repositorioLibro.findAll();
+    }
+
+    public Page<Libro> findAll(Pageable pageable) {
+        return repositorioLibro.findAll(pageable);
     }
 
     /**

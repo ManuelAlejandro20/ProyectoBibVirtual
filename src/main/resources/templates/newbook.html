@@ -2,6 +2,7 @@
 <html lang="zxx">
 
 <head th:replace="fragments/header :: head">
+<meta charset="UTF-8"/>
 </head>
 
 <body onload="init();">
@@ -102,8 +103,7 @@
 
 																			<p id="bookcategory"
 																				class="form-row form-row form-row-last validate-required">
-																			<table id="selectCategoria" class="table scroll table-striped table-sm" cellspacing="0"
-																				   style="border:0px;width:100%">
+																			<table id="selectCategoria" class="table scroll table-striped table-sm" cellspacing="0" style="border:0px;width:100%">
 																				<thead>
 																				<th class="seleccion" style="border-bottom: 0px;border-right:0px"></th>
 																				<th class="categoria" style="border-bottom: 0px">Categoría(s)</th>
@@ -132,7 +132,7 @@
 																			<p id="bookcover"
 																				class="form-row form-row form-row-last validate-required">
 																				<label for="cover">Elige la carátula para el libro</label>
-																				<input th:field="*{imagen}" type="file" value="" placeholder="Carátula" id="cover" name="cover" accept="image/png, image/jpeg" required>
+																				<input th:field="*{imagen}" type="file" value="" placeholder="Carátula" id="cover" name="cover" accept="image/png, image/jpg, image/jpeg" required>
 																			</p>
 
 																			<p id="bookfile"
@@ -223,11 +223,11 @@
 		      
 		      if(value.length==0)
 		      {
-		    	  alert("Una rese�a es requerida.");
+		    	  alert("Una rese�a es requerida.");
 		    	  return false
 		      }
 		      if(!checked) {
-		        alert("Debes seleccionar por lo menos una categor�a.");
+		        alert("Debes seleccionar por lo menos una categor�a.");
 		        return false;
 		      }	    
 		    });
