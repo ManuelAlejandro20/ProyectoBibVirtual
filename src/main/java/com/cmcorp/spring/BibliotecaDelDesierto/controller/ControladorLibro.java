@@ -344,4 +344,10 @@ public class ControladorLibro {
 		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(libro.getBytesArchivo(), headers, HttpStatus.OK);
 		return response;
 	}
+
+	@GetMapping("/book/{id}/read")
+	public String readBook(@PathVariable Integer id, Model model) {
+		model.addAttribute("id", id);
+		return "readbook";
+	}
 }
