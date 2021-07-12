@@ -149,10 +149,12 @@ public class ControladorLibro {
 					}
 					else {
 						try {
-							MultipartFile imagen = libroDTO.getImagen();
-							byte[] bytes = imagen.getBytes();
-							libroExistente.setNombreImagen(imagen.getOriginalFilename());
-							libroExistente.setBytesImagen(bytes);
+							if (libroDTO.getImagen().getOriginalFilename() != "") {
+								MultipartFile imagen = libroDTO.getImagen();
+								byte[] bytes = imagen.getBytes();
+								libro.setNombreImagen(imagen.getOriginalFilename());
+								libro.setBytesImagen(bytes);
+							}
 						} catch (Exception e) {
 							redirAttrs.addFlashAttribute("error",
 									"Ocurrio un error al guardar la imagen");
@@ -161,16 +163,18 @@ public class ControladorLibro {
 					}
 				}
 
-				if (libroDTO.getLibro() != null) {
+				if (libroDTO.getArchivoPdf() != null) {
 					if (servicioLibro.fileUsed(libroDTO.getArchivoPdf().getOriginalFilename())) {
 						redirAttrs.addFlashAttribute("error", "El archivo pdf ya se encuentra asociado a otro libro");
 					}
 					else {
 						try {
-							MultipartFile archivoPdf = libroDTO.getArchivoPdf();
-							byte[] bytes = archivoPdf.getBytes();
-							libro.setNombreArchivo(archivoPdf.getOriginalFilename());
-							libro.setBytesArchivo(bytes);
+							if (libroDTO.getArchivoPdf().getOriginalFilename() != "") {
+								MultipartFile archivoPdf = libroDTO.getArchivoPdf();
+								byte[] bytes = archivoPdf.getBytes();
+								libro.setNombreArchivo(archivoPdf.getOriginalFilename());
+								libro.setBytesArchivo(bytes);
+							}
 						} catch (Exception e) {
 							redirAttrs.addFlashAttribute("error", "Ocurrio un error al guardar el archivo pdf ");
 							return "redirect:/book/" + id + "/edit";
@@ -189,6 +193,16 @@ public class ControladorLibro {
 				for (Integer id_categoria : id_categorias) {
 					Categoria categoria = servicioCategoria.getCategoriaXId(id_categoria);
 					libroExistente.getCategorias().add(categoria);
+				}
+
+				if (libro.getBytesImagen() != null) {
+					libroExistente.setNombreImagen(libro.getNombreImagen());
+					libroExistente.setBytesImagen(libro.getBytesImagen());
+				}
+
+				if (libro.getBytesArchivo() != null) {
+					libroExistente.setNombreArchivo(libro.getNombreArchivo());
+					libroExistente.setBytesArchivo(libro.getBytesArchivo());
 				}
 
 				servicioLibro.saveLibro(libroExistente);

@@ -150,9 +150,9 @@
 
 																			<p id="bookcover"
 																				class="form-row form-row form-row-last validate-required">
-																				<label for="imagenActual">Carátula libro</label>
+																				<label for="actualImage">Carátula libro</label>
 																		<div style="display: inline-block; vertical-align: center">
-																		<img th:src="@{'/book/'+${libro.id}} +'/image'" class="img-thumbnail" id="imagenActual"/><b><smal>remplazar imagen</smal></b>
+																		<img th:src="@{'/book/'+${libro.id}} +'/image'" class="img-thumbnail" id="actualImage"/><b><smal>remplazar imagen</smal></b>
 																		</div>
 
 																		<div style="display: inline-block">
@@ -161,10 +161,10 @@
 																		</p>
 
 																		<p id="bookfile" class="form-row form-row form-row-last validate-required">
-																				<label for="file">Libro en formato digital</label>
-																			<iframe id="filePdf" th:src="@{'/book/'+${libro.id}+'/pdf'}"	frameborder="0" scrolling="auto" style="width:100%; height:400px;"></iframe>
+																				<label for="filePdf">Libro en formato digital</label>
+																			<iframe id="filePdf" th:src="@{'/book/'+${libro.id}+'/pdf'}" frameborder="0" scrolling="auto" style="width:100%; height:400px;"></iframe>
 																			<b><smal>Remplazar pdf</smal></b>
-																				<input th:field="*{archivoPdf}" type="file" value="" placeholder="Archivo" id="file" name="file">
+																				<input th:field="*{archivoPdf}" type="file" value="" placeholder="Archivo" accept="application/pdf">
 																			</p>
 
 																		<p>
