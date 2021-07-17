@@ -52,52 +52,52 @@
     <!-- End: Slider Section -->
     
     <!-- Start: Search Section -->
-    <section class="search-filters">
-        <div class="container">
-            <div class="filter-box">
+<!--     <section class="search-filters"> -->
+<!--         <div class="container"> -->
+<!--             <div class="filter-box"> -->
 
-                <h3>¿Qué es lo que estas buscando el día de hoy?</h3>
+<!--                 <h3>¿Qué es lo que estas buscando el día de hoy?</h3> -->
 
-                <form action="http://libraria.demo.presstigers.com/index.html" method="get">
-                    <div class="col-md-4 col-sm-6">
-                        <div class="form-group">
-                            <label class="sr-only" for="keywords">Buscar por palabra</label>
-                            <input class="form-control" placeholder="Buscar por palabra" id="keywords" name="keywords" type="text">
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="form-group">
-                            <select name="idioma" id="idioma" class="form-control">
-                                <option>Todos los idiomas</option>
-                                <option>Catalog 01</option>
-                                <option>Catalog 02</option>
-                                <option>Catalog 03</option>
-                                <option>Catalog 04</option>
-                                <option>Catalog 05</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="form-group">
-                            <select name="categoria" id="categoria" class="form-control">
-                                <option>Todas las categorías</option>
-                                <option>Category 01</option>
-                                <option>Category 02</option>
-                                <option>Category 03</option>
-                                <option>Category 04</option>
-                                <option>Category 05</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-6">
-                        <div class="form-group">
-                            <input class="form-control" type="submit" value="Buscar">
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
+<!--                 <form action="http://libraria.demo.presstigers.com/index.html" method="get"> -->
+<!--                     <div class="col-md-4 col-sm-6"> -->
+<!--                         <div class="form-group"> -->
+<!--                             <label class="sr-only" for="keywords">Buscar por palabra</label> -->
+<!--                             <input class="form-control" placeholder="Buscar por palabra" id="keywords" name="keywords" type="text"> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                     <div class="col-md-3 col-sm-6"> -->
+<!--                         <div class="form-group"> -->
+<!--                             <select name="idioma" id="idioma" class="form-control"> -->
+<!--                                 <option>Todos los idiomas</option> -->
+<!--                                 <option>Catalog 01</option> -->
+<!--                                 <option>Catalog 02</option> -->
+<!--                                 <option>Catalog 03</option> -->
+<!--                                 <option>Catalog 04</option> -->
+<!--                                 <option>Catalog 05</option> -->
+<!--                             </select> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                     <div class="col-md-3 col-sm-6"> -->
+<!--                         <div class="form-group"> -->
+<!--                             <select name="categoria" id="categoria" class="form-control"> -->
+<!--                                 <option>Todas las categorías</option> -->
+<!--                                 <option>Category 01</option> -->
+<!--                                 <option>Category 02</option> -->
+<!--                                 <option>Category 03</option> -->
+<!--                                 <option>Category 04</option> -->
+<!--                                 <option>Category 05</option> -->
+<!--                             </select> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                     <div class="col-md-2 col-sm-6"> -->
+<!--                         <div class="form-group"> -->
+<!--                             <input class="form-control" type="submit" value="Buscar"> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                 </form> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--     </section> -->
     <!-- End: Search Section -->
     
     <!-- Start: Welcome Section -->
@@ -523,7 +523,7 @@
                 </li>
             </ul>
             <div class="center-content">
-                <a href="#" class="btn btn-primary">Ver más</a>
+                <a th:href="@{/bookgrid}" class="btn btn-primary">Ver más</a>
             </div>
             <div class="clearfix"></div>
         </div>

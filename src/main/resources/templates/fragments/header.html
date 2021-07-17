@@ -199,7 +199,7 @@
                                         <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{/}">Inicio</a>
                                     </li>
                                     <li class="dropdown">
-                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{bookgrid}">Libros disponibles</a>
+                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{/bookgrid}">Libros disponibles</a>
                                     </li>
                                     <li class="dropdown">
                                         <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{/#aboutus}">¿Quiénes somos?</a>
@@ -210,13 +210,13 @@
                             <div class="navbar-collapse hidden-sm hidden-xs" sec:authorize="hasRole('ROLE_USER')">
                                 <ul class="nav navbar-nav">
                                     <li class="dropdown active">
-                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{myaccount}">Mi cuenta</a>
+                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{/myaccount}">Mi cuenta</a>
                                     </li>                                  
                                     <li class="dropdown">
                                         <a data-toggle="dropdown" class="dropdown-toggle disabled" href="#">Mi biblioteca</a>
                                     </li>
                                     <li class="dropdown">
-                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{bookgrid}">Libros disponibles</a>
+                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{/bookgrid}">Libros disponibles</a>
                                     </li>
                                     <li><a th:href="@{contact}">Contacto</a></li>
                                 </ul>

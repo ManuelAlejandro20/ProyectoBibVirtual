@@ -43,23 +43,6 @@
         
     <footer th:replace="fragments/footer :: footer"> </footer>
 
-	<script>
-	  var input = document.querySelector("#intlphone");
-	  var iti = window.intlTelInput(input, {
-		initialCountry: "CL",
-		separateDialCode: true,	
-		utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.3/build/js/utils.js"
-	  	
-	  });	  
-	  
-	  window.iti = iti;
-	 
-	  $("form").submit(function() {
-		  var intlNumber = iti.getNumber();
-		  $("#intlphone2").val(intlNumber);
-		});	  
-	</script>
-
 </body>
 
 

@@ -46,17 +46,7 @@ public class ControladorPantallaPrincipal {
     	}        	
         return "redirect:/myaccount";
     }    
- 
-    @GetMapping("/bookgrid")
-    public String catalogoPanel(Model model) {
-    	return "bookgrid";
-    }
-    
-    @GetMapping("/booklist")
-    public String catalogoLista(Model model) {
-        return "booklist";
-    }    
-
+     
     @GetMapping("/contact")
     public String contacto(Model model) {	
         return "contact";
