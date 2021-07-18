@@ -13,7 +13,7 @@
             <div class="banner-header">
                 <h2>Libro disponibles</h2>
 				<span class="underline center"></span>
-                <p class="lead">Â¡Dale un vistazo a nuestra mejor colecciÃ³n!</p>
+                <p class="lead">Â¡Dale un vistazo a nuestra mejor coleccion!</p>
             </div>
             <div class="breadcrumb">
                 <ul>
@@ -109,7 +109,7 @@
                                         <div class="single-book-box">                                                
                                             <div class="post-thumbnail">
                                                 <div class="book-list-icon yellow-icon"></div>
-                                                <a><img th:src="@{'/book/'+ ${libro.id} +'/image'}" alt="Book"></a>                                                                 </div>
+                                                <a><img th:src="@{'/book/'+ ${libro.id} +'/image'}" alt="Book"  width="331" height="499" style="width: 330px; height: 340px;"></a>                                                                 </div>
                                             <div class="post-detail" style="width:800px">
                                                 <div class="optional-links" sec:authorize="hasRole('ROLE_ADMIN')">
                                                     <ul>
@@ -155,8 +155,8 @@
                                     <h2 class="screen-reader-text">Posts navigation</h2>
                                     <div class="nav-links">
                                         <a class="prev page-numbers" href="#."><i class="fa fa-long-arrow-left"></i> Anterior</a>
-                                        <a class="page-numbers" href="#.">1</a>
-                                        <span class="page-numbers current">2</span>
+                                        <a class="page-numbers current" href="#.">1</a>
+                                        <span class="page-numbers">2</span>
                                         <a class="page-numbers" href="#.">3</a>
                                         <a class="page-numbers" href="#.">4</a>
                                         <a class="next page-numbers" href="#.">Siguiente <i class="fa fa-long-arrow-right"></i></a>
