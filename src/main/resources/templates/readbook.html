@@ -8,21 +8,34 @@
 <body>
     
     <header th:replace="fragments/header :: header"></header>
-    
+
     <!-- Start: Page Banner -->
     <section class="page-banner services-banner">
         <div class="container">
+            <div class="banner-header">
+                <h2>Visualiza tu libro</h2>
+                <span class="underline center"></span>
+                <p class="lead">Recuerda activar la luz nocturna en tu computador
+                    si presentas molestias en tus ojos</p>
+            </div>
             <div class="breadcrumb">
                 <ul>
-                    <li><a th:href="@{/}">Inicio</a></li>
+                    <li><a href="index-2.html">Inicio</a></li>
+                    <li>Visualiza tu libro</li>
                 </ul>
             </div>
         </div>
     </section>
     <!-- End: Page Banner -->
-    
-      
-    <!-- Start: Cart Section -->
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <!-- Start: PDF Section -->
     <div id="content" class="site-content">                 
         <div id="primary" class="content-area">
             <main id="main" class="site-main">
@@ -39,8 +52,47 @@
             </main>
         </div>
     </div>
-    <!-- End: Cart Section -->
-        
+    <!-- End: PDF Section -->
+
+    <br>
+    <br>
+    <br>
+
+    <!-- Start: Social Network -->
+    <section class="social-network section-padding">
+        <div class="container">
+            <div class="center-content">
+                <h2 class="section-title">Siguenos en redes sociales</h2>
+
+                <p class="lead"></p>
+            </div>
+            <ul>
+                <li>
+                    <a class="facebook" href="#" target="_blank">
+                        <span>
+                            <i class="fa fa-facebook-f"></i>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a class="rss" href="#" target="_blank">
+                        <span>
+                            <i class="fa fa-instagram"></i>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a class="twitter" href="#" target="_blank">
+                        <span>
+                            <i class="fa fa-twitter"></i>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <!-- End: Social Network -->
+
     <footer th:replace="fragments/footer :: footer"> </footer>
 
 </body>
