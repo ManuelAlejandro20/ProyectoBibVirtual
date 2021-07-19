@@ -3,6 +3,7 @@ package com.cmcorp.spring.BibliotecaDelDesierto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -35,14 +36,12 @@ public class ControladorLibroClient {
 	private final ServicioIdioma servicioIdioma;
 
 	@Autowired
-	public ControladorLibroClient(ServicioLibro servicioLibro, ServicioCategoria servicioCategoria,
-			ServicioIdioma servicioIdioma) {
+	public ControladorLibroClient(ServicioLibro servicioLibro, ServicioCategoria servicioCategoria, ServicioIdioma servicioIdioma) {
 		this.servicioLibro = servicioLibro;
 		this.servicioCategoria = servicioCategoria;
 		this.servicioIdioma = servicioIdioma;
 	}	
-	
-	
+
 	@PostMapping("/book/{id}/update")
 	public String update(LibroCategoriaDTO libroDTO, @PathVariable Integer id, RedirectAttributes redirAttrs) {
 		try {
@@ -58,41 +57,41 @@ public class ControladorLibroClient {
 			}
 			else {
 				if (libroDTO.getImagen() != null) {
-					if (servicioLibro.fileUsed(libroDTO.getImagen().getOriginalFilename())) {
-						redirAttrs.addFlashAttribute("error", "La imagen de portada a cambiar ya se encuentra asociada a un libro");
-						return "redirect:/book/" + id + "/edit";
-					}
-					else {
-						try {
-							if (libroDTO.getImagen().getOriginalFilename() != "") {
+					if (libroDTO.getImagen().getOriginalFilename() != "") {
+						if (servicioLibro.fileUsed(libroDTO.getImagen().getOriginalFilename())) {
+							redirAttrs.addFlashAttribute("error", "La imagen de portada a cambiar ya se encuentra asociada a un libro");
+							return "redirect:/book/" + id + "/edit";
+						} else {
+							try {
 								MultipartFile imagen = libroDTO.getImagen();
 								byte[] bytes = imagen.getBytes();
 								libro.setNombreImagen(imagen.getOriginalFilename());
 								libro.setBytesImagen(bytes);
+							} catch (Exception e) {
+								redirAttrs.addFlashAttribute("error",
+										"Ocurrio un error al guardar la imagen");
+								return "redirect:/book/" + id + "/edit";
 							}
-						} catch (Exception e) {
-							redirAttrs.addFlashAttribute("error",
-									"Ocurrio un error al guardar la imagen");
-							return "redirect:/book/" + id + "/edit";
 						}
 					}
 				}
 
 				if (libroDTO.getArchivoPdf() != null) {
-					if (servicioLibro.fileUsed(libroDTO.getArchivoPdf().getOriginalFilename())) {
-						redirAttrs.addFlashAttribute("error", "El archivo pdf ya se encuentra asociado a otro libro");
-					}
-					else {
-						try {
-							if (libroDTO.getArchivoPdf().getOriginalFilename() != "") {
-								MultipartFile archivoPdf = libroDTO.getArchivoPdf();
-								byte[] bytes = archivoPdf.getBytes();
-								libro.setNombreArchivo(archivoPdf.getOriginalFilename());
-								libro.setBytesArchivo(bytes);
+					if (libroDTO.getArchivoPdf().getOriginalFilename() != "") {
+						if (servicioLibro.fileUsed(libroDTO.getArchivoPdf().getOriginalFilename())) {
+							redirAttrs.addFlashAttribute("error", "El archivo pdf ya se encuentra asociado a otro libro");
+						} else {
+							try {
+								{
+									MultipartFile archivoPdf = libroDTO.getArchivoPdf();
+									byte[] bytes = archivoPdf.getBytes();
+									libro.setNombreArchivo(archivoPdf.getOriginalFilename());
+									libro.setBytesArchivo(bytes);
+								}
+							} catch (Exception e) {
+								redirAttrs.addFlashAttribute("error", "Ocurrio un error al guardar el archivo pdf ");
+								return "redirect:/book/" + id + "/edit";
 							}
-						} catch (Exception e) {
-							redirAttrs.addFlashAttribute("error", "Ocurrio un error al guardar el archivo pdf ");
-							return "redirect:/book/" + id + "/edit";
 						}
 					}
 				}
@@ -238,7 +237,7 @@ public class ControladorLibroClient {
 
 	@GetMapping("/bookgrid")
 	public String bookgrid(Model model) {
-		ResponseEntity<Libro[]> responseEntity = new RestTemplate().getForEntity("http://localhost:8080/books-", Libro[].class);
+		ResponseEntity<Libro[]> responseEntity = new RestTemplate().getForEntity("http://localhost:8080/books", Libro[].class);
 		if(responseEntity.getStatusCode() == HttpStatus.OK) {
 			model.addAttribute("libros", responseEntity.getBody());
 			return "bookgrid"; 
@@ -261,6 +260,12 @@ public class ControladorLibroClient {
 		ResponseEntity<Libro> responseEntity = new RestTemplate().getForEntity("http://localhost:8080/book/byid/"+id, Libro.class);
 		if(responseEntity.getStatusCode() == HttpStatus.OK) {
 			model.addAttribute("libro", responseEntity.getBody());
+
+			List<Categoria> listaCategorias = new ArrayList<Categoria>(responseEntity.getBody().getCategorias());
+			String categorias = listaCategorias.stream().map(Categoria::getNombre).collect(Collectors.joining(", "));
+
+			model.addAttribute("categorias", categorias);
+
 			return "summary"; 
 		}
 		throw new RuntimeException("El servidor no respondio de forma correcta");

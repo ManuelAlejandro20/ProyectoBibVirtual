@@ -52,14 +52,14 @@ public class Libro {
 	/**
 	 * Idioma class
 	 */
-	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.ALL,optional = false, fetch = FetchType.LAZY)
+
+	@ManyToOne(cascade = CascadeType.ALL,optional = false, fetch = FetchType.EAGER)
 	private Idioma idioma;
 
 	/**
 	 * Collection of Categories
 	 */
-	@JsonIgnore
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "libro_categoria", joinColumns = {@JoinColumn(name = "libro_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "categoria_id", referencedColumnName = "id")})
 	private Set<Categoria> categorias = new HashSet<Categoria>();

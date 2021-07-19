@@ -63,10 +63,10 @@
 											<strong>Formato: PDF</strong>
 										</p>
 										<p>
-											<strong th:text="|Idioma: ${libro.idioma}|"></strong>
+											<strong th:text="|Idioma: ${libro.idioma.nombre}|"></strong>
 										</p>
 										<p>
-											<strong>Categoría :</strong> Feature films, Fiction films, Drama
+											<strong th:text="|Categoría(s): ${categorias}|"></strong>
 										</p>
 										<p>
 											<strong th:text="|Precio: $ ${libro.precio}|"></strong>											

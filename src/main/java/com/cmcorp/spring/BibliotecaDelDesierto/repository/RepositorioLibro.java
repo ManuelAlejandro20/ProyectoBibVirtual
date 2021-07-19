@@ -95,9 +95,25 @@ public interface RepositorioLibro extends JpaRepository<Libro, Integer> {
      */
     boolean existsByIsbn(@Param("isbn") String isbn);
 
+    /**
+     * Returns true if the SKU is asociated to another book
+     * @param sku
+     * @return
+     */
     boolean existsBySku(@Param("sku") String sku);
 
+    /**
+     * Returns true if the Title(nombre) is asociated to another book
+     * @param nombre
+     * @return
+     */
     boolean existsByNombre(@Param("nombre") String nombre);
 
+    /**
+     * Return true if the file is asociated to another book
+     * @param nombreImagen
+     * @param nombreArchivo
+     * @return
+     */
     boolean existsByNombreImagenOrNombreArchivo(@Param("nombreImagen") String nombreImagen, @Param("nombreArchivo") String nombreArchivo);
 }
