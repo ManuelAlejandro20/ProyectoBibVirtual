@@ -24,12 +24,15 @@
 
 package com.cmcorp.spring.BibliotecaDelDesierto;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import com.cmcorp.spring.BibliotecaDelDesierto.model.dto.UserDTO;
 
 /**
@@ -53,7 +56,9 @@ public class ControladorPantallaPrincipal {
     }  
     
     @GetMapping("/login")
-    public String signin(Model model) {    	
+    public String signin(Model model, HttpServletRequest request) {    	
+    	
+    	request.getSession();    	
     	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	if(auth == null || auth instanceof AnonymousAuthenticationToken) {

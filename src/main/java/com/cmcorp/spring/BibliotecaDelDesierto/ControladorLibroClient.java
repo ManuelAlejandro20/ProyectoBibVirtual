@@ -6,10 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -237,7 +234,7 @@ public class ControladorLibroClient {
 
 	@GetMapping("/bookgrid")
 	public String bookgrid(Model model) {
-		ResponseEntity<Libro[]> responseEntity = new RestTemplate().getForEntity("http://localhost:8080/books", Libro[].class);
+		ResponseEntity<Object[]> responseEntity = new RestTemplate().getForEntity("http://localhost:8080/books-", Object[].class);
 		if(responseEntity.getStatusCode() == HttpStatus.OK) {
 			model.addAttribute("libros", responseEntity.getBody());
 			return "bookgrid"; 

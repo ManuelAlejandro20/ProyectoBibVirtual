@@ -99,6 +99,8 @@
                             </div>
                         </div>
                         <div class="booksmedia-fullwidth">
+                        <div class="alert alert-success text-center" role="alert" th:text="${success}" th:if="${success}"></div>
+                        <div class="alert alert-danger text-center" role="alert" th:text="${error}" th:if="${error}"></div>    
                             <ul>
                                 <li th:each="libro : ${libros}">
                                     <div class="book-list-icon yellow-icon"></div>
@@ -116,7 +118,7 @@
                                             <div class="actions" sec:authorize="hasRole('ROLE_USER')">
                                                 <ul>
                                                     <li>
-                                                        <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Agregar al carrito">
+                                                        <a th:href="@{'/addtocart/' + ${libro.id}} +'?view=/bookgrid'" data-toggle="blog-tags" data-placement="top" title="Agregar al carrito">
                                                             <i class="fa fa-shopping-cart"></i>
                                                         </a>
                                                     </li>

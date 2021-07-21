@@ -141,50 +141,27 @@
                                             <div class="header-cart dropdown" sec:authorize="hasRole('ROLE_USER')">
                                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                                     <i class="fa fa-shopping-cart"></i>
-                                                    <small>0</small>
+                                                    <small th:text="${#lists.size(session.Carrito)}"></small>
                                                 </a>
                                                 <div class="dropdown-menu cart-dropdown">
                                                     <ul>
-                                                        <li class="clearfix">
-                                                            <img src="images/header-cart-image-01.jpg" alt="cart item" />
+                                                        <li class="clearfix" th:each="car : ${session.Carrito}">
                                                             <div class="item-info">
                                                                 <div class="name">
-                                                                    <a href="#">The Great Gatsby</a>
+                                                                    <a th:text="${car.libro.nombre}"></a>
                                                                 </div>
-                                                                <div class="author"><strong>Author:</strong> F. Scott Fitzgerald</div>
-                                                                <div class="price">1 X $10.00</div>
+                                                                <div class="author"><strong>Autor:</strong> [[${car.libro.autor}]]</div>
+                                                                <div class="price" th:text="|${car.cantidad}x $${car.libro.precio}|"></div>
                                                             </div>
-                                                            <a class="remove" href="#"><i class="fa fa-trash-o"></i></a>
-                                                        </li>
-                                                        <li class="clearfix">
-                                                            <img src="images/header-cart-image-02.jpg" alt="cart item" />
-                                                            <div class="item-info">
-                                                                <div class="name">
-                                                                    <a href="#">The Great Gatsby</a>
-                                                                </div>
-                                                                <div class="author"><strong>Author:</strong> F. Scott Fitzgerald</div>
-                                                                <div class="price">1 X $10.00</div>
-                                                            </div>
-                                                            <a class="remove" href="#"><i class="fa fa-trash-o"></i></a>
-                                                        </li>
-                                                        <li class="clearfix">
-                                                            <img src="images/header-cart-image-03.jpg" alt="cart item" />
-                                                            <div class="item-info">
-                                                                <div class="name">
-                                                                    <a href="#">The Great Gatsby</a>
-                                                                </div>
-                                                                <div class="author"><strong>Author:</strong> F. Scott Fitzgerald</div>
-                                                                <div class="price">1 X $10.00</div>
-                                                            </div>
-                                                            <a class="remove" href="#"><i class="fa fa-trash-o"></i></a>
+                                                            <a class="remove" th:href="@{'/removefromcart/' + ${car.libro.id}} +'?url='+ ${#httpServletRequest.requestURI}"><i class="fa fa-trash-o"></i></a>
                                                         </li>
                                                     </ul>
                                                     <div class="cart-total">
                                                         <div class="title">SubTotal</div>
-                                                        <div class="price">$30.00</div>
+                                                        <div class="price" th:text="|$${session.Total}|"></div>
                                                     </div>
                                                     <div class="cart-buttons">
-                                                        <a th:href=@{cart} class="btn btn-dark-gray">Ver carrito</a>
+                                                        <a th:href=@{/cart} class="btn btn-dark-gray">Ver carrito</a>
                                                         <a th:href=@{checkout} class="btn btn-primary">Pagar todo</a>
                                                     </div>
                                                 </div>
@@ -218,7 +195,7 @@
                                     <li class="dropdown">
                                         <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{/bookgrid}">Libros disponibles</a>
                                     </li>
-                                    <li><a th:href="@{contact}">Contacto</a></li>
+                                    <li><a th:href="@{/contact}">Contacto</a></li>
                                 </ul>
                             </div>   
                             <div class="navbar-collapse hidden-sm hidden-xs" sec:authorize="hasRole('ROLE_ADMIN')">
