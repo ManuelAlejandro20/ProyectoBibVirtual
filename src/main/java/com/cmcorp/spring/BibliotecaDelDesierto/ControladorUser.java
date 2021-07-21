@@ -24,8 +24,12 @@
 
 package com.cmcorp.spring.BibliotecaDelDesierto;
 
+import com.cmcorp.spring.BibliotecaDelDesierto.model.CartItem;
+import com.cmcorp.spring.BibliotecaDelDesierto.model.Libro;
 import com.cmcorp.spring.BibliotecaDelDesierto.model.User;
 import com.cmcorp.spring.BibliotecaDelDesierto.model.dto.UserDTO;
+import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioCartItem;
+import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioLibro;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,6 +44,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 /**
  * Controller ControladorUser
  */
@@ -47,10 +54,15 @@ import java.util.NoSuchElementException;
 public class ControladorUser {
 
     private final ServicioUser servicioUser;
+    private final ServicioCartItem servicioCarrito;
+    private final ServicioLibro servicioLibro;
    
+    
     @Autowired
-    public ControladorUser(ServicioUser servicioUser){
+    public ControladorUser(ServicioUser servicioUser, ServicioCartItem servicioCarrito, ServicioLibro servicioLibro){
         this.servicioUser = servicioUser;
+        this.servicioCarrito = servicioCarrito;
+        this.servicioLibro = servicioLibro;
     }
 
     /**
@@ -103,7 +115,7 @@ public class ControladorUser {
      */
     @PostMapping("user/add")
     public String addUser(UserDTO user,String password2, RedirectAttributes redirAttrs){    	
-
+    	
     	if(!user.getPassword().equals(password2)) {
     		redirAttrs.addFlashAttribute("error", "Las contraseñas no coinciden, intenta nuevamente");
     		return "redirect:/login";        		
@@ -163,7 +175,7 @@ public class ControladorUser {
      * @return
      */
     @GetMapping("/myaccount")
-	public String successUserLogin(Model model) {
+	public String successUserLogin(Model model, HttpSession session) {
     	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	
@@ -181,7 +193,7 @@ public class ControladorUser {
     	model.addAttribute("nombre", nombre);
     	model.addAttribute("paterno", paterno);
     	model.addAttribute("materno", materno);
-    	
+    	 	
     	return "/myaccount";
 	}    
         
@@ -192,6 +204,10 @@ public class ControladorUser {
     
     @GetMapping("/cart")
     public String cart(Model model) {   	
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	User usuario = servicioUser.getUserXUsername(auth.getName());
+    	List<CartItem> itemsCarrito = servicioCarrito.listCartItems(usuario);
+    	model.addAttribute("carrito", itemsCarrito);
     	return("/cart");
     }    
           
@@ -220,5 +236,124 @@ public class ControladorUser {
     @DeleteMapping("user/delete/{id}")
     public void delete(@PathVariable Integer id){
         servicioUser.deleteUser(id);
+    }
+        
+    @GetMapping("/addtocart/{id}")
+    public String agregarAlCarrito(@PathVariable Integer id,@RequestParam("view") String view, RedirectAttributes redirAttrs, HttpSession session) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	User usuario = servicioUser.getUserXUsername(auth.getName());
+    	
+    	Libro libro = servicioLibro.getLibroXId(id);
+    	CartItem itemCarrito = new CartItem();
+    	
+    	itemCarrito.setLibro(libro);
+    	itemCarrito.setUsuario(usuario);    	
+    	
+    	List<CartItem> carrito = servicioCarrito.listCartItems(usuario);
+    	    	
+    	boolean existeLibro = false;
+    	
+    	for(CartItem c : carrito) {
+    		    		
+    		Libro libroCarrito = c.getLibro();
+    		if (libroCarrito.getId() == id) {
+    			
+    			existeLibro = true;
+    			
+        		if(c.getCantidad()+1 > libroCarrito.getStock()) {
+        			redirAttrs.addFlashAttribute("error", "Ya no hay más stock de este libro");
+        			break;
+        		}
+    			
+    			
+    			Integer idCarrito = c.getId();
+    			servicioCarrito.updateCartItem(c.getCantidad()+1, idCarrito);
+    			
+    			c.setCantidad(c.getCantidad()+1);
+    			
+    			int total = calcularTotalCarro(carrito);
+    			
+    			session.setAttribute("Carrito", carrito);
+    			session.setAttribute("Total", total);
+    			
+    			redirAttrs.addFlashAttribute("success", "Añadido al carrito");
+    			
+    			break;
+    			
+    		}
+    		
+    		
+    	}
+    	
+    	if(carrito.size() == 0 || !existeLibro) {
+    		itemCarrito.setCantidad(1);
+    		servicioCarrito.save(itemCarrito);    		
+    		
+    		int total = calcularTotalCarro(servicioCarrito.listCartItems(usuario));
+    		
+    		session.setAttribute("Carrito", servicioCarrito.listCartItems(usuario));
+    		session.setAttribute("Total", total);
+    	
+    		redirAttrs.addFlashAttribute("success", "Añadido al carrito");
+    	}
+    	
+    	
+    	    	    	
+    	if(view.equals("/bookgrid")) {
+    		return "redirect:/bookgrid";
+    	}
+    	
+    	return "redirect:/book/"+ id +"/summary";    	
+    	
+    }
+    
+    @GetMapping("/removefromcart/{id}")
+    public String removerDelCarrito(@PathVariable Integer id, @RequestParam("url") String url, 
+    							HttpServletRequest request, HttpSession session) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	User usuario = servicioUser.getUserXUsername(auth.getName());
+    	
+    	List<CartItem> carrito = servicioCarrito.listCartItems(usuario);    	
+    	
+    	for(CartItem c : carrito) {
+    		Libro libroCarrito = c.getLibro();
+    		if (libroCarrito.getId() == id) {
+    			
+    			int total = 0;
+    			
+    			if(c.getCantidad()-1 == 0) {
+    				servicioCarrito.deleteCartItem(c);    				
+    				total = calcularTotalCarro(servicioCarrito.listCartItems(usuario));
+    				session.setAttribute("Carrito", servicioCarrito.listCartItems(usuario));
+    				session.setAttribute("Total", total);
+    			}else {
+    			
+    				Integer idCarrito = c.getId();
+	    			servicioCarrito.updateCartItem(c.getCantidad()-1, idCarrito);
+	    			
+	    			c.setCantidad(c.getCantidad()-1);
+	    				    			
+	    			total = calcularTotalCarro(carrito);
+	    			session.setAttribute("Carrito", carrito);
+	    			session.setAttribute("Total", total);
+	    			
+    			}
+
+    			break;
+    			
+    		}
+    		
+    		
+    	} 
+    	return "redirect:" + url; 
+    	
+    }
+    
+    public int calcularTotalCarro(List<CartItem> carrito) {
+    	int total = 0;
+    	for(CartItem c: carrito) {
+    		total += c.getCantidad() * c.getLibro().getPrecio();
+    	}
+    	return total;
     }
 }

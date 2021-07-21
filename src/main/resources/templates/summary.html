@@ -30,8 +30,10 @@
 		<div id="primary" class="content-area">
 			<main id="main" class="site-main">
 				<div class="booksmedia-detail-main">
-					<div class="container">
+					<div class="container">						
 						<div class="booksmedia-detail-box" style="margin-top:4%">
+							<div class="alert alert-success text-center" role="alert" th:text="${success}" th:if="${success}"></div>
+							<div class="alert alert-danger text-center" role="alert" th:text="${error}" th:if="${error}"></div>
 							<div class="detailed-box">
 								<div class="col-xs-12 col-sm-5 col-md-3">
 									<div class="post-thumbnail">
@@ -73,14 +75,17 @@
 										</p>
 										<p>
 											<strong th:text="|Ejemplares disponibles: ${libro.stock}|"></strong>											
-										</p>																			
+										</p>								
+																		
 										<div class="actions">
 											<ul>
-												<li><a href="#" target="_blank" data-toggle="blog-tags"
-													data-placement="top" title=""
-													data-original-title="Agregar al carrito"> <i
-														class="fa fa-shopping-cart"></i>
-												</a></li>
+												<li>																										
+												<a th:href="@{'/addtocart/' + ${libro.id}} +'?view=/summary'" 
+													data-toggle="blog-tags" 
+													data-placement="top" title="" data-original-title="Agregar al carrito"> 
+													<i class="fa fa-shopping-cart"></i>
+												</a>	
+												</li>
                                                     <li>
                                                         <a>
                                                         </a>
@@ -109,7 +114,10 @@
 									<div class="post-right-content">
 										<h4>¡Disponible ahora!</h4>
 										<h4 th:text="|$${libro.precio}|"></h4>
-										<a href="#." class="btn btn-dark-gray">Agregar al carrito</a> 
+<!-- 										<form method="POST" th:action="@{'/addtocart/' + ${libro.id}}"> -->
+<!-- 										<input id="cartBtn" type="submit" class="btn btn-default" name="btn" value="Agregar al carrito" required>																				 -->
+<!-- 										</form> 										 -->
+										<a th:href="@{'/addtocart/' + ${libro.id}} + '?view=/summary'" class="btn btn-dark-gray">Agregar al carrito</a> 
 									</div>
 								</div>
 								<div class="clearfix"></div>
@@ -127,6 +135,6 @@
 	<!-- End: Products Section -->
 
 	<span></span>
-
+	
 	<footer th:replace="fragments/footer :: footer"> </footer>
 </body>

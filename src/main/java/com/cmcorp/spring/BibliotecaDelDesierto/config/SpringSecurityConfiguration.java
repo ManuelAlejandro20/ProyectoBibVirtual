@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -19,6 +18,7 @@ import com.cmcorp.spring.BibliotecaDelDesierto.service.UserService;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
+	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -27,6 +27,9 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private UserService userServicio;
 	
+    @Autowired
+    private AuthenticationSuccessHandlerImpl authenticationSuccessHandlerImpl = new AuthenticationSuccessHandlerImpl();
+   
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
@@ -38,9 +41,6 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
     @Override  
     protected void configure(HttpSecurity http) throws Exception {  
         http  
-        .sessionManagement()
-        	.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-        .and()
         .authorizeRequests()          	
             .antMatchers("/myaccount").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
             .antMatchers("/newbook").hasAuthority("ROLE_ADMIN")
@@ -53,7 +53,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
         .formLogin()
         	.loginPage("/login")
         	.usernameParameter("username")
-        	.defaultSuccessUrl("/myaccount")
+        	//.defaultSuccessUrl("/myaccount")
+        	.permitAll().successHandler(authenticationSuccessHandlerImpl)
         	.failureForwardUrl("/login_error")
 	      	.permitAll()
         .and()
@@ -69,7 +70,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
         .and()
 				.headers().frameOptions().sameOrigin();
     }  
-	
+    
     @Override  
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {  
     	auth.authenticationProvider(authenticationProvider());
