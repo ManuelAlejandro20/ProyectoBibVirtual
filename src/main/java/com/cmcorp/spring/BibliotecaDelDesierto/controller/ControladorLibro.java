@@ -76,7 +76,6 @@ public class ControladorLibro {
 		return servicioLibro.allBooksBy(page, size, sortingField, sortingDirection, idioma, categoria, texto);
 	}
 
-
 	@GetMapping("/books/byautor/{autor}")
 	public List<Libro> getAllXAutor(@PathVariable(value = "autor") String autor) {
 		return servicioLibro.getLibrosXAutor(autor);

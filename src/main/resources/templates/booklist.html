@@ -209,9 +209,11 @@
     <!-- End: Social Network -->
 
     <footer th:replace="fragments/footer :: footer"> </footer>
+    <input id="isUser" th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" value="true" hidden>
+    <input id="isAdmin" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" value="true" hidden>
     <script>
 
-        var pageNumber = 0, sortField = 'id', sortDirection = 'DESC', pageSize = 4;
+        var pageNumber = 0, sortField = 'id', sortDirection = 'DESC', pageSize = 6;
         var pagAnterior, pagSiguiente, currentPage, texto="", idioma, categoria;
 
         function displayPages(pageable, totalElementos, totalPaginas) {
@@ -271,6 +273,9 @@
             idioma = document.getElementById("idioma").value;
             categoria = document.getElementById("categoria").value;
 
+            var isUser = document.getElementById("isUser");
+            var isAdmin = document.getElementById("isAdmin");
+
             if (texto == "" && idioma == -1 && categoria == -1) {
                 var html = '';
                 $.get("http://localhost:8080/books?page=" + page + "&size=" + pageSize + "&sortingField=" + sortingField + "&sortingDirection=" + sortingDirection, function (data, status) {
@@ -279,16 +284,21 @@
                         html +=
                             '<article>' +
                             '<div class="single-book-box">' +
-                            '<div class="post-thumbnail">' +
-                            '<div class="optional-links" sec:authorize="hasRole(ROLE_ADMIN)">' +
-                            '<ul>' +
-                            '<li>' +
-                            '<a href="/book/' + data.content[i].id + '/edit" target="_blank" data-toggle="blog-tags" data-placement="top" title="Editar libro">' +
-                            '<i class="fa fa-book"></i>' +
-                            '</a>' +
-                            '</li>' +
-                            '</ul>' +
-                            '</div>' +
+                            '<div class="post-thumbnail">';
+
+                        if (isAdmin != null) {
+                            html +=
+                            '<div class="optional-links">' +
+                            '<ul>'+
+                            '<li>'+
+                            '<a href="/book/' + data.content[i].id + '/edit" target="_blank" data-toggle="blog-tags" data-placement="top" title="Editar libro">'+
+                            '<i class="fa fa-book"></i>'+
+                            '</a>'+
+                            '</li>'+
+                            '</ul>'+
+                            '</div>';
+                        }
+                        html +=
                             '<div class="book-list-icon yellow-icon">' +
                             '</div>' +
                             '<a>' +
@@ -318,15 +328,21 @@
                             '</header>' +
                             '<div class="entry-content">' +
                             '<p style="width: 168; overflow: hidden">' + data.content[i].resenia + '</p>' +
-                            '</div>' +
-                            '<footer class="entry-footer" sec:authorize="hasRole(\'ROLE_USER\')">\n' +
-                            '<a class="btn btn-dark-gray" href="/book/' + data.content[i].id + '/summary" >Leer más</a>' +
-                            '</footer>' +
-                            '</div>' +
-                            '<div class="clear">' +
-                            '</div>' +
-                            '</div>' +
-                            '</article>';
+                            '</div>';
+
+                            if (isUser != null) {
+                                html +=
+                                    '<footer class="entry-footer">' +
+                                    '<a class="btn btn-dark-gray" href="/book/' + data.content[i].id + '/summary" >Leer más</a>' +
+                                    '</footer>';
+                            }
+
+                            html +=
+                                '</div>' +
+                                '<div class="clear">' +
+                                '</div>' +
+                                '</div>' +
+                                '</article>';
                     }
                     document.getElementById("lista_libros").innerHTML = html;
                     displayPages(data.pageable, data.totalElements, data.totalPages);
@@ -342,16 +358,21 @@
                         html +=
                             '<article>' +
                             '<div class="single-book-box">' +
-                            '<div class="post-thumbnail">' +
-                            '<div class="optional-links" sec:authorize="hasRole(ROLE_ADMIN)">' +
-                            '<ul>' +
-                            '<li>' +
-                            '<a href="/book/' + data.content[i].id + '/edit" target="_blank" data-toggle="blog-tags" data-placement="top" title="Editar libro">' +
-                            '<i class="fa fa-book"></i>' +
-                            '</a>' +
-                            '</li>' +
-                            '</ul>' +
-                            '</div>' +
+                            '<div class="post-thumbnail">';
+
+                        if (isAdmin != null) {
+                            html +=
+                                '<div class="optional-links">' +
+                                '<ul>'+
+                                '<li>'+
+                                '<a href="/book/' + data.content[i].id + '/edit" target="_blank" data-toggle="blog-tags" data-placement="top" title="Editar libro">'+
+                                '<i class="fa fa-book"></i>'+
+                                '</a>'+
+                                '</li>'+
+                                '</ul>'+
+                                '</div>';
+                        }
+                        html +=
                             '<div class="book-list-icon yellow-icon">' +
                             '</div>' +
                             '<a>' +
@@ -381,10 +402,16 @@
                             '</header>' +
                             '<div class="entry-content">' +
                             '<p style="width: 168; overflow: hidden">' + data.content[i].resenia + '</p>' +
-                            '</div>' +
-                            '<footer class="entry-footer" sec:authorize="hasRole(\'ROLE_USER\')">\n' +
-                            '<a class="btn btn-dark-gray" href="/book/' + data.content[i].id + '/summary" >Leer más</a>' +
-                            '</footer>' +
+                            '</div>';
+
+                        if (isUser != null) {
+                            html +=
+                                '<footer class="entry-footer">' +
+                                '<a class="btn btn-dark-gray" href="/book/' + data.content[i].id + '/summary" >Leer más</a>' +
+                                '</footer>';
+                        }
+
+                        html +=
                             '</div>' +
                             '<div class="clear">' +
                             '</div>' +

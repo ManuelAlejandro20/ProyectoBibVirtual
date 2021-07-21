@@ -188,7 +188,7 @@
             }
 
             html += '<a class="next page-numbers" onclick="getBooks(\''+pagSiguiente+'\',\''+sortField+'\',\''+sortDirection+'\')"><i class="fa fa-long-arrow-right"></i> Siguiente</a>'+
-                '<br><span>'+(pageable.offset) +' de '+totalElementos+' libros</span>';
+                '<br><span>'+pageable.offset+' de '+totalElementos+' libros</span>';
 
             document.getElementById("div_navegacion").innerHTML = html;
         }
@@ -238,9 +238,9 @@
                             '<header>'+
                             '<h4><a>'+data.content[i].nombre+'</a></h4>'+
                             '<p><strong>Autor(a): '+data.content[i].autor+'</strong></p>' +
-                            '<p><strong>ISBN: '+data.content[i].isbn+'</strong></p>'+
+                            '<p><strong>ISBN: '+data.content[i].autor+'</strong></p>'+
                             '</header>'+
-                            '<p style="max-width: 168; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">' + data.content[i].resenia + '</p>';
+                            '<p style="height: 80px; max-width: 168; overflow: hidden; white-space: normal; text-overflow: ellipsis;">' + data.content[i].resenia + '</p>';
 
                             if (isUser != null) {
                                 html +=
@@ -258,7 +258,7 @@
                                 '<div class="actions">'+
                                 '<ul>'+
                                 '<li>'+
-                                '<a href="/book/' + data.content[i].id + '/edit}" target="_blank" data-toggle="blog-tags" data-placement="top" title="Editar libro">' +
+                                '<a href="/book/' + data.content[i].id + '/edit" target="_blank" data-toggle="blog-tags" data-placement="top" title="Editar libro">' +
                                 '<i class="fa fa-book"></i>' +
                                 '</a>' +
                                 '</li>' +
@@ -285,35 +285,48 @@
                             '<li>'+
                             '<div class="book-list-icon yellow-icon">' +
                             '</div>'+
-                            '<figure>'+
-                            '<a sec:authorize="hasRole(\'ROLE_USER\')" href="/book/'+ data.content[i].id +'/summary"><img src="/book/'+ data.content[i].id +'/image" alt="Book"></a>'+
-                            '<a sec:authorize="isAnonymous()"><img src="/book/'+ data.content[i].id +'/image" alt="Book"></a>' +
-                            '<a sec:authorize="hasRole(\'ROLE_ADMIN\')"><img src="/book/'+ data.content[i].id +'/image" alt="Book"></a>'+
+                            '<figure>';
+
+                        if (isUser != null) {
+                            html += '<a href="/book/'+ data.content[i].id +'/summary"><img src="/book/'+ data.content[i].id +'/image" alt="Book"></a>';
+                        } else if (isAdmin != null) {
+                            html += '<a href="/book/'+ data.content[i].id +'/summary"><img src="/book/'+ data.content[i].id +'/image" alt="Book"></a>';
+                        } else {
+                            html += '<a ><img src="/book/'+ data.content[i].id +'/image" alt="Book"></a>'
+                        }
+                        html +=
                             '<figcaption>'+
                             '<header>'+
                             '<h4><a>'+data.content[i].nombre+'</a></h4>'+
                             '<p><strong>Autor(a): '+data.content[i].autor+'</strong></p>' +
-                            '<p><strong>ISBN: '+data.content[i].isbn+'</strong></p>'+
+                            '<p><strong>ISBN: '+data.content[i].autor+'</strong></p>'+
                             '</header>'+
-                            '<p style="width: 168; overflow: hidden">' + data.content[i].resenia + '</p>' +
-                            '<div class="actions" sec:authorize="hasRole(\'ROLE_USER\')">'+
-                            '<ul>'+
-                            '<li>'+
-                            '<a href="/addtocart/'+ data.content[i].id +'?view=/bookgrid" data-toggle="blog-tags" data-placement="top" title="Agregar al carrito">' +
-                            '<i class="fa fa-shopping-cart"></i>' +
-                            '</a>'+
-                            '</li>'+
-                            '</ul>'+
-                            '</div>'+
-                            '<div class="actions" sec:authorize="hasRole(\'ROLE_ADMIN\')">\n' +
-                            '<ul>'+
-                            '<li>'+
-                            '<a href="/book/'+ data.content[i].id +'/edit}" target="_blank" data-toggle="blog-tags" data-placement="top" title="Editar libro">'+
-                            '<i class="fa fa-book"></i>'+
-                            '</a>'+
-                            '</li>'+
-                            '</ul>'+
-                            '</div>'+
+                            '<p style="height: 80px; max-width: 168; overflow: hidden; white-space: normal; text-overflow: ellipsis;">' + data.content[i].resenia + '</p>';
+
+                        if (isUser != null) {
+                            html +=
+                                '<div class="actions">' +
+                                '<ul>' +
+                                '<li>' +
+                                '<a href="/addtocart/' + data.content[i].id + '?view=/bookgrid" data-toggle="blog-tags" data-placement="top" title="Agregar al carrito">' +
+                                '<i class="fa fa-shopping-cart"></i>' +
+                                '</a>' +
+                                '</li>' +
+                                '</ul>' +
+                                '</div>'
+                        } else if (isAdmin) {
+                            html +=
+                                '<div class="actions">'+
+                                '<ul>'+
+                                '<li>'+
+                                '<a href="/book/' + data.content[i].id + '/edit" target="_blank" data-toggle="blog-tags" data-placement="top" title="Editar libro">' +
+                                '<i class="fa fa-book"></i>' +
+                                '</a>' +
+                                '</li>' +
+                                '</ul>' +
+                                '</div>';
+                        }
+                        html +=
                             '</figcaption>'+
                             '</figure>'+
                             '</li>';
