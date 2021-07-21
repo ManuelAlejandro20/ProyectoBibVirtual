@@ -69,6 +69,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
         	.permitAll()
         .and()
 				.headers().frameOptions().sameOrigin();
+		http.csrf().disable();  //Habilitar para el login desde app
     }  
     
     @Override  
