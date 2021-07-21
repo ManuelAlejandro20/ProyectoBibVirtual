@@ -25,6 +25,8 @@
 package com.cmcorp.spring.BibliotecaDelDesierto.repository;
 
 import com.cmcorp.spring.BibliotecaDelDesierto.model.Libro;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -65,7 +67,7 @@ public interface RepositorioLibro extends JpaRepository<Libro, Integer> {
      * @param autor
      * @return List<Libro>
      */
-    @Query(value = "SELECT l.* FROM Libro AS l WHERE l.autor LIKE CONCAT('%', :autor, '%')", nativeQuery = true)
+    @Query(value = "SELECT l.* FROM libro AS l WHERE l.autor LIKE CONCAT('%', :autor, '%')", nativeQuery = true)
     List<Libro> findLibrosByAutor(@Param("autor") String autor);
 
     /**
@@ -74,19 +76,30 @@ public interface RepositorioLibro extends JpaRepository<Libro, Integer> {
      * @param cantCategorias
      * @return List<Libro>
      */
-    @Query(value = "SELECT l.* FROM Libro AS l JOIN Libro_Categoria AS lc ON l.id = lc.libro_id " +
+    @Query(value = "SELECT l.* FROM libro AS l JOIN libro_categoria AS lc ON l.id = lc.libro_id " +
             "WHERE lc.categoria_id IN :lista_id_categorias " +
             "GROUP BY lc.libro_id " +
             "HAVING COUNT(lc.libro_id) >= :cant_categorias", nativeQuery = true)
     List<Libro> findLibrosByCategoriasId(@Param("lista_id_categorias") List<Integer> listaIdCategorias, @Param("cant_categorias") Integer cantCategorias);
 
     /**
-     * Returns a list of books by a title
-     * @param titulo
+     * Returns a list of books by a title or autor
+     * @param texto
      * @return List<Libro>
      */
-    @Query(value = "SELECT l.* FROM Libro AS l WHERE l.nombre LIKE CONCAT('%',:titulo,'%')", nativeQuery = true)
-    List<Libro> findLibrosByTitulo(@Param("titulo") String titulo);
+    @Query(value = "SELECT l.* FROM libro AS l WHERE l.nombre LIKE CONCAT('%',:texto,'%') OR l.autor LIKE CONCAT('%',:texto,'%')", nativeQuery = true)
+    Page<Libro> findAllByTituloOrAutor(@Param("texto") String texto, Pageable pageable);
+
+    @Query(value = "SELECT l.* FROM libro AS l WHERE l.idioma_id = :idioma AND ( l.nombre LIKE CONCAT('%',:texto,'%') OR l.autor LIKE CONCAT('%',:texto,'%'))", nativeQuery = true)
+    Page<Libro> findAllByTituloOrAutorAndIdioma(@Param("texto") String texto, @Param("idioma") Integer idioma, Pageable pageable);
+
+    @Query(value = "SELECT l.* FROM libro AS l JOIN libro_categoria AS lc ON l.id = lc.libro_id WHERE lc.categoria_id = :categoria AND l.idioma_id = :idioma", nativeQuery = true)
+    Page<Libro> findAllByIdiomaAndCategoria(@Param("idioma") Integer idioma, @Param("categoria") Integer categoria, Pageable pageable);
+
+    @Query(value = "SELECT l.* FROM libro AS l JOIN libro_categoria AS lc ON l.id = lc.libro_id WHERE lc.categoria_id = :categoria AND l.idioma_id = :idioma AND ( l.nombre LIKE CONCAT('%',:texto,'%') OR l.autor LIKE CONCAT('%',:texto,'%'))", nativeQuery = true)
+    Page<Libro> findAllByTituloOrAutorAndIdiomaAndCategoria(@Param("texto") String texto, @Param("idioma") Integer idioma, @Param("categoria") Integer categoria, Pageable pageable);
+
+    Page<Libro> findAllByIdiomaId(@Param("idioma") Integer idioma, Pageable pageable);
 
     /**
      * Returns true if the ISBN is asociated to another book

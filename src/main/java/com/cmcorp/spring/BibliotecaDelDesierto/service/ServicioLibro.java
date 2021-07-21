@@ -28,7 +28,9 @@ import com.cmcorp.spring.BibliotecaDelDesierto.model.Libro;
 import com.cmcorp.spring.BibliotecaDelDesierto.repository.RepositorioLibro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -151,5 +153,28 @@ public class ServicioLibro {
 
     public boolean fileUsed(String file) {
         return repositorioLibro.existsByNombreImagenOrNombreArchivo(file, file);
+    }
+
+    public Page<Libro> allBooks(Integer page, Integer pageSize, String sortingField, String sortingDirection) {
+        Sort sort = Sort.by(Sort.Direction.valueOf(sortingDirection), sortingField);
+        Pageable pageable = PageRequest.of(page, pageSize, sort);
+        return repositorioLibro.findAll(pageable);
+    }
+
+    public Page<Libro> allBooksBy(Integer page, Integer pageSize, String sortingField, String sortingDirection, Integer idioma, Integer categoria, String texto) {
+        Sort sort = Sort.by(Sort.Direction.valueOf(sortingDirection), sortingField);
+        Pageable pageable = PageRequest.of(page, pageSize, sort);
+
+        if (texto != "" && idioma == -1 && categoria == -1) {
+            return repositorioLibro.findAllByTituloOrAutor(texto, pageable);
+        } else if (texto != "" && idioma != -1 && categoria == -1) {
+            return repositorioLibro.findAllByTituloOrAutorAndIdioma(texto, idioma, pageable);
+        } else if (texto == "" && idioma != -1 && categoria == -1) {
+            return repositorioLibro.findAllByIdiomaId(idioma, pageable);
+        } else if (texto == "" && idioma != -1 && categoria != -1) {
+            return repositorioLibro.findAllByIdiomaAndCategoria(idioma, categoria, pageable);
+        } else {
+            return repositorioLibro.findAllByTituloOrAutorAndIdiomaAndCategoria(texto, idioma, categoria, pageable);
+        }
     }
 }

@@ -234,23 +234,17 @@ public class ControladorLibroClient {
 
 	@GetMapping("/bookgrid")
 	public String bookgrid(Model model) {
-		ResponseEntity<Object[]> responseEntity = new RestTemplate().getForEntity("http://localhost:8080/books-", Object[].class);
-		if(responseEntity.getStatusCode() == HttpStatus.OK) {
-			model.addAttribute("libros", responseEntity.getBody());
-			return "bookgrid"; 
-		}
-		throw new RuntimeException("El servidor no respondio de forma correcta");
+		model.addAttribute("idiomas", servicioIdioma.listaIdiomas());
+		model.addAttribute("categorias", servicioCategoria.listaCategorias());
+		return "bookgrid";
 	}
-	
-    @GetMapping("/booklist")
-    public String catalogoLista(Model model) {
-		ResponseEntity<Libro[]> responseEntity = new RestTemplate().getForEntity("http://localhost:8080/books-", Libro[].class);
-		if(responseEntity.getStatusCode() == HttpStatus.OK) {
-			model.addAttribute("libros", responseEntity.getBody());
-			return "booklist"; 
-		}
-		throw new RuntimeException("El servidor no respondio de forma correcta");
-    }    	
+
+	@GetMapping("/booklist")
+	public String catalogoLista2(Model model) {
+		model.addAttribute("idiomas", servicioIdioma.listaIdiomas());
+		model.addAttribute("categorias", servicioCategoria.listaCategorias());
+		return "booklist";
+	}
     
     @GetMapping("/book/{id}/summary")
     public String verLibro(@PathVariable Integer id, Model model) {

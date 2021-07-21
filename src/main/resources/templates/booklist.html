@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="zxx">
     
-<head th:replace="fragments/header :: head"><meta charset="UTF-8"/></head>        
-
-<body>
+<head th:replace="fragments/header :: head"><meta charset="UTF-8"/></head>
+<meta charset="UTF-8" />
+<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<body onload="getBooks()">
 
     <header th:replace="fragments/header :: header"></header>
             
@@ -13,7 +14,7 @@
             <div class="banner-header">
                 <h2>Libro disponibles</h2>
 				<span class="underline center"></span>
-                <p class="lead">Â¡Dale un vistazo a nuestra mejor coleccion!</p>
+                <p class="lead">!Dale un vistazo a nuestra mejor coleccion¡</p>
             </div>
             <div class="breadcrumb">
                 <ul>
@@ -31,71 +32,62 @@
             <main id="main" class="site-main">
                 <div class="books-media-list">
                     <div class="container">
-<!--                          <div class="row">  -->
+                          <div class="row">
 <!--                              Start: Search Section --> 
-<!--                             <section class="search-filters"> -->
-<!--                                 <div class="container"> -->
-<!--                                     <div class="filter-box"> -->
+                             <section class="search-filters">
+                                 <div class="container">
+                                     <div class="filter-box">
 
-<!--                                         <h3>Â¿QuÃ© es lo que estas buscando el dÃ­a de hoy?</h3> -->
+                                         <h3>¿Qué es lo que estas buscando el día de hoy?</h3>
 
-<!--                                         <form action="http://libraria.demo.presstigers.com/index.html" method="get"> -->
-<!--                                             <div class="col-md-4 col-sm-6"> -->
-<!--                                                 <div class="form-group"> -->
-<!--                                                     <label class="sr-only" for="keywords">Buscar por palabra</label> -->
-<!--                                                     <input class="form-control" placeholder="Buscar por palabra" id="keywords" name="keywords" type="text"> -->
-<!--                                                 </div> -->
-<!--                                             </div> -->
-<!--                                             <div class="col-md-3 col-sm-6"> -->
-<!--                                                 <div class="form-group"> -->
-<!--                                                     <select name="idioma" id="idioma" class="form-control"> -->
-<!--                                                         <option>Todos los idiomas</option> -->
-<!--                                                         <option>Catalog 01</option> -->
-<!--                                                         <option>Catalog 02</option> -->
-<!--                                                         <option>Catalog 03</option> -->
-<!--                                                         <option>Catalog 04</option> -->
-<!--                                                         <option>Catalog 05</option> -->
-<!--                                                     </select> -->
-<!--                                                 </div> -->
-<!--                                             </div> -->
-<!--                                             <div class="col-md-3 col-sm-6"> -->
-<!--                                                 <div class="form-group"> -->
-<!--                                                     <select name="categoria" id="categoria" class="form-control"> -->
-<!--                                                         <option>Todas las categorÃ­as</option> -->
-<!--                                                         <option>Category 01</option> -->
-<!--                                                         <option>Category 02</option> -->
-<!--                                                         <option>Category 03</option> -->
-<!--                                                         <option>Category 04</option> -->
-<!--                                                         <option>Category 05</option> -->
-<!--                                                     </select> -->
-<!--                                                 </div> -->
-<!--                                             </div> -->
-<!--                                             <div class="col-md-2 col-sm-6"> -->
-<!--                                                 <div class="form-group"> -->
-<!--                                                     <input class="form-control" type="submit" value="Buscar"> -->
-<!--                                                 </div> -->
-<!--                                             </div> -->
-<!--                                         </form> -->
-<!--                                     </div> -->
-<!--                                 </div> -->
-<!--                             </section> -->
+                                             <div class="col-md-4 col-sm-6">
+                                                 <div class="form-group">
+                                                     <label class="sr-only" for="keywords">Buscar por palabra</label>
+                                                     <input class="form-control" placeholder="Buscar por palabra" id="keywords" name="keywords" type="text">
+                                                 </div>
+                                             </div>
+                                             <div class="col-md-3 col-sm-6">
+                                                 <div class="form-group">
+                                                     <select name="idioma" id="idioma" class="form-control">
+                                                         <option value="-1">Todos los idiomas</option>
+                                                         <option th:each="idioma : ${idiomas}" th:value="${idioma.id}" th:text="${idioma.nombre}"></option>
+                                                     </select>
+                                                 </div>
+                                             </div>
+                                             <div class="col-md-3 col-sm-6">
+                                                 <div class="form-group">
+                                                     <select name="categoria" id="categoria" class="form-control">
+                                                         <option value="-1">Todas las categorías</option>
+                                                         <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nombre}"></option>
+                                                     </select>
+                                                 </div>
+                                             </div>
+                                            <div>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                             <div class="col-md-2 col-sm-6">
+                                                 <div class="form-group">
+                                                     <button onclick="getBooks();">Buscar</button>
+                                                 </div>
+                                             </div>
+                                     </div>
+                                 </div>
+                             </section>
 <!--                             End: Search Section -->
-<!--                          </div> -->
+                        </div>
                         <div class="row" style="margin-top:4%">
                             <div class="col-md-12">
                                 <div class="filter-options margin-list">
                                     <div class="row">                                            
-<!--                                         <div class="col-md-4 col-sm-4"> -->
-<!--                                             <select name="orderby"> -->
-<!--                                                 <option selected="selected">Ordenar por precio</option> -->
-<!--                                                 <option>Ordenar por nombre</option> -->
-<!--                                                 <option>Ordenar por tema</option> -->
-<!--                                                 <option>Ordenar por idioma</option> -->
-<!--                                             </select> -->
-<!--                                         </div> -->
-<!--                                         <div class="col-md-4 col-sm-4"> -->
-<!--                                             <div class="filter-result">Showing items 1 to 9 of 19 total</div> -->
-<!--                                         </div> -->
+                                         <div class="col-md-4 col-sm-4">
+                                             <select id="orderby" name="orderby">
+                                                 <option selected="selected" value="-1">Ordenar por</option>
+                                                 <option value="precio">Ordenar por precio</option>
+                                                 <option value="nombre">Ordenar por nombre</option>
+                                             </select>
+                                         </div>
                                         <div class="col-md-3 col-sm-3 pull-right">
                                             <div class="filter-toggle">
                                                 <a th:href="@{bookgrid}"><i class="glyphicon glyphicon-th-large"></i></a>
@@ -104,123 +96,74 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="books-list">
-                                    <article th:each="libro : ${libros}"> 
-                                        <div class="single-book-box">                                                
-                                            <div class="post-thumbnail">
-                                                <div class="book-list-icon yellow-icon"></div>
-                                                <a><img th:src="@{'/book/'+ ${libro.id} +'/image'}" alt="Book"  width="331" height="499" style="width: 330px; height: 340px;"></a>                                                                 </div>
-                                            <div class="post-detail" style="width:800px">
-                                                <div class="optional-links" sec:authorize="hasRole('ROLE_ADMIN')">
-                                                    <ul>
-                                                        <li>
-                                                            <a th:href="@{'/book/'+ ${libro.id} +'/edit'}" target="_blank" data-toggle="blog-tags" data-placement="top" title="Editar libro">
-                                                                <i class="fa fa-book"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <header class="entry-header">
-                                                    <div class="row">
-                                                        <div class="col-sm-6">
-                                                            <h3 class="entry-title">
-                                                                <a th:text="${libro.nombre}"></a>
-                                                            </h3>
-                                                            <ul>
-                                                                <li><strong th:text="|Autor(a): ${libro.autor}|"></strong></li>
-                                                                <li><strong th:text="|ISBN: ${libro.isbn}|"></strong></li>
-                                                                <li><strong th:text="|SKU: ${libro.sku}|"></strong></li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <ul>
-                                                                <li><strong th:text="|Páginas: ${libro.cantidadPag}|"></strong></li>
-                                                                <li><strong th:text="|Ejemplares disponibles: ${libro.stock}|"></strong></li>
-                                                            </ul>                                                                
-                                                        </div>
-                                                    </div>
-                                                </header>
-                                                <div class="entry-content">
-                                                    <p th:text="${#strings.abbreviate(libro.resenia, 168)}"></p>
-                                                </div>                                                
-                                                <footer class="entry-footer" sec:authorize="hasRole('ROLE_USER')">
-                                                    <a class="btn btn-dark-gray" th:href="@{'/book/'+ ${libro.id} +'/summary'}" >Leer más</a>
-                                                </footer>
-                                            </div>
-                                            <div class="clear"></div>
-                                        </div>
-                                    </article>
+                                <div id="lista_libros" class="books-list">
+
                                 </div>
                                 <nav class="navigation pagination text-center">
                                     <h2 class="screen-reader-text">Posts navigation</h2>
-                                    <div class="nav-links">
-                                        <a class="prev page-numbers" href="#."><i class="fa fa-long-arrow-left"></i> Anterior</a>
-                                        <a class="page-numbers current" href="#.">1</a>
-                                        <span class="page-numbers">2</span>
-                                        <a class="page-numbers" href="#.">3</a>
-                                        <a class="page-numbers" href="#.">4</a>
-                                        <a class="next page-numbers" href="#.">Siguiente <i class="fa fa-long-arrow-right"></i></a>
+                                    <div id="div_navegacion" class="nav-links">
+
                                     </div>
                                 </nav>
                             </div>
-<!--                             <div class="col-md-3 col-md-pull-9"> -->
-<!--                                 <aside id="secondary" class="sidebar widget-area" data-accordion-group> -->
-<!--                                     <div class="widget widget_recent_entries"> -->
-<!--                                         <h4 class="widget-title">Ãšltimos agregados</h4> -->
-<!--                                         <ul> -->
-<!--                                             <li> -->
-<!--                                                 <figure> -->
-<!--                                                     <img src="images/order-item-01.jpg" alt="product" /> -->
-<!--                                                 </figure> -->
-<!--                                                 <a href="#">The Sonic Boom</a> -->
-<!--                                                 <span class="price"><strong>Author:</strong> F. Scott Fitzgerald</span> -->
-<!--                                                 <span><strong>ISBN:</strong> 978158157</span> -->
-<!--                                                 <div class="rating"> -->
-<!--                                                     <span>â˜†</span> -->
-<!--                                                     <span>â˜†</span> -->
-<!--                                                     <span>â˜†</span> -->
-<!--                                                     <span>â˜†</span> -->
-<!--                                                     <span>â˜†</span> -->
-<!--                                                 </div> -->
-<!--                                                 <div class="clearfix"></div> -->
-<!--                                             </li> -->
-<!--                                             <li> -->
-<!--                                                 <figure> -->
-<!--                                                     <img src="images/order-item-02.jpg" alt="product" /> -->
-<!--                                                 </figure> -->
-<!--                                                 <a href="#">The Sonic Boom</a> -->
-<!--                                                 <span class="price"><strong>Author:</strong> F. Scott Fitzgerald</span> -->
-<!--                                                 <span><strong>ISBN:</strong> 978158157</span> -->
-<!--                                                 <div class="rating"> -->
-<!--                                                     <span>â˜†</span> -->
-<!--                                                     <span>â˜†</span> -->
-<!--                                                     <span>â˜†</span> -->
-<!--                                                     <span>â˜†</span> -->
-<!--                                                     <span>â˜†</span> -->
-<!--                                                 </div> -->
-<!--                                                 <div class="clearfix"></div> -->
-<!--                                             </li> -->
-<!--                                             <li> -->
-<!--                                                 <figure> -->
-<!--                                                     <img src="images/order-item-03.jpg" alt="product" /> -->
-<!--                                                 </figure> -->
-<!--                                                 <a href="#">The Sonic Boom</a> -->
-<!--                                                 <span class="price"><strong>Author:</strong> F. Scott Fitzgerald</span> -->
-<!--                                                 <span><strong>ISBN:</strong> 978158157</span> -->
-<!--                                                 <div class="rating"> -->
-<!--                                                     <span>â˜†</span> -->
-<!--                                                     <span>â˜†</span> -->
-<!--                                                     <span>â˜†</span> -->
-<!--                                                     <span>â˜†</span> -->
-<!--                                                     <span>â˜†</span> -->
-<!--                                                 </div> -->
-<!--                                                 <div class="clearfix"></div> -->
-<!--                                             </li> -->
-<!--                                         </ul> -->
-<!--                                         <div class="clearfix"></div> -->
-<!--                                     </div> -->
-<!--                                 </aside> -->
-<!--                             </div> -->
+<!--                             <div class="col-md-3 col-md-pull-9">
+                                 <aside id="secondary" class="sidebar widget-area" data-accordion-group>
+                                     <div class="widget widget_recent_entries">
+                                         <h4 class="widget-title">Ãšltimos agregados</h4>
+                                         <ul>
+                                             <li>
+                                                 <figure>
+                                                     <img src="images/order-item-01.jpg" alt="product" />
+                                                 </figure>
+                                                 <a href="#">The Sonic Boom</a>
+                                                 <span class="price"><strong>Author:</strong> F. Scott Fitzgerald</span>
+                                                 <span><strong>ISBN:</strong> 978158157</span>
+                                                 <div class="rating">
+                                                     <span>â˜†</span>
+                                                     <span>â˜†</span>
+                                                     <span>â˜†</span>
+                                                     <span>â˜†</span>
+                                                     <span>â˜†</span>
+                                                 </div>
+                                                 <div class="clearfix"></div>
+                                             </li>
+                                             <li>
+                                                 <figure>
+                                                     <img src="images/order-item-02.jpg" alt="product" />
+                                                 </figure>
+                                                 <a href="#">The Sonic Boom</a>
+                                                 <span class="price"><strong>Author:</strong> F. Scott Fitzgerald</span>
+                                                 <span><strong>ISBN:</strong> 978158157</span>
+                                                 <div class="rating">
+                                                     <span>â˜†</span>
+                                                     <span>â˜†</span>
+                                                     <span>â˜†</span>
+                                                     <span>â˜†</span>
+                                                     <span>â˜†</span>
+                                                 </div>
+                                                 <div class="clearfix"></div>
+                                             </li>
+                                             <li>
+                                                 <figure>
+                                                     <img src="images/order-item-03.jpg" alt="product" />
+                                                 </figure>
+                                                 <a href="#">The Sonic Boom</a>
+                                                 <span class="price"><strong>Author:</strong> F. Scott Fitzgerald</span>
+                                                 <span><strong>ISBN:</strong> 978158157</span>
+                                                 <div class="rating">
+                                                     <span>â˜†</span>
+                                                     <span>â˜†</span>
+                                                     <span>â˜†</span>
+                                                     <span>â˜†</span>
+                                                     <span>â˜†</span>
+                                                 </div>
+                                                 <div class="clearfix"></div>
+                                             </li>
+                                         </ul>
+                                         <div class="clearfix"></div>
+                                     </div>
+                                 </aside>
+                             </div> -->
                         </div>
                     </div>
                     
@@ -266,6 +209,197 @@
     <!-- End: Social Network -->
 
     <footer th:replace="fragments/footer :: footer"> </footer>
+    <script>
+
+        var pageNumber = 0, sortField = 'id', sortDirection = 'DESC', pageSize = 4;
+        var pagAnterior, pagSiguiente, currentPage, texto="", idioma, categoria;
+
+        function displayPages(pageable, totalElementos, totalPaginas) {
+            pagAnterior = pageable.pageNumber-1;
+            pagSiguiente = pageable.pageNumber+1;
+
+            if (pagAnterior < 0) {
+                pagAnterior = 0;
+            }
+            if (pagSiguiente >= totalPaginas) {
+                pagSiguiente = totalPaginas-1;
+            }
+
+            var html = '<a class="prev page-numbers" onclick="getBooks(\''+pagAnterior+'\',\''+sortField+'\',\''+sortDirection+'\')"><i class="fa fa-long-arrow-left"></i> Anterior</a>';
+
+            if (totalPaginas == 1) {
+                html += '<a class="page-numbers current" >'+(pageable.pageNumber+1)+'</a>';
+            } else {
+                if (pageable.pageNumber == 0) {
+                    html += '<a class="page-numbers current" >' + (pageable.pageNumber + 1) + '</a>' +
+                        '<a class="page-numbers" >...</a>' +
+                        '<a class="page-numbers" onclick="getBooks(\'' + (totalPaginas - 1) + '\',\'' + sortField + '\',\'' + sortDirection + '\')">' + totalPaginas + '</a>';
+                } else if (pageable.pageNumber == totalPaginas - 1) {
+                    html += '<a class="page-numbers" onclick="getBooks(\'' + 0 + '\',\'' + sortField + '\',\'' + sortDirection + '\')">1</a>' +
+                        '<a class="page-numbers" >...</a>' +
+                        '<a class="page-numbers current" >' + (totalPaginas) + '</a>';
+                } else {
+                    html += '<a class="page-numbers" onclick="getBooks(\'' + 0 + '\',\'' + sortField + '\',\'' + sortDirection + '\')">1</a>' +
+                        '<a class="page-numbers current">' + (pageable.pageNumber + 1) + '</a>' +
+                        '<a class="page-numbers" onclick="getBooks(\'' + (totalPaginas - 1) + '\',\'' + sortField + '\',\'' + sortDirection + '\')">' + totalPaginas + '</a>';
+                }
+            }
+
+            html += '<a class="next page-numbers" onclick="getBooks(\''+pagSiguiente+'\',\''+sortField+'\',\''+sortDirection+'\')"><i class="fa fa-long-arrow-right"></i> Siguiente</a>';
+
+            document.getElementById("div_navegacion").innerHTML = html;
+        }
+
+        function getBooks(page, sortingField, sortingDirection) {
+            if (page == null) {
+                page = pageNumber;
+            }
+            if (sortingField == null) {
+                var sort = document.getElementById("orderby").value;
+                if (sort == "-1") {
+                    sortingField = sortField;
+                } else {
+                    sortingField = sort;
+                    sortingDirection = "ASC";
+                }
+            }
+            if (sortingDirection == null) {
+                sortingDirection = sortDirection;
+            }
+
+            texto = document.getElementById("keywords").value;
+            idioma = document.getElementById("idioma").value;
+            categoria = document.getElementById("categoria").value;
+
+            if (texto == "" && idioma == -1 && categoria == -1) {
+                var html = '';
+                $.get("http://localhost:8080/books?page=" + page + "&size=" + pageSize + "&sortingField=" + sortingField + "&sortingDirection=" + sortingDirection, function (data, status) {
+
+                    for (var i = 0; i < data.content.length; i++) {
+                        html +=
+                            '<article>' +
+                            '<div class="single-book-box">' +
+                            '<div class="post-thumbnail">' +
+                            '<div class="optional-links" sec:authorize="hasRole(ROLE_ADMIN)">' +
+                            '<ul>' +
+                            '<li>' +
+                            '<a href="/book/' + data.content[i].id + '/edit" target="_blank" data-toggle="blog-tags" data-placement="top" title="Editar libro">' +
+                            '<i class="fa fa-book"></i>' +
+                            '</a>' +
+                            '</li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '<div class="book-list-icon yellow-icon">' +
+                            '</div>' +
+                            '<a>' +
+                            '<img src="/book/' + data.content[i].id + '/image" alt="Book"  width="331" height="499" style="width: 330px; height: 340px;">' +
+                            '</a>' +
+                            '</div>' +
+                            '<div class="post-detail" style="width:800px">' +
+                            '<header class="entry-header">' +
+                            '<div class="row">' +
+                            '<div class="col-sm-6">' +
+                            '<h3 class="entry-title">' +
+                            '<a></a>' +
+                            '</h3>' +
+                            '<ul>' +
+                            '<li><strong>Autor(a): ' + data.content[i].autor + '</strong></li>\n' +
+                            '<li><strong>ISBN: ' + data.content[i].isbn + '</strong></li>' +
+                            '<li><strong>SKU: ' + data.content[i].sku + '</strong></li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '<div class="col-sm-6">' +
+                            '<ul>' +
+                            '<li><strong>Páginas: ' + data.content[i].cantidadPag + '</strong></li>' +
+                            '<li><strong>Ejemplares disponibles: ' + data.content[i].stock + '</strong></li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '</div>' +
+                            '</header>' +
+                            '<div class="entry-content">' +
+                            '<p style="width: 168; overflow: hidden">' + data.content[i].resenia + '</p>' +
+                            '</div>' +
+                            '<footer class="entry-footer" sec:authorize="hasRole(\'ROLE_USER\')">\n' +
+                            '<a class="btn btn-dark-gray" href="/book/' + data.content[i].id + '/summary" >Leer más</a>' +
+                            '</footer>' +
+                            '</div>' +
+                            '<div class="clear">' +
+                            '</div>' +
+                            '</div>' +
+                            '</article>';
+                    }
+                    document.getElementById("lista_libros").innerHTML = html;
+                    displayPages(data.pageable, data.totalElements, data.totalPages);
+                    currentPage = data.number;
+                    console.log(data);
+                });
+            } else {
+                $.get("http://localhost:8080/booksfield?page="+page+"&size="+pageSize+"&sortingField="+sortingField+"&sortingDirection="+sortingDirection+"&idioma="+idioma+"&categoria="+categoria+"&texto="+texto, function (data, status) {
+
+                    html = '';
+
+                    for (var i = 0; i < data.content.length; i++) {
+                        html +=
+                            '<article>' +
+                            '<div class="single-book-box">' +
+                            '<div class="post-thumbnail">' +
+                            '<div class="optional-links" sec:authorize="hasRole(ROLE_ADMIN)">' +
+                            '<ul>' +
+                            '<li>' +
+                            '<a href="/book/' + data.content[i].id + '/edit" target="_blank" data-toggle="blog-tags" data-placement="top" title="Editar libro">' +
+                            '<i class="fa fa-book"></i>' +
+                            '</a>' +
+                            '</li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '<div class="book-list-icon yellow-icon">' +
+                            '</div>' +
+                            '<a>' +
+                            '<img src="/book/' + data.content[i].id + '/image" alt="Book"  width="331" height="499" style="width: 330px; height: 340px;">' +
+                            '</a>' +
+                            '</div>' +
+                            '<div class="post-detail" style="width:800px">' +
+                            '<header class="entry-header">' +
+                            '<div class="row">' +
+                            '<div class="col-sm-6">' +
+                            '<h3 class="entry-title">' +
+                            '<a></a>' +
+                            '</h3>' +
+                            '<ul>' +
+                            '<li><strong>Autor(a): ' + data.content[i].autor + '</strong></li>\n' +
+                            '<li><strong>ISBN: ' + data.content[i].isbn + '</strong></li>' +
+                            '<li><strong>SKU: ' + data.content[i].sku + '</strong></li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '<div class="col-sm-6">' +
+                            '<ul>' +
+                            '<li><strong>Páginas: ' + data.content[i].cantidadPag + '</strong></li>' +
+                            '<li><strong>Ejemplares disponibles: ' + data.content[i].stock + '</strong></li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '</div>' +
+                            '</header>' +
+                            '<div class="entry-content">' +
+                            '<p style="width: 168; overflow: hidden">' + data.content[i].resenia + '</p>' +
+                            '</div>' +
+                            '<footer class="entry-footer" sec:authorize="hasRole(\'ROLE_USER\')">\n' +
+                            '<a class="btn btn-dark-gray" href="/book/' + data.content[i].id + '/summary" >Leer más</a>' +
+                            '</footer>' +
+                            '</div>' +
+                            '<div class="clear">' +
+                            '</div>' +
+                            '</div>' +
+                            '</article>';
+                    }
+                    document.getElementById("lista_libros").innerHTML = html;
+                    displayPages(data.pageable, data.totalElements, data.totalPages);
+                    currentPage = data.number;
+                    console.log(data);
+                });
+            }
+        }
+
+    </script>
 
 </body>
 

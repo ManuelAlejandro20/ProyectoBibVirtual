@@ -27,6 +27,7 @@ package com.cmcorp.spring.BibliotecaDelDesierto.controller;
 import com.cmcorp.spring.BibliotecaDelDesierto.model.*;
 import com.cmcorp.spring.BibliotecaDelDesierto.model.dto.LibroCategoriaDTO;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioLibro;
+import lombok.var;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,8 +44,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 @RestController
 public class ControladorLibro {
@@ -63,11 +66,16 @@ public class ControladorLibro {
 	}
 
 	@GetMapping("/books")
-	@ResponseBody
-	public Page<Libro> obtenerTodos(@PageableDefault(size = 2, page=0) Pageable pageable) {
-		Page<Libro> result = servicioLibro.findAll(pageable);
-		return result;
+	public Page<Libro> obtenerTodos(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sortingField, @RequestParam String sortingDirection) {
+		return servicioLibro.allBooks(page, size, sortingField, sortingDirection);
 	}
+
+	@GetMapping("/booksfield")
+	public Page<Libro> getAllXNombreOrAutor(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sortingField, @RequestParam String sortingDirection, @RequestParam Integer idioma, @RequestParam Integer categoria, @RequestParam String texto) {
+
+		return servicioLibro.allBooksBy(page, size, sortingField, sortingDirection, idioma, categoria, texto);
+	}
+
 
 	@GetMapping("/books/byautor/{autor}")
 	public List<Libro> getAllXAutor(@PathVariable(value = "autor") String autor) {
