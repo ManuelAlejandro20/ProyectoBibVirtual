@@ -24,11 +24,19 @@
 
 package com.cmcorp.spring.BibliotecaDelDesierto.repository;
 
+import com.cmcorp.spring.BibliotecaDelDesierto.model.Compra;
 import com.cmcorp.spring.BibliotecaDelDesierto.model.LibroCompra;
+
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Interface of the LibroCompra for encapsulating storage
  */
 public interface RepositorioLibroCompra extends JpaRepository<LibroCompra, Integer> {
+	
+
+	List<LibroCompra> findLibroCompraByCompra(Compra compra);
+	
 }

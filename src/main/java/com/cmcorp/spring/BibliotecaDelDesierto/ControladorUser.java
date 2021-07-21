@@ -25,11 +25,16 @@
 package com.cmcorp.spring.BibliotecaDelDesierto;
 
 import com.cmcorp.spring.BibliotecaDelDesierto.model.CartItem;
+import com.cmcorp.spring.BibliotecaDelDesierto.model.Categoria;
+import com.cmcorp.spring.BibliotecaDelDesierto.model.Compra;
 import com.cmcorp.spring.BibliotecaDelDesierto.model.Libro;
+import com.cmcorp.spring.BibliotecaDelDesierto.model.LibroCompra;
 import com.cmcorp.spring.BibliotecaDelDesierto.model.User;
 import com.cmcorp.spring.BibliotecaDelDesierto.model.dto.UserDTO;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioCartItem;
+import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioCompra;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioLibro;
+import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioLibroCompra;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,8 +46,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -56,13 +65,20 @@ public class ControladorUser {
     private final ServicioUser servicioUser;
     private final ServicioCartItem servicioCarrito;
     private final ServicioLibro servicioLibro;
+    private final ServicioCompra servicioCompra;
+    private final ServicioLibroCompra servicioLibroCompra;
+    
    
     
     @Autowired
-    public ControladorUser(ServicioUser servicioUser, ServicioCartItem servicioCarrito, ServicioLibro servicioLibro){
+    public ControladorUser(ServicioUser servicioUser, ServicioCartItem servicioCarrito, 
+    		ServicioLibro servicioLibro, ServicioCompra servicioCompra,
+    		ServicioLibroCompra servicioLibroCompra){
         this.servicioUser = servicioUser;
         this.servicioCarrito = servicioCarrito;
         this.servicioLibro = servicioLibro;
+        this.servicioCompra = servicioCompra;
+        this.servicioLibroCompra = servicioLibroCompra;
     }
 
     /**
@@ -199,6 +215,10 @@ public class ControladorUser {
         
     @GetMapping("/checkout")
     public String checkout(Model model) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	User usuario = servicioUser.getUserXUsername(auth.getName());
+    	List<CartItem> itemsCarrito = servicioCarrito.listCartItems(usuario);
+    	model.addAttribute("carrito", itemsCarrito);    	
     	return("/checkout");
     }
     
@@ -348,6 +368,90 @@ public class ControladorUser {
     	return "redirect:" + url; 
     	
     }
+    
+    @PostMapping("/payment")
+    public String pago(HttpSession session, RedirectAttributes redirAttrs) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	User usuario = servicioUser.getUserXUsername(auth.getName());
+    	List<CartItem> carrito = servicioCarrito.listCartItems(usuario);
+    	int total = calcularTotalCarro(carrito);
+    	
+    	Compra compra = new Compra();
+    	Set<LibroCompra> librosCompras = new HashSet<>();
+    	    	
+    	compra.setUser(usuario);
+    	compra.setFecha();
+    	compra.setMontoTotal(total);
+    	compra.setDescuento(0);
+    	
+    	servicioCompra.saveCompra(compra);
+    	
+    	for(CartItem c : carrito) {
+    		LibroCompra lc= new LibroCompra();
+    		lc.setCompra(compra);
+    		lc.setLibro(c.getLibro());
+    		lc.setUnidades(c.getCantidad());
+    		
+    		librosCompras.add(lc);
+    		
+    		servicioLibroCompra.addLibroCompra(lc);
+    		
+    		servicioLibro.setStockLibro(c.getLibro().getStock()-c.getCantidad(), c.getLibro().getId());
+    	
+    		servicioCarrito.deleteCartItem(c);
+    		
+    	}
+   
+		session.setAttribute("Carrito", servicioCarrito.listCartItems(usuario));
+		session.setAttribute("Total", 0);
+    	
+		redirAttrs.addFlashAttribute("success", "¡Pago realizado con exito!");
+		
+    	return "redirect:/checkout";
+    }
+    
+    @GetMapping("/library")
+    public String biblioteca(Model model) {
+    	
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	User usuario = servicioUser.getUserXUsername(auth.getName());
+    	
+    	List<Compra> compras = servicioCompra.listaCompras(usuario.getId());
+    	List<Libro> libros = new ArrayList<Libro>();
+    	List<Integer> cantidades = new ArrayList<Integer>();
+    	
+    	for(Compra c: compras) {
+    		
+    		List<LibroCompra> librosCompra = servicioLibroCompra.listaLibros(c);
+    		
+    		for(LibroCompra lc : librosCompra) {
+    			libros.add(lc.getLibro());
+    			cantidades.add(lc.getUnidades());
+    		}
+    		
+    		
+    	}
+    	
+    	model.addAttribute("libros", libros);
+    	model.addAttribute("cantidades", cantidades);
+    	
+    	return "library";
+    }
+    
+    @GetMapping("/library/{id}")
+    public String resumenLibroComprado(@PathVariable int id, @RequestParam("cantidad") int cantidad, Model model) {
+    	
+    	Libro libro = servicioLibro.getLibroXId(id);
+
+    	model.addAttribute("libro" ,libro);
+    	model.addAttribute("cantidad", cantidad);
+    	
+		String categorias = libro.getCategorias().stream().map(Categoria::getNombre).collect(Collectors.joining(", "));
+
+		model.addAttribute("categorias", categorias);
+    	
+    	return "summaryuser";
+    }   
     
     public int calcularTotalCarro(List<CartItem> carrito) {
     	int total = 0;

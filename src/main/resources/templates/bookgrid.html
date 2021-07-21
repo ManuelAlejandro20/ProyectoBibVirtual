@@ -153,7 +153,7 @@
 
     <script type="text/javascript">
 
-        var pageNumber = 0, sortField = 'id', sortDirection = 'DESC', pageSize = 4;
+        var pageNumber = 0, sortField = 'id', sortDirection = 'DESC', pageSize = 6;
         var pagAnterior, pagSiguiente, currentPage, texto="", idioma, categoria;
 
         function displayPages(pageable, totalElementos, totalPaginas) {
@@ -188,7 +188,7 @@
             }
 
             html += '<a class="next page-numbers" onclick="getBooks(\''+pagSiguiente+'\',\''+sortField+'\',\''+sortDirection+'\')"><i class="fa fa-long-arrow-right"></i> Siguiente</a>'+
-                '<br><span>'+pageable.offset+' de '+totalElementos+' libros</span>';
+                '<br><span>'+(pageable.offset) +' de '+totalElementos+' libros</span>';
 
             document.getElementById("div_navegacion").innerHTML = html;
         }
@@ -238,7 +238,7 @@
                             '<header>'+
                             '<h4><a>'+data.content[i].nombre+'</a></h4>'+
                             '<p><strong>Autor(a): '+data.content[i].autor+'</strong></p>' +
-                            '<p><strong>ISBN: '+data.content[i].autor+'</strong></p>'+
+                            '<p><strong>ISBN: '+data.content[i].isbn+'</strong></p>'+
                             '</header>'+
                             '<p style="max-width: 168; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">' + data.content[i].resenia + '</p>';
 
@@ -293,7 +293,7 @@
                             '<header>'+
                             '<h4><a>'+data.content[i].nombre+'</a></h4>'+
                             '<p><strong>Autor(a): '+data.content[i].autor+'</strong></p>' +
-                            '<p><strong>ISBN: '+data.content[i].autor+'</strong></p>'+
+                            '<p><strong>ISBN: '+data.content[i].isbn+'</strong></p>'+
                             '</header>'+
                             '<p style="width: 168; overflow: hidden">' + data.content[i].resenia + '</p>' +
                             '<div class="actions" sec:authorize="hasRole(\'ROLE_USER\')">'+

@@ -262,5 +262,10 @@ public class ControladorLibroClient {
 		throw new RuntimeException("El servidor no respondio de forma correcta");
     }      
 	
+    @GetMapping("/library/{id}/read")
+    public String read(@PathVariable int id, Model model) {
+    	model.addAttribute("id", id);
+    	return "readbook";
+    }
 	
 }

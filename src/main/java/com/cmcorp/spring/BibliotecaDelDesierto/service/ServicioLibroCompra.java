@@ -24,8 +24,12 @@
 
 package com.cmcorp.spring.BibliotecaDelDesierto.service;
 
+import com.cmcorp.spring.BibliotecaDelDesierto.model.Compra;
 import com.cmcorp.spring.BibliotecaDelDesierto.model.LibroCompra;
 import com.cmcorp.spring.BibliotecaDelDesierto.repository.RepositorioLibroCompra;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,4 +50,13 @@ public class ServicioLibroCompra {
     public void addLibroCompra(LibroCompra libroCompra){
         repositorioLC.save(libroCompra);
     }
+    
+    /**
+     * GET a all purchased books by a purchase
+     * @param compra
+     * @return List<LibroCompra>
+     */
+    public List<LibroCompra> listaLibros(Compra compra){
+        return repositorioLC.findLibroCompraByCompra(compra);
+    }	    
 }
