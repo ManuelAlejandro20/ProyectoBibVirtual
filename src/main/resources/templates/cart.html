@@ -34,7 +34,7 @@
                                 <div class="page type-page status-publish hentry">
                                     <div class="entry-content">
                                         <div class="woocommerce table-tabs" id="responsiveTabs">
-											<div class="tab-content">
+                                            <div class="tab-content" style="width: 1200px">
 												<div id="sectionA" class="tab-pane fade in active">
 													<table class="table table-bordered shop_table cart">
 														<thead>
@@ -72,6 +72,10 @@
 														</tbody>
 													</table>
 													<h4 th:text="|Precio total: $${session.Total}|"></h4>
+                                                    <br>
+                                                    <div class="cart-buttons" style="position: relative; left: 50%">
+                                                        <a th:href=@{checkout} class="btn btn-primary" style="color:white">Pagar todo</a>
+                                                    </div>
 												</div>
 											</div>
                                         </div>
