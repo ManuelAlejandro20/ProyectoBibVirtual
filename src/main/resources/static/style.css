@@ -15654,7 +15654,7 @@ a:focus {
 }
 .contact-us .contact-area .border-gray-left,
 .contact-us .contact-area .border-gray-right {
-  border: 20px solid #f4f4f4;
+  border: 0px solid #f4f4f4;
   padding: 0;
 }
 @media (max-width: 991px) {
