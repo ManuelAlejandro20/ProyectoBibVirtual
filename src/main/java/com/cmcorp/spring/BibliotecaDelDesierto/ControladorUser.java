@@ -36,6 +36,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -64,6 +66,33 @@ public class ControladorUser {
         this.servicioCarrito = servicioCarrito;
         this.servicioLibro = servicioLibro;
     }
+
+	/**
+	 * Method to login from api
+	 * @param username
+	 * @param pwd
+	 * @return
+	 */
+	@RequestMapping(value =   "/app/login", method = RequestMethod.POST)
+	public ResponseEntity<User> login(@RequestParam("username") String username, @RequestParam("password") String pwd) {
+
+		try {
+			UserDetails details = servicioUser.loadUserByUsername(username);
+			String hashedPassword = details.getPassword();
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+			if (passwordEncoder.matches(pwd,hashedPassword)) {
+				return new ResponseEntity<User>(servicioUser.getUserXUsername(username), HttpStatus.OK);
+			} else {
+				return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+			}
+		}
+		catch (NoSuchElementException e){
+			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+		}
+
+	}
+
 
     /**
      * Method that returns all users
