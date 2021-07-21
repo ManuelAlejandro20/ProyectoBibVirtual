@@ -177,4 +177,8 @@ public class ServicioLibro {
             return repositorioLibro.findAllByTituloOrAutorAndIdiomaAndCategoria(texto, idioma, categoria, pageable);
         }
     }
+    
+    public void setStockLibro(int stock, Integer id) {
+    	repositorioLibro.setStockInfoById(stock, id);
+    }
 }

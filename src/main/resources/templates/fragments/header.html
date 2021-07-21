@@ -162,7 +162,7 @@
                                                     </div>
                                                     <div class="cart-buttons">
                                                         <a th:href=@{/cart} class="btn btn-dark-gray">Ver carrito</a>
-                                                        <a th:href=@{checkout} class="btn btn-primary">Pagar todo</a>
+                                                        <a th:href=@{/checkout} class="btn btn-primary">Pagar todo</a>
                                                     </div>
                                                 </div>
                                             </div>                                            
@@ -190,7 +190,7 @@
                                         <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{/myaccount}">Mi cuenta</a>
                                     </li>                                  
                                     <li class="dropdown">
-                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" href="#">Mi biblioteca</a>
+                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{/library}">Mi biblioteca</a>
                                     </li>
                                     <li class="dropdown">
                                         <a data-toggle="dropdown" class="dropdown-toggle disabled" th:href="@{/bookgrid}">Libros disponibles</a>

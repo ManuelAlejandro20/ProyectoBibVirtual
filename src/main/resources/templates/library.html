@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head th:replace="fragments/header :: head"><meta charset="UTF-8"/>	
+</head>
+
+<body onload="getBooks()">
+
+	<header th:replace="fragments/header :: header"></header>
+
+	<!-- Start: Page Banner -->
+	<section class="page-banner services-banner">
+		<div class="container">
+			<div class="banner-header">
+				<h2>Tu biblioteca</h2>
+				<span class="underline center"></span>
+				<p class="lead">Estos son tus libros comprados</p>
+			</div>
+			<div class="breadcrumb">
+				<ul>
+					<li><a href="index-2.html">Inicio</a></li>
+					<li>Libros disponibles</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<!-- End: Page Banner -->
+
+	<!-- Start: Products Section -->
+	<div id="content" class="site-content" style="margin-top:2%">
+		<div id="primary" class="content-area">
+			<main id="main" class="site-main">
+				<div class="books-full-width">
+					<div class="container">
+						<div class="alert alert-warning text-center" role="alert" th:if="${#lists.size(libros) == 0}" style="margin-bottom:10%">
+							<strong>No tienes libros comprados, todavía... ¡hechale un vistazo a nuestra galería virtual!</strong>
+						</div>
+						<div class="booksmedia-fullwidth">
+							<ul>
+								<li th:each="libro, i: ${libros}">
+									<div class="book-list-icon green-icon"></div>
+									<figure>
+										<a th:href="@{'/library/'+ ${libro.id} +'?cantidad=' + ${cantidades[__${i.index}__]}}"><img
+											th:src="@{'/book/'+ ${libro.id} +'/image'}"
+											alt="Book"></a>
+										<figcaption>
+											<input type="hidden" th:with="cantidad=${cantidades[__${i.index}__]}" th:value="${cantidades[i.index]}">
+											<header>
+												<h4>
+													<a th:href="@{'/library/'+ ${libro.id} +'?cantidad=' + ${cantidades[__${i.index}__]}}" th:text=${libro.nombre}></a>
+												</h4>
+												<p>
+													<strong>Autor:</strong> [[${libro.autor}]]
+												</p>										
+												</br>											
+											</header>
+											<p th:text="${#strings.abbreviate(libro.resenia,350)} "></p>							
+										</figcaption>
+									</figure>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+	</div>
+	<!-- End: Products Section -->
+
+	<footer th:replace="fragments/footer :: footer"> </footer>
+
+</body>
+</html>
