@@ -25,11 +25,15 @@
 package com.cmcorp.spring.BibliotecaDelDesierto.service;
 
 import com.cmcorp.spring.BibliotecaDelDesierto.model.Compra;
+import com.cmcorp.spring.BibliotecaDelDesierto.model.Libro;
+import com.cmcorp.spring.BibliotecaDelDesierto.model.LibroCompra;
 import com.cmcorp.spring.BibliotecaDelDesierto.repository.RepositorioCompra;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,6 +52,22 @@ public class ServicioCompra {
      */
     public List<Compra> listaCompras(Integer user_id){
         return repositorioCompra.findByUserId(user_id);
+    }
+
+    /**
+     * GET a all books purchases by an user id
+     * @param userId
+     * @return List<Libro>
+     */
+    public List<Libro> listaLibrosComprados(Integer userId) {
+        var listaCompras = repositorioCompra.findByUserId(userId);
+        var libros = new ArrayList<Libro>();
+        for (Compra c : listaCompras) {
+            for (LibroCompra l : c.getLibrosCompras()) {
+                libros.add(l.getLibro());
+            }
+        }
+        return libros;
     }
 
     /**

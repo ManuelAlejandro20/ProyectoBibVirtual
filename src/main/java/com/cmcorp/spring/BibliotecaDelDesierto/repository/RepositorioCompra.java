@@ -25,6 +25,8 @@
 package com.cmcorp.spring.BibliotecaDelDesierto.repository;
 
 import com.cmcorp.spring.BibliotecaDelDesierto.model.Compra;
+import com.cmcorp.spring.BibliotecaDelDesierto.model.Libro;
+import com.cmcorp.spring.BibliotecaDelDesierto.model.dto.LibroDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -44,4 +46,6 @@ public interface RepositorioCompra extends JpaRepository<Compra, Integer> {
      * @return List<Compra>
      */
     List<Compra> findByUserId(Integer userId);
+
+
 }

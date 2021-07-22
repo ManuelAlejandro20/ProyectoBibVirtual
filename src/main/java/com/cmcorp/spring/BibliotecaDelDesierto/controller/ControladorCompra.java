@@ -73,6 +73,11 @@ public class ControladorCompra {
         return servicioCompra.listaCompras(userId);
     }
 
+    @GetMapping("user/books")
+    public List<Libro> librosComprados(@RequestParam Integer userId) {
+        return servicioCompra.listaLibrosComprados(userId);
+    }
+
     /**
      * Method to add a Compra by user Id and the list of books
      * @param libroCompraDTO
@@ -98,4 +103,5 @@ public class ControladorCompra {
             servicioLC.addLibroCompra(libroCompra);
         }
     }
+
 }
