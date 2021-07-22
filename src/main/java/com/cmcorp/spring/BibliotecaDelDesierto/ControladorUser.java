@@ -37,12 +37,8 @@ import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioLibro;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioLibroCompra;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +47,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -71,7 +66,14 @@ public class ControladorUser {
     private final ServicioLibroCompra servicioLibroCompra;
     
    
-    
+   /**
+    * Constructor, uses all the services to make data operations 
+    * @param servicioUser
+    * @param servicioCarrito
+    * @param servicioLibro
+    * @param servicioCompra
+    * @param servicioLibroCompra
+    */
     @Autowired
     public ControladorUser(ServicioUser servicioUser, ServicioCartItem servicioCarrito, 
     		ServicioLibro servicioLibro, ServicioCompra servicioCompra,
@@ -82,33 +84,6 @@ public class ControladorUser {
         this.servicioCompra = servicioCompra;
         this.servicioLibroCompra = servicioLibroCompra;
     }
-
-	/**
-	 * Method to login from api
-	 * @param username
-	 * @param pwd
-	 * @return
-	 */
-	@RequestMapping(value =   "/app/login", method = RequestMethod.POST)
-	public ResponseEntity<User> login(@RequestParam("username") String username, @RequestParam("password") String pwd) {
-
-		try {
-			UserDetails details = servicioUser.loadUserByUsername(username);
-			String hashedPassword = details.getPassword();
-			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-			if (passwordEncoder.matches(pwd,hashedPassword)) {
-				return new ResponseEntity<User>(servicioUser.getUserXUsername(username), HttpStatus.OK);
-			} else {
-				return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-			}
-		}
-		catch (NoSuchElementException e){
-			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-		}
-
-	}
-
 
     /**
      * Method that returns all users
@@ -122,41 +97,9 @@ public class ControladorUser {
     }
 
     /**
-     * Method that returns an user by user id
-     * @param id
-     * @return User
-     */
-    @GetMapping("user/byid/{id}")
-    public ResponseEntity<User> getXId(@PathVariable Integer id){
-        try {
-            User usuario = servicioUser.getUserXId(id);
-            return new ResponseEntity<User>(usuario, HttpStatus.OK);
-        }
-        catch (NoSuchElementException e){
-            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    /**
-     * Method that returns an user by email
-     * @param email
-     * @return User
-     */
-    @GetMapping("user/byemail/{email}")
-    public ResponseEntity<User> getXEmail(@PathVariable String email){
-        try {
-            User usuario = servicioUser.getUserXEmail(email);
-            return new ResponseEntity<User>(usuario, HttpStatus.OK);
-        }
-        catch (NoSuchElementException e){
-            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    /**
      * Method that adds an user
      * @param user, password, redirAttrs
-     * @return signin view path
+     * @return login view path
      */
     @PostMapping("user/add")
     public String addUser(UserDTO user,String password2, RedirectAttributes redirAttrs){    	
@@ -183,7 +126,7 @@ public class ControladorUser {
     }
 
     /**
-     * Method that adds an user
+     * Get the path and return the bookgrid view
      * @param user, password, redirAttrs
      * @return signin view path
      */
@@ -195,7 +138,7 @@ public class ControladorUser {
     /**
      * Method that redirects if occurs an login error
      * @param redirAttrs
-     * @return
+     * @return login view with a error message
      */
     @PostMapping("/login_error")
 	public String loginErrorHandler(RedirectAttributes redirAttrs) {
@@ -206,7 +149,7 @@ public class ControladorUser {
     /**
      * Method that redirects if occurs an access denied error
      * @param redirAttrs
-     * @return
+     * @return accessdenied view
      */
     @GetMapping("/access_denied")
 	public String accessDeniedHandler(Model model) {      	
@@ -217,7 +160,7 @@ public class ControladorUser {
     /**
      * Method that returns the page after a user logs into 
      * @param model
-     * @return
+     * @return myaccount view
      */
     @GetMapping("/myaccount")
 	public String successUserLogin(Model model, HttpSession session) {
@@ -242,6 +185,11 @@ public class ControladorUser {
     	return "/myaccount";
 	}    
         
+    /**
+     * Get the path and return the checkout view, send all the shopping cart info
+     * @param model
+     * @return checkout view
+     */
     @GetMapping("/checkout")
     public String checkout(Model model) {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -251,6 +199,11 @@ public class ControladorUser {
     	return("/checkout");
     }
     
+    /**
+     * Get the path and return the cart view, send all the shopping cart info
+     * @param model
+     * @return cart view
+     */    
     @GetMapping("/cart")
     public String cart(Model model) {   	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -261,24 +214,6 @@ public class ControladorUser {
     }    
           
     /**
-     * Method that update an user by id an the new User
-     * @param usuario
-     * @param id
-     * @return
-     */
-    @PutMapping("user/update/{id}")
-    public ResponseEntity<?> update(@RequestBody User usuario, @PathVariable Integer id){
-        try {
-            usuario.setId(id);
-            servicioUser.saveUser(usuario);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (NoSuchElementException e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    /**
      * Method that delete an user by id
      * @param id
      */
@@ -287,6 +222,16 @@ public class ControladorUser {
         servicioUser.deleteUser(id);
     }
         
+    /**
+     * Add a book using a book id, this method makes all the corresponding 
+     * validations, considering the number of books available and the number of books in the shopping cart
+     *  after a change the shopping cart is added in the session
+     * @param id, book id
+     * @param view, the returned view after the operation 
+     * @param redirAttrs
+     * @param session, actual session
+     * @return bookgrid o summary view
+     */
     @GetMapping("/addtocart/{id}")
     public String agregarAlCarrito(@PathVariable Integer id,@RequestParam("view") String view, RedirectAttributes redirAttrs, HttpSession session) {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -335,15 +280,21 @@ public class ControladorUser {
     	}
     	
     	if(carrito.size() == 0 || !existeLibro) {
-    		itemCarrito.setCantidad(1);
-    		servicioCarrito.save(itemCarrito);    		
     		
-    		int total = calcularTotalCarro(servicioCarrito.listCartItems(usuario));
+    		if(libro.getStock() == 0) {
+    			redirAttrs.addFlashAttribute("error", "Ya no hay más stock de este libro");
+    		}else {    		
     		
-    		session.setAttribute("Carrito", servicioCarrito.listCartItems(usuario));
-    		session.setAttribute("Total", total);
-    	
-    		redirAttrs.addFlashAttribute("success", "Añadido al carrito");
+	    		itemCarrito.setCantidad(1);
+	    		servicioCarrito.save(itemCarrito);    		
+	    		
+	    		int total = calcularTotalCarro(servicioCarrito.listCartItems(usuario));
+	    		
+	    		session.setAttribute("Carrito", servicioCarrito.listCartItems(usuario));
+	    		session.setAttribute("Total", total);
+	    	
+	    		redirAttrs.addFlashAttribute("success", "Añadido al carrito");
+    		}
     	}
     	
     	
@@ -356,6 +307,14 @@ public class ControladorUser {
     	
     }
     
+    /**
+     * Remove a book from the shopping cart, after a change the shopping cart is added in the session
+     * @param id, book id
+     * @param url, a url from the view
+     * @param request
+     * @param session, actual session
+     * @return the view sended
+     */
     @GetMapping("/removefromcart/{id}")
     public String removerDelCarrito(@PathVariable Integer id, @RequestParam("url") String url, 
     							HttpServletRequest request, HttpSession session) {
@@ -398,6 +357,13 @@ public class ControladorUser {
     	
     }
     
+    /**
+     * Simulates a payment between the user and the system, after the payment the shopping cart 
+     * is emptied and the stock of the books its updated
+     * @param session, actual session
+     * @param redirAttrs
+     * @return checkout view
+     */
     @PostMapping("/payment")
     public String pago(HttpSession session, RedirectAttributes redirAttrs) {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -439,6 +405,12 @@ public class ControladorUser {
     	return "redirect:/checkout";
     }
     
+    /**
+     * Get all the books purchased by the user using different services, the books and the quantity
+     * is added to the model 
+     * @param model
+     * @return library view
+     */
     @GetMapping("/library")
     public String biblioteca(Model model) {
     	
@@ -467,6 +439,14 @@ public class ControladorUser {
     	return "library";
     }
     
+    /**
+     * Get the path and depending of the id return a certain the book, add the book, the quantity of all books and 
+     * all the categories of the books to the model
+     * @param id, id book
+     * @param cantidad
+     * @param model
+     * @return summaryuser view
+     */
     @GetMapping("/library/{id}")
     public String resumenLibroComprado(@PathVariable int id, @RequestParam("cantidad") int cantidad, Model model) {
     	
@@ -482,6 +462,11 @@ public class ControladorUser {
     	return "summaryuser";
     }   
     
+    /**
+     * Calculate the total price of the shopping cart
+     * @param carrito
+     * @return total, total price of the shopping cart
+     */
     public int calcularTotalCarro(List<CartItem> carrito) {
     	int total = 0;
     	for(CartItem c: carrito) {

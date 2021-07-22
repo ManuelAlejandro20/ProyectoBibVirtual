@@ -60,8 +60,8 @@ public class ServicioCompra {
      * @return List<Libro>
      */
     public List<Libro> listaLibrosComprados(Integer userId) {
-        var listaCompras = repositorioCompra.findByUserId(userId);
-        var libros = new ArrayList<Libro>();
+        List<Compra> listaCompras = repositorioCompra.findByUserId(userId);
+        ArrayList<Libro> libros = new ArrayList<Libro>();
         for (Compra c : listaCompras) {
             for (LibroCompra l : c.getLibrosCompras()) {
                 libros.add(l.getLibro());

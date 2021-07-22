@@ -27,12 +27,9 @@ package com.cmcorp.spring.BibliotecaDelDesierto.controller;
 import com.cmcorp.spring.BibliotecaDelDesierto.model.*;
 import com.cmcorp.spring.BibliotecaDelDesierto.model.dto.LibroCategoriaDTO;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioLibro;
-import lombok.var;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -44,54 +41,103 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Set;
 
+/**
+ * ControladorLibro RestController
+ *
+ */
 @RestController
 public class ControladorLibro {
 
 	private final ServicioLibro servicioLibro;
 
+	/**
+	 * Constructor, uses the book services to do the operations 
+	 * @param servicioLibro
+	 */
 	@Autowired
 	public ControladorLibro(ServicioLibro servicioLibro) {
 		this.servicioLibro = servicioLibro;
 	}
 
+	/**
+	 * Return all the books in the system
+	 * @return all the books in the system
+	 */
 	@GetMapping("/books-")
 	@ResponseBody
 	public List<Libro> getAll() {
 		return servicioLibro.listaLibros();
 	}
 
+	/**
+	 * Return all the books in the system considering the pagination
+	 * @param page
+	 * @param size
+	 * @param sortingField
+	 * @param sortingDirection
+	 * @return all the books in the system
+	 */
 	@GetMapping("/books")
 	public Page<Libro> obtenerTodos(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sortingField, @RequestParam String sortingDirection) {
 		return servicioLibro.allBooks(page, size, sortingField, sortingDirection);
 	}
 
+	/**
+	 * Returns the page book using the page number and size of the page
+	 * @param page
+	 * @param size
+	 * @param sortingField
+	 * @param sortingDirection
+	 * @param idioma
+	 * @param categoria
+	 * @param texto
+	 * @return Page books
+	 */
 	@GetMapping("/booksfield")
 	public Page<Libro> getAllXNombreOrAutor(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sortingField, @RequestParam String sortingDirection, @RequestParam Integer idioma, @RequestParam Integer categoria, @RequestParam String texto) {
 
 		return servicioLibro.allBooksBy(page, size, sortingField, sortingDirection, idioma, categoria, texto);
 	}
 
+	/**
+	 * Return all the books by author
+	 * @param autor
+	 * @return List of books
+	 */
 	@GetMapping("/books/byautor/{autor}")
 	public List<Libro> getAllXAutor(@PathVariable(value = "autor") String autor) {
 		return servicioLibro.getLibrosXAutor(autor);
 	}
 
+	/**
+	 * Return all the books by idioma
+	 * @param idiomaId language id
+	 * @return List of books
+	 */
 	@GetMapping("/books/byidioma/{idiomaId}")
 	public List<Libro> getAllXIdioma(@PathVariable(value = "idiomaId") Integer idiomaId) {
 		return servicioLibro.getLibrosXIdioma(idiomaId);
 	}
 
+	/**
+	 * Return all the books by LibroCategoria object
+	 * @param libroCategoriaDTO
+	 * @return List of books
+	 */
 	@GetMapping("/books/bycategorias")
 	public List<Libro> getAllXCategorias(@RequestBody LibroCategoriaDTO libroCategoriaDTO) {
 		List<Integer> listaIdCategorias = libroCategoriaDTO.getListaCategorias();
 		return servicioLibro.getLibrosXCategorias(listaIdCategorias);
 	}
 
+	/**
+	 * Return a book by his id
+	 * @param id, book id
+	 * @return book 
+	 */
 	@GetMapping("/book/byid/{id}")
 	public ResponseEntity<Libro> getXId(@PathVariable Integer id) {
 		try {
@@ -102,6 +148,11 @@ public class ControladorLibro {
 		}
 	}
 
+	/**
+	 * Return a book by his sku
+	 * @param sku, book sku
+	 * @return book
+	 */
 	@GetMapping("/book/bysku/{sku}")
 	public ResponseEntity<Libro> getXSku(@PathVariable String sku) {
 		try {
@@ -112,6 +163,11 @@ public class ControladorLibro {
 		}
 	}
 
+	/**
+	 * Return a book using his isbn
+	 * @param isbn, book isbn
+	 * @return book
+	 */
 	@GetMapping("/book/byisbn/{isbn}")
 	public ResponseEntity<Libro> getXIsbn(@PathVariable String isbn) {
 		try {
@@ -122,11 +178,21 @@ public class ControladorLibro {
 		}
 	}
 
+	/**
+	 * Delete a book using a id
+	 * @param id, book id
+	 */
 	@DeleteMapping("/book/delete/{id}")
 	public void delete(@PathVariable Integer id) {
 		servicioLibro.deleteLibro(id);
 	}
 
+	/**
+	 * Send a response using the image of a book
+	 * @param id, book id
+	 * @param response
+	 * @throws IOException
+	 */
 	@GetMapping("/book/{id}/image")
 	public void bookImage(@PathVariable Integer id, HttpServletResponse response) throws IOException {
 		Libro libro = servicioLibro.getLibroXId(id);
@@ -136,6 +202,11 @@ public class ControladorLibro {
 		IOUtils.copy(is, response.getOutputStream());
 	}
 
+	/**
+	 * Configure the book pdf 
+	 * @param id, book id
+	 * @return response 
+	 */
 	@GetMapping("/book/{id}/pdf")
 	public ResponseEntity<byte[]> bookPdf(@PathVariable Integer id) {
 		HttpHeaders headers = new HttpHeaders();

@@ -41,6 +41,10 @@ import com.cmcorp.spring.BibliotecaDelDesierto.model.dto.UserDTO;
 @Controller
 public class ControladorPantallaPrincipal {
     
+	/**
+	 * Get the index path and return the user account or the main index view depending if the user is authenticated
+	 * @return index view or myaccount view
+	 */
     @GetMapping("/")
     public String index() {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -50,11 +54,23 @@ public class ControladorPantallaPrincipal {
         return "redirect:/myaccount";
     }    
      
+    /**
+     * Get the contact path and return the contact view
+     * @param model
+     * @return contact view
+     */
     @GetMapping("/contact")
     public String contacto(Model model) {	
         return "contact";
     }  
     
+    /**
+     * Get the login path and return the same view, but if the user is already authenticated in the system 
+     * return myaccount view
+     * @param model
+     * @param request
+     * @return login view or myaccount view
+     */
     @GetMapping("/login")
     public String signin(Model model, HttpServletRequest request) {    	
     	

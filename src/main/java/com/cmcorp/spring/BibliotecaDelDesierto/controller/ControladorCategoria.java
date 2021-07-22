@@ -107,7 +107,6 @@ public class ControladorCategoria {
     @PutMapping("categoria/update/{id}")
     public ResponseEntity<?> update(@RequestBody Categoria categoria, @PathVariable Integer id){
         try {
-            Categoria categoriaExistente = servicioCategoria.getCategoriaXId(id);
             categoria.setId(id);
             servicioCategoria.saveCategoria(categoria);
             return new ResponseEntity<>(HttpStatus.OK);

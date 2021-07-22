@@ -88,7 +88,6 @@ public class ControladorIdioma {
     @PutMapping("idioma/update/{id}")
     public ResponseEntity<?> update(@RequestBody Idioma idioma, @PathVariable Integer id){
         try {
-            Idioma idiomaExistente = servicioIdioma.getIdiomaXId(id);
             idioma.setId(id);
             servicioIdioma.saveIdioma(idioma);
             return new ResponseEntity<>(HttpStatus.OK);

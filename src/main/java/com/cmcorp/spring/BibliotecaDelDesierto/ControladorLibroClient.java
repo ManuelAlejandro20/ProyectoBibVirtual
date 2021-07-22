@@ -1,3 +1,27 @@
+/*
+ * Copyright (c) 2021 CMCORP
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * An intermediate form of license used by the X Consortium for X11 used the following wording:[16]
+ *
+ */
+
 package com.cmcorp.spring.BibliotecaDelDesierto;
 
 import java.util.ArrayList;
@@ -25,6 +49,12 @@ import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioCategoria;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioIdioma;
 import com.cmcorp.spring.BibliotecaDelDesierto.service.ServicioLibro;
 
+/**
+ * 
+ * Controller ContrladorLibroClient
+ *
+ */
+
 @Controller
 public class ControladorLibroClient {
 
@@ -32,6 +62,12 @@ public class ControladorLibroClient {
 	private final ServicioCategoria servicioCategoria;
 	private final ServicioIdioma servicioIdioma;
 
+	/**
+	 * Class constructor
+	 * @param servicioLibro, necesary for books operations (get book, save book)
+	 * @param servicioCategoria, necesary for categories operations (get category, save category)
+	 * @param servicioIdioma, necesary for languages operations (get language, save language) 
+	 */
 	@Autowired
 	public ControladorLibroClient(ServicioLibro servicioLibro, ServicioCategoria servicioCategoria, ServicioIdioma servicioIdioma) {
 		this.servicioLibro = servicioLibro;
@@ -39,6 +75,13 @@ public class ControladorLibroClient {
 		this.servicioIdioma = servicioIdioma;
 	}	
 
+	/**
+	 * update a feature of the book using the LibroCategoriaDTO object, use the id for different operations, including validations
+	 * @param libroDTO, auxiliar object
+	 * @param id, book id
+	 * @param redirAttrs
+	 * @return edit view
+	 */
 	@PostMapping("/book/{id}/update")
 	public String update(LibroCategoriaDTO libroDTO, @PathVariable Integer id, RedirectAttributes redirAttrs) {
 		try {
@@ -127,6 +170,12 @@ public class ControladorLibroClient {
 		}
 	}	
 	
+	/**
+	 * use LibroCategoriaDTO object to add a book into the database
+	 * @param libroDTO, auxiliar object
+	 * @param redirAttrs
+	 * @return create view
+	 */
 	@PostMapping(value = "/book/add", consumes = "multipart/form-data")
 	public String addLibro(LibroCategoriaDTO libroDTO, RedirectAttributes redirAttrs) {
 
@@ -183,6 +232,12 @@ public class ControladorLibroClient {
 		return "redirect:/book/create";
 	}	
 
+	/**
+	 * Get the path and add a list of auxiliar books, languages and categories to the model, view will use these lists
+	 * to display data
+	 * @param model
+	 * @return newbook view
+	 */
 	@GetMapping("/book/create")
 	public String crear(Model model) {
 
@@ -198,6 +253,13 @@ public class ControladorLibroClient {
 		return "/newbook";
 	}
 
+	/**
+	 * Get all the data of a book using his id and send all the data to the view editbook
+	 * @param id, book id
+	 * @param model
+	 * @param redirAttrs
+	 * @return editbook view
+	 */
 	@GetMapping("/book/{id}/edit")
 	public String editar(@PathVariable Integer id, Model model, RedirectAttributes redirAttrs) {
 
@@ -226,12 +288,23 @@ public class ControladorLibroClient {
 		return "/editbook";
 	}	
 
+	/**
+	 * Get the path and return the readbook view. Also send the book id to the readbook view
+	 * @param book id
+	 * @param model
+	 * @return readbook view
+	 */
 	@GetMapping("/book/{id}/read")
 	public String readBook(@PathVariable Integer id, Model model) {
 		model.addAttribute("id", id);
 		return "readbook";
 	}
 
+	/**
+	 * Get de bookgrid path and return the bookgrid view, send the languages and categories to the view
+	 * @param model
+	 * @return bookgrid view
+	 */
 	@GetMapping("/bookgrid")
 	public String bookgrid(Model model) {
 		model.addAttribute("idiomas", servicioIdioma.listaIdiomas());
@@ -239,6 +312,11 @@ public class ControladorLibroClient {
 		return "bookgrid";
 	}
 
+	/**
+	 * Get de booklist path and return the booklist view, send the languages and categories to the view
+	 * @param model
+	 * @return booklist view
+	 */
 	@GetMapping("/booklist")
 	public String catalogoLista2(Model model) {
 		model.addAttribute("idiomas", servicioIdioma.listaIdiomas());
@@ -246,6 +324,12 @@ public class ControladorLibroClient {
 		return "booklist";
 	}
     
+	/**
+	 * Use the rest service to get all the books. Also send all the book categories to the view
+	 * @param id, the book id
+	 * @param model
+	 * @return summary view, this is a summary of a certain book
+	 */
     @GetMapping("/book/{id}/summary")
     public String verLibro(@PathVariable Integer id, Model model) {
 		ResponseEntity<Libro> responseEntity = new RestTemplate().getForEntity("http://localhost:8080/book/byid/"+id, Libro.class);
@@ -262,6 +346,12 @@ public class ControladorLibroClient {
 		throw new RuntimeException("El servidor no respondio de forma correcta");
     }      
 	
+    /**
+     * Get the path and return the readbook view, also send the book id to the view
+     * @param id, book id
+     * @param model
+     * @return readbook view
+     */
     @GetMapping("/library/{id}/read")
     public String read(@PathVariable int id, Model model) {
     	model.addAttribute("id", id);
